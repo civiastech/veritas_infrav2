@@ -1,0 +1,2621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VERITAS • INFRA™ — Complete Platform Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#080808;--deep:#0d0d0d;--slate:#141414;--panel:#1a1a1a;
+  --panel2:#202020;--border:#252525;--border2:#2f2f2f;
+  --gold:#c9a14f;--gold-l:#e0b86a;--gold-d:#8a6a28;--gold-dim:rgba(201,161,79,0.1);
+  --white:#f2f0ea;--off:#c8c4ba;--gray:#6a6660;--faint:#3a3a3a;
+  --red:#c0392b;--red-dim:rgba(192,57,43,0.12);
+  --green:#27ae60;--green-dim:rgba(39,174,96,0.12);
+  --blue:#2980b9;--blue-dim:rgba(41,128,185,0.12);
+  --amber:#e67e22;--amber-dim:rgba(230,126,34,0.12);
+  --font-d:'Cinzel',serif;--font-b:'Crimson Pro',serif;--font-m:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--font-b);font-size:16px;line-height:1.7;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--black)}::-webkit-scrollbar-thumb{background:var(--gold-d)}
+::selection{background:var(--gold-dim);color:var(--gold-l)}
+a{color:var(--gold);text-decoration:none}
+input,select,textarea{background:var(--panel);border:1px solid var(--border2);color:var(--white);font-family:var(--font-b);font-size:15px;padding:10px 14px;width:100%;outline:none;transition:border-color .2s;border-radius:0}
+input:focus,select:focus,textarea:focus{border-color:var(--gold-d)}
+input::placeholder,textarea::placeholder{color:var(--gray)}
+select option{background:var(--panel)}
+button{cursor:pointer;font-family:var(--font-d)}
+.btn{border:1px solid var(--gold);background:transparent;color:var(--gold);font-family:var(--font-d);font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:10px 24px;transition:all .25s;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:0}
+.btn span{position:relative;z-index:1}
+.btn:hover{color:var(--black)}.btn:hover::before{transform:translateX(0)}
+.btn-sm{padding:7px 16px;font-size:9px}
+.btn-ghost{border-color:var(--border2);color:var(--off)}.btn-ghost:hover{border-color:var(--gold-d);color:var(--gold)}.btn-ghost::before{background:var(--gold-dim)}
+.btn-danger{border-color:var(--red);color:var(--red)}.btn-danger:hover{color:#fff}.btn-danger::before{background:var(--red)}
+.btn-success{border-color:var(--green);color:var(--green)}.btn-success:hover{color:#fff}.btn-success::before{background:var(--green)}
+.badge{display:inline-block;padding:3px 10px;font-family:var(--font-m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid}
+.badge-honor{color:#e0b86a;border-color:#e0b86a;text-shadow:0 0 8px rgba(224,184,106,.3)}
+.badge-trusted{color:#7ab3d4;border-color:#7ab3d4}
+.badge-stable{color:#8ab88a;border-color:#8ab88a}
+.badge-provisional{color:var(--gray);border-color:var(--gray)}
+.badge-active{color:var(--green);border-color:var(--green)}
+.badge-pending{color:var(--amber);border-color:var(--amber)}
+.badge-complete{color:var(--gold);border-color:var(--gold)}
+.badge-locked{color:var(--red);border-color:var(--red)}
+.badge-issued{color:var(--green);border-color:var(--green)}
+.card{background:var(--panel);border:1px solid var(--border2);padding:24px}
+.card-hover{transition:border-color .2s,transform .2s,box-shadow .2s}
+.card-hover:hover{border-color:var(--gold-d);box-shadow:0 8px 32px rgba(201,161,79,.06)}
+.mono{font-family:var(--font-m)}
+.cinzel{font-family:var(--font-d)}
+.gold{color:var(--gold)}
+.label{font-family:var(--font-m);font-size:9px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;display:block}
+.stat-val{font-family:var(--font-d);font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
+.stat-lbl{font-family:var(--font-m);font-size:9px;letter-spacing:.15em;color:var(--gray);margin-top:4px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px}
+.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}.items-start{align-items:flex-start}
+.justify-between{justify-content:space-between}.gap-8{gap:8px}.gap-12{gap:12px}.gap-16{gap:16px}.gap-24{gap:24px}
+.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}.mb-20{margin-bottom:20px}.mb-24{margin-bottom:24px}.mb-32{margin-bottom:32px}
+.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mt-24{margin-top:24px}.mt-32{margin-top:32px}
+.p-16{padding:16px}.p-24{padding:24px}.p-32{padding:32px}
+.text-sm{font-size:.85rem}.text-xs{font-size:.75rem}.text-off{color:var(--off)}.text-gray{color:var(--gray)}
+.divider{height:1px;background:var(--border2);margin:20px 0}
+.gold-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:24px 0}
+.shimmer{background:linear-gradient(90deg,var(--gold-d) 0%,var(--gold-l) 40%,var(--gold-d) 80%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.anim-fadeup{animation:fadeUp .4s ease forwards}
+.pulse{animation:pulse 2s ease infinite}
+.spin{animation:spin 1s linear infinite}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+th{font-family:var(--font-m);font-size:9px;letter-spacing:.15em;color:var(--gray);font-weight:400;text-align:left;padding:10px 16px;border-bottom:1px solid var(--border2);text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.02)}
+tr:last-child td{border-bottom:none}
+
+/* TOAST */
+#toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--panel);border:1px solid var(--border2);padding:14px 20px;font-size:.85rem;min-width:280px;border-left:3px solid var(--gold);animation:fadeUp .3s ease;pointer-events:all}
+.toast-success{border-left-color:var(--green)}
+.toast-error{border-left-color:var(--red)}
+.toast-info{border-left-color:var(--blue)}
+
+/* MODAL */
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
+#modal-overlay.open{display:flex}
+#modal-box{background:var(--panel);border:1px solid var(--border2);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:fadeUp .3s ease}
+#modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--gray);font-size:1.4rem;cursor:pointer;line-height:1;padding:4px 8px}
+#modal-close:hover{color:var(--white)}
+#modal-body{padding:32px}
+
+/* PROGRESS BAR */
+.progress{height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:2px;transition:width .6s ease}
+
+/* SHI INDICATOR */
+.shi-high{color:#6ab88a}.shi-mid{color:#d4c46a}.shi-low{color:#e07070}
+
+/* SIDEBAR NAV */
+#app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+#sidebar{background:var(--deep);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+#main-content{overflow-y:auto;height:100vh}
+
+.nav-section-label{font-family:var(--font-m);font-size:9px;letter-spacing:.2em;color:var(--gray);text-transform:uppercase;padding:20px 20px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:background .15s,color .15s;font-size:.85rem;color:var(--off);border-left:2px solid transparent}
+.nav-item:hover{background:var(--panel);color:var(--white)}
+.nav-item.active{background:var(--gold-dim);color:var(--gold);border-left-color:var(--gold)}
+.nav-item .nav-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--gold);color:var(--black);font-family:var(--font-m);font-size:8px;padding:2px 6px;border-radius:2px}
+
+/* PAGE HEADER */
+.page-header{padding:28px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--deep);position:sticky;top:0;z-index:100}
+.page-title{font-family:var(--font-d);font-size:1.3rem;font-weight:700;letter-spacing:.05em}
+.page-subtitle{font-family:var(--font-m);font-size:9px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+
+/* CONTENT AREA */
+.content-area{padding:32px}
+
+/* FORM GROUP */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-family:var(--font-m);font-size:9px;letter-spacing:.15em;color:var(--gold);margin-bottom:6px;text-transform:uppercase}
+.form-row{display:grid;gap:12px}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);margin-bottom:28px}
+.kpi-card{background:var(--deep);padding:20px 24px}
+.kpi-val{font-family:var(--font-d);font-size:1.8rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:4px}
+.kpi-lbl{font-family:var(--font-m);font-size:9px;letter-spacing:.12em;color:var(--gray);text-transform:uppercase}
+.kpi-delta{font-family:var(--font-m);font-size:9px;color:var(--green);margin-top:4px}
+
+/* SHI RING */
+.shi-ring{position:relative;display:inline-flex;align-items:center;justify-content:center}
+
+/* EVIDENCE TIMELINE */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--border2)}
+.timeline-item{position:relative;margin-bottom:20px}
+.timeline-item::before{content:'';position:absolute;left:-20px;top:6px;width:9px;height:9px;border-radius:50%;border:1px solid var(--gold);background:var(--black)}
+.timeline-item.complete::before{background:var(--gold)}
+.timeline-item.active::before{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+
+/* NOTIFICATION DOT */
+.notif-dot{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block;margin-left:4px;vertical-align:middle}
+
+/* ROLE SWITCHER */
+#role-bar{background:var(--slate);border-bottom:1px solid var(--border);padding:8px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.role-chip{padding:4px 12px;font-family:var(--font-m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--border2);cursor:pointer;transition:all .2s;color:var(--gray)}
+.role-chip:hover,.role-chip.active{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+</style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+<div id="modal-overlay">
+  <div id="modal-box">
+    <button id="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<div id="app">
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <!-- Logo -->
+    <div style="padding:20px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <svg width="36" height="36" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" stroke="#c9a14f" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+          <circle cx="50" cy="50" r="30" fill="rgba(201,161,79,0.06)" stroke="#c9a14f" stroke-width="1.2"/>
+          <polygon points="50,22 56,42 76,42 60,54 66,74 50,62 34,74 40,54 24,42 44,42" fill="#c9a14f" opacity="0.9"/>
+          <circle cx="50" cy="50" r="8" fill="#0d0d0d"/>
+          <text x="50" y="54" text-anchor="middle" fill="#c9a14f" font-size="7" font-family="Cinzel" font-weight="700">V</text>
+        </svg>
+        <div>
+          <div style="font-family:var(--font-d);font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--white)">VERITAS <span class="gold">•</span> INFRA</div>
+          <div style="font-family:var(--font-m);font-size:8px;color:var(--gray);letter-spacing:.15em;margin-top:1px">PLATFORM v1.0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Role switcher -->
+    <div id="role-bar" style="flex-direction:column;align-items:flex-start;gap:6px;padding:12px 16px">
+      <div style="font-family:var(--font-m);font-size:8px;color:var(--gray);letter-spacing:.15em;margin-bottom:4px">LOGGED IN AS:</div>
+      <div id="current-role-display" style="font-family:var(--font-d);font-size:.8rem;color:var(--gold)">Loading...</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px" id="role-chips"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" style="flex:1;overflow-y:auto;padding-bottom:20px"></nav>
+
+    <!-- Bottom status -->
+    <div style="padding:16px;border-top:1px solid var(--border)">
+      <div style="font-family:var(--font-m);font-size:8px;color:var(--gray);letter-spacing:.1em">SYSTEM STATUS</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)"></div>
+        <div style="font-family:var(--font-m);font-size:9px;color:var(--green)">ALL SYSTEMS OPERATIONAL</div>
+      </div>
+      <div style="font-family:var(--font-m);font-size:8px;color:var(--gray);margin-top:4px" id="db-status">DB: Initialising...</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-content">
+    <div id="page-root" style="min-height:100%">
+      <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px">
+        <div class="spin" style="width:40px;height:40px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%"></div>
+        <div style="font-family:var(--font-m);font-size:10px;letter-spacing:.2em;color:var(--gray)">INITIALISING DATABASE...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+//  DATABASE ENGINE — IndexedDB wrapper
+// ═══════════════════════════════════════════════════════════════════
+const DB = {
+  db: null,
+  version: 1,
+  stores: ['professionals','projects','components','evidence','inspections','milestones','payments','bids','tenders','disputes','audit_log','materials','sensors','certifications','notifications'],
+
+  async init() {
+    return new Promise((res, rej) => {
+      const req = indexedDB.open('VeritasInfra', this.version);
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        const stores = {
+          professionals:   { keyPath:'id', autoIncrement:true },
+          projects:        { keyPath:'id', autoIncrement:true },
+          components:      { keyPath:'id', autoIncrement:true },
+          evidence:        { keyPath:'id', autoIncrement:true },
+          inspections:     { keyPath:'id', autoIncrement:true },
+          milestones:      { keyPath:'id', autoIncrement:true },
+          payments:        { keyPath:'id', autoIncrement:true },
+          bids:            { keyPath:'id', autoIncrement:true },
+          tenders:         { keyPath:'id', autoIncrement:true },
+          disputes:        { keyPath:'id', autoIncrement:true },
+          audit_log:       { keyPath:'id', autoIncrement:true },
+          materials:       { keyPath:'id', autoIncrement:true },
+          sensors:         { keyPath:'id', autoIncrement:true },
+          certifications:  { keyPath:'id', autoIncrement:true },
+          notifications:   { keyPath:'id', autoIncrement:true },
+        };
+        Object.entries(stores).forEach(([name, opts]) => {
+          if (!db.objectStoreNames.contains(name)) db.createObjectStore(name, opts);
+        });
+      };
+      req.onsuccess = e => { this.db = e.target.result; res(); };
+      req.onerror = e => rej(e);
+    });
+  },
+
+  async add(store, data) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, 'readwrite');
+      const req = tx.objectStore(store).add({ ...data, createdAt: new Date().toISOString() });
+      req.onsuccess = e => res(e.target.result);
+      req.onerror = e => rej(e);
+    });
+  },
+
+  async getAll(store) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, 'readonly');
+      const req = tx.objectStore(store).getAll();
+      req.onsuccess = e => res(e.target.result);
+      req.onerror = e => rej(e);
+    });
+  },
+
+  async get(store, id) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, 'readonly');
+      const req = tx.objectStore(store).get(id);
+      req.onsuccess = e => res(e.target.result);
+      req.onerror = e => rej(e);
+    });
+  },
+
+  async update(store, data) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, 'readwrite');
+      const req = tx.objectStore(store).put({ ...data, updatedAt: new Date().toISOString() });
+      req.onsuccess = e => res(e.target.result);
+      req.onerror = e => rej(e);
+    });
+  },
+
+  async delete(store, id) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, 'readwrite');
+      const req = tx.objectStore(store).delete(id);
+      req.onsuccess = e => res(e.target.result);
+      req.onerror = e => rej(e);
+    });
+  },
+
+  async count(store) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, 'readonly');
+      const req = tx.objectStore(store).count();
+      req.onsuccess = e => res(e.target.result);
+      req.onerror = e => rej(e);
+    });
+  },
+
+  async filter(store, fn) {
+    const all = await this.getAll(store);
+    return all.filter(fn);
+  },
+
+  async clear(store) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, 'readwrite');
+      const req = tx.objectStore(store).clear();
+      req.onsuccess = e => res();
+      req.onerror = e => rej(e);
+    });
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════
+//  SEED DATA
+// ═══════════════════════════════════════════════════════════════════
+const SEED = {
+  professionals: [
+    { name:'Engr. Adaora Okonkwo', email:'a.okonkwo@visc.org', band:'HONOR', discipline:'Structural Engineering', country:'Nigeria', projects:47, shi_avg:94.2, pri_score:96, role:'engineer', password:'honor123', active:true, bio:'Senior Structural Engineer with 22 years in West Africa. Specialises in high-rise structural systems.' },
+    { name:'Ing. Marco Rodrigues', email:'m.rodrigues@visc.org', band:'HONOR', discipline:'Civil Engineering', country:'Brazil', projects:38, shi_avg:91.8, pri_score:93, role:'inspector', password:'honor123', active:true, bio:'Lead Inspector and SEAL™ Certifying Engineer. 18 years of evidence-based practice.' },
+    { name:'Dr. S. Al-Rashidi', email:'s.rashidi@visc.org', band:'HONOR', discipline:'Geotechnical', country:'UAE', projects:29, shi_avg:93.1, pri_score:94, role:'engineer', password:'honor123', active:true, bio:'CST Member. Geotechnical specialist for deep foundation systems.' },
+    { name:'Engr. Kwame Mensah', email:'k.mensah@visc.org', band:'TRUSTED', discipline:'Structural', country:'Ghana', projects:21, shi_avg:88.4, pri_score:82, role:'supervisor', password:'trusted123', active:true, bio:'Site Supervisor and ICE Programme graduate.' },
+    { name:'Engr. Fatima Osei', email:'f.osei@visc.org', band:'TRUSTED', discipline:'Materials Science', country:'Ghana', projects:15, shi_avg:86.7, pri_score:79, role:'inspector', password:'trusted123', active:true, bio:'Materials specialist. Certified ORIGIN™ Material Verifier.' },
+    { name:'Olu Adeyemi', email:'o.adeyemi@visc.org', band:'STABLE', discipline:'Civil Engineering', country:'Nigeria', projects:6, shi_avg:81.9, pri_score:61, role:'contractor', password:'stable123', active:true, bio:'General contractor. Accredited subcontractor with 2 completed certifications.' },
+    { name:'Admin User', email:'admin@visc.org', band:'HONOR', discipline:'Platform Administration', country:'International', projects:0, shi_avg:0, pri_score:0, role:'admin', password:'admin123', active:true, bio:'System administrator.' },
+    { name:'Ibrahim Al-Sayed', email:'i.alsayed@visc.org', band:'PROVISIONAL', discipline:'Structural', country:'UAE', projects:2, shi_avg:79.1, pri_score:32, role:'contractor', password:'prov123', active:true, bio:'New entrant. Completing ACADEMY™ PROVISIONAL pathway.' },
+  ],
+  projects: [
+    { uid:'BLD-NGR-LH1-2026', name:'Victoria Island Bridge Approach', client:'Lagos State Infrastructure Agency', country:'Nigeria', type:'Infrastructure', value:45000000, currency:'USD', phase:'Frame & Load Paths', status:'active', progress:67, shi:92.4, started:'2026-01-08', target_completion:'2027-06-30', lead_engineer_id:1, description:'Critical bridge approach road and elevated section connecting Victoria Island to the mainland. 420m span. Strategic Lighthouse Project LH-1.' },
+    { uid:'BLD-GHA-001-2026', name:'Accra Tech Hub Tower', client:'Goldcoast Properties Ltd', country:'Ghana', type:'Commercial', value:28000000, currency:'USD', phase:'SEAL™ Certification', status:'complete', progress:99, shi:94.1, started:'2025-06-01', target_completion:'2026-03-01', lead_engineer_id:1, description:'22-storey mixed-use commercial tower. First fully Veritas-certified structure in Ghana.' },
+    { uid:'BLD-UAE-LH2-2026', name:'Rashid Medical Tower', client:'Dubai Health Authority', country:'UAE', type:'Healthcare', value:120000000, currency:'USD', phase:'Foundation & Substructure', status:'active', progress:28, shi:89.3, started:'2026-02-15', target_completion:'2028-12-31', lead_engineer_id:3, description:'35-storey specialist medical facility. Lighthouse Project LH-2. SEAL-SOVEREIGN target.' },
+    { uid:'BLD-NGR-002-2026', name:'Eko Atlantic Commercial Block A', client:'South Energyx Nigeria', country:'Nigeria', type:'Commercial', value:35000000, currency:'USD', phase:'Envelope & Partition', status:'active', progress:78, shi:87.6, started:'2025-09-10', target_completion:'2026-09-30', lead_engineer_id:1, description:'18-storey commercial tower within Eko Atlantic City development.' },
+    { uid:'BLD-GHA-002-2026', name:'Tema Industrial Warehouse Complex', client:'Ghana Ports & Harbours Authority', country:'Ghana', type:'Industrial', value:8500000, currency:'USD', phase:'Frame & Load Paths', status:'active', progress:45, shi:85.2, started:'2026-01-20', target_completion:'2026-11-30', lead_engineer_id:4, description:'Large-span structural steel warehouse complex. 3 structures, 48,000 m² total.' },
+  ],
+  components: [
+    { uid:'BLD-NGR-LH1/L1/C1/COL/001', project_uid:'BLD-NGR-LH1-2026', type:'Column', spec:'C-450x450-8T25+R10@120', level:'L1', grid:'C1', shi:95, status:'verified', material_batch:'SM-2026-001', executed_by:6, approved_by:4, notes:'Primary pier column. High execution sensitivity.' },
+    { uid:'BLD-NGR-LH1/L1/C2/COL/002', project_uid:'BLD-NGR-LH1-2026', type:'Column', spec:'C-450x450-8T25+R10@120', level:'L1', grid:'C2', shi:93, status:'verified', material_batch:'SM-2026-001', executed_by:6, approved_by:4, notes:'Primary pier column.' },
+    { uid:'BLD-NGR-LH1/L2/B1/BEAM/003', project_uid:'BLD-NGR-LH1-2026', type:'Beam', spec:'B-600x350-6T20B+4T16T+R8@150', level:'L2', grid:'B1', shi:91, status:'verified', material_batch:'SM-2026-003', executed_by:6, approved_by:4, notes:'Transfer beam. Cantilever load path.' },
+    { uid:'BLD-NGR-LH1/L3/S1/SLAB/004', project_uid:'BLD-NGR-LH1-2026', type:'Slab', spec:'S-200-T12@200-BOTT+T10@200-TOP', level:'L3', grid:'S1', shi:0, status:'pending', material_batch:null, executed_by:null, approved_by:null, notes:'Awaiting evidence capture.' },
+    { uid:'BLD-GHA-001/RF/C1/COL/001', project_uid:'BLD-GHA-001-2026', type:'Column', spec:'C-305x305-4T20+R8@150', level:'RF', grid:'C1', shi:94, status:'verified', material_batch:'GH-2025-047', executed_by:6, approved_by:4, notes:'Roof level column. Complete.' },
+  ],
+  evidence: [
+    { component_uid:'BLD-NGR-LH1/L1/C1/COL/001', type:'CAPTURE-LARGE', images:5, submitted_by:6, approved_by:4, description:'Full reinforcement cage before pour. All ties visible. Cover blocks confirmed.', timestamp:'2026-01-15T09:22:00Z', geo:'6.4281°N, 3.4219°E', hash:'a8f3c2d1e9b4f7a3c8d2e1f9b4a7c3d2', status:'approved' },
+    { component_uid:'BLD-NGR-LH1/L1/C2/COL/002', type:'CAPTURE-LARGE', images:5, submitted_by:6, approved_by:4, description:'Full reinforcement cage. Lap lengths verified at 55D. Cover compliant.', timestamp:'2026-01-17T11:45:00Z', geo:'6.4281°N, 3.4219°E', hash:'b9f4d3e2c1a8f7b4d3e2c1a8f7b4d3e2', status:'approved' },
+    { component_uid:'BLD-NGR-LH1/L2/B1/BEAM/003', type:'CAPTURE-LARGE', images:6, submitted_by:6, approved_by:5, description:'Bottom steel placed. Stirrups at 150mm confirmed. Video evidence included for cantilever zone.', timestamp:'2026-02-03T14:10:00Z', geo:'6.4281°N, 3.4219°E', hash:'c7e5f4d3b2a1f9e8d7c6b5a4f3e2d1c0', status:'approved' },
+  ],
+  inspections: [
+    { component_uid:'BLD-NGR-LH1/L1/C1/COL/001', inspector_id:5, shi:95, material_score:97, assembly_score:94, env_score:95, supervision_score:95, ai_flags:0, reason_tag:'All reinforcement placed per PREFAB™ spec. No deviations. Excellent workmanship.', timestamp:'2026-01-15T14:30:00Z', status:'passed' },
+    { component_uid:'BLD-NGR-LH1/L1/C2/COL/002', inspector_id:5, shi:93, material_score:94, assembly_score:92, env_score:93, supervision_score:93, ai_flags:1, reason_tag:'Minor tie spacing variance at mid-height — corrected before approval. No impact on structural performance.', timestamp:'2026-01-17T16:00:00Z', status:'passed' },
+    { component_uid:'BLD-NGR-LH1/L2/B1/BEAM/003', inspector_id:2, shi:91, material_score:92, assembly_score:91, env_score:89, supervision_score:92, ai_flags:0, reason_tag:'Bottom steel placement excellent. Stirrup spacing consistent throughout. Cantilever zone carefully detailed.', timestamp:'2026-02-04T09:15:00Z', status:'passed' },
+  ],
+  milestones: [
+    { project_uid:'BLD-NGR-LH1-2026', name:'Foundation & Substructure', phase:1, amount:6750000, currency:'USD', required_shi:80, status:'released', released_date:'2026-02-20', description:'Pile caps, pile heads, ground beams, basement walls.' },
+    { project_uid:'BLD-NGR-LH1-2026', name:'Frame & Primary Load Paths', phase:2, amount:18000000, currency:'USD', required_shi:82, status:'active', released_date:null, description:'All columns, beams, and slabs for Levels 1–8.' },
+    { project_uid:'BLD-NGR-LH1-2026', name:'Envelope & Partition', phase:3, amount:9000000, currency:'USD', required_shi:78, status:'pending', released_date:null, description:'External cladding, internal partitions, MEP rough-in.' },
+    { project_uid:'BLD-NGR-LH1-2026', name:'Finishes & Services', phase:4, amount:6750000, currency:'USD', required_shi:0, status:'pending', released_date:null, description:'All finishes, installed services, snagging.' },
+    { project_uid:'BLD-NGR-LH1-2026', name:'SEAL™ Final Certification', phase:5, amount:4500000, currency:'USD', required_shi:85, status:'pending', released_date:null, description:'Released only on SEAL™ issuance.' },
+    { project_uid:'BLD-GHA-001-2026', name:'Foundation & Substructure', phase:1, amount:4200000, currency:'USD', required_shi:80, status:'released', released_date:'2025-08-10', description:'Raft foundation.' },
+    { project_uid:'BLD-GHA-001-2026', name:'Frame & Primary Load Paths', phase:2, amount:11200000, currency:'USD', required_shi:82, status:'released', released_date:'2026-01-15', description:'Full structural frame.' },
+    { project_uid:'BLD-GHA-001-2026', name:'Envelope & Partition', phase:3, amount:5600000, currency:'USD', required_shi:78, status:'released', released_date:'2026-02-20', description:'External envelope and core.' },
+    { project_uid:'BLD-GHA-001-2026', name:'Finishes & Services', phase:4, amount:4200000, currency:'USD', required_shi:0, status:'released', released_date:'2026-03-05', description:'All finishes.' },
+    { project_uid:'BLD-GHA-001-2026', name:'SEAL™ Final Certification', phase:5, amount:2800000, currency:'USD', required_shi:85, status:'pending', released_date:null, description:'Awaiting SEAL™ ceremony.' },
+  ],
+  payments: [
+    { project_uid:'BLD-NGR-LH1-2026', milestone_id:1, amount:6750000, currency:'USD', from_party:'Lagos State Infrastructure Agency', to_party:'VeritasBridge Constructors Ltd', released_by:'PAY™ Escrow Engine', date:'2026-02-20', tx_id:'PAY-2026-NGR-0001', status:'completed' },
+    { project_uid:'BLD-GHA-001-2026', milestone_id:6, amount:4200000, currency:'USD', from_party:'Goldcoast Properties Ltd', to_party:'Skyline Civil Ltd', released_by:'PAY™ Escrow Engine', date:'2025-08-10', tx_id:'PAY-2025-GHA-0001', status:'completed' },
+    { project_uid:'BLD-GHA-001-2026', milestone_id:7, amount:11200000, currency:'USD', from_party:'Goldcoast Properties Ltd', to_party:'Skyline Civil Ltd', released_by:'PAY™ Escrow Engine', date:'2026-01-15', tx_id:'PAY-2026-GHA-0002', status:'completed' },
+    { project_uid:'BLD-GHA-001-2026', milestone_id:8, amount:5600000, currency:'USD', from_party:'Goldcoast Properties Ltd', to_party:'Skyline Civil Ltd', released_by:'PAY™ Escrow Engine', date:'2026-02-20', tx_id:'PAY-2026-GHA-0003', status:'completed' },
+    { project_uid:'BLD-GHA-001-2026', milestone_id:9, amount:4200000, currency:'USD', from_party:'Goldcoast Properties Ltd', to_party:'Skyline Civil Ltd', released_by:'PAY™ Escrow Engine', date:'2026-03-05', tx_id:'PAY-2026-GHA-0004', status:'completed' },
+  ],
+  tenders: [
+    { uid:'TND-NGR-001-2026', name:'Lekki-Epe Expressway Flyover Package 3', client:'Federal Ministry of Works', country:'Nigeria', value:85000000, currency:'USD', deadline:'2026-04-30', status:'open', type:'Infrastructure', description:'Design-and-build contract for 2.8km elevated highway. Minimum PRI: TRUSTED. SHI history \u226585 required.' },
+    { uid:'TND-GHA-002-2026', name:'Accra Ring Road Commercial Complex', client:'Ghana Real Estate Dev Corp', country:'Ghana', value:32000000, currency:'USD', deadline:'2026-04-15', status:'open', type:'Commercial', description:'15-storey mixed-use development. Full Veritas certification required.' },
+    { uid:'TND-UAE-003-2026', name:'Abu Dhabi Cultural Quarter Phase 2', client:'Abu Dhabi Culture & Tourism', country:'UAE', value:420000000, currency:'USD', deadline:'2026-05-31', status:'open', type:'Cultural', description:'Major cultural precinct. SEAL-SOVEREIGN target. HONOR-level lead engineer mandatory.' },
+  ],
+  bids: [
+    { tender_uid:'TND-NGR-001-2026', firm:'VeritasBridge Constructors Ltd', price:81200000, integrity_score:88, capacity_score:85, shi_history:91.2, matrix_score:87.4, status:'submitted', submitted_by:6 },
+    { tender_uid:'TND-NGR-001-2026', firm:'Meridian Civil Works Ltd', price:79500000, integrity_score:71, capacity_score:78, shi_history:83.6, matrix_score:74.8, status:'submitted', submitted_by:null },
+    { tender_uid:'TND-NGR-001-2026', firm:'FastBuild Nigeria', price:74000000, integrity_score:52, capacity_score:70, shi_history:0, matrix_score:58.1, status:'submitted', submitted_by:null },
+  ],
+  disputes: [
+    { uid:'LEX-GHA-001-2026', project_uid:'BLD-GHA-001-2026', component_uid:'BLD-GHA-001/RF/C1/COL/001', type:'Technical Execution', raised_by:6, against_party:'Skyline Civil Ltd', description:'Disputed reinforcement cover measurement — site supervisor claimed 32mm, evidence shows 28mm.', status:'resolved', resolution:'Evidence reviewed. BUILD\u2122 images confirm 28mm cover at one face. PREFAB\u2122 requires 30mm min. Correction note added to TWIN\u2122 record. No structural impact per SHI 94. Supervisor PRI noted.', raised_date:'2026-02-10', resolved_date:'2026-02-22', arbitrator_id:2 },
+  ],
+  materials: [
+    { batch_uid:'SM-2026-001', name:'High-Yield Deformed Bars', grade:'Grade 60 / BS 4449', supplier:'SteelMark Ltd', country:'Nigeria', cert_number:'SM-2026-001-MTC', verified:true, projects_used:['BLD-NGR-LH1-2026'], test_strength:68200, required_strength:60000, status:'approved' },
+    { batch_uid:'SM-2026-003', name:'High-Yield Deformed Bars', grade:'Grade 60 / BS 4449', supplier:'SteelMark Ltd', country:'Nigeria', cert_number:'SM-2026-003-MTC', verified:true, projects_used:['BLD-NGR-LH1-2026'], test_strength:67800, required_strength:60000, status:'approved' },
+    { batch_uid:'GH-2025-047', name:'Ready-Mix Concrete C35/45', grade:'C35/45 BS 8500', supplier:'Accra Concrete Works', country:'Ghana', cert_number:'ACW-2025-047-TR', verified:true, projects_used:['BLD-GHA-001-2026'], test_strength:48200, required_strength:45000, status:'approved' },
+    { batch_uid:'SUSPECT-001', name:'Ordinary Portland Cement', grade:'CEM I 42.5N', supplier:'Unknown Supplier Co.', country:'Nigeria', cert_number:'INVALID', verified:false, projects_used:[], test_strength:0, required_strength:42500, status:'suspended', suspension_reason:'Certificate hash mismatch. Accredited laboratory record not found. Supplier not registered in ORIGIN\u2122.' },
+  ],
+  certifications: [
+    { project_uid:'BLD-GHA-001-2026', type:'SEAL-HONOR', shi_composite:94.1, issued_by:1, co_signed_by:2, issued_date:'2026-03-08', physical_plate:'SEAL-GHA-001-2026-HONOR', status:'pending_ceremony', qr_code:'VRF-GHA-001-2026-QR', notes:'All requirements met. Physical plate engraved. Ceremony scheduled.' },
+  ],
+  audit_log: [
+    { action:'SYSTEM_INIT', actor:'System', detail:'Veritas Infra Platform initialised. Database seeded.', timestamp:'2026-03-09T00:00:00Z' },
+  ],
+  sensors: [
+    { component_uid:'BLD-NGR-LH1/L1/C1/COL/001', type:'Vibration', current_reading:0.12, unit:'mm/s', threshold:2.0, status:'normal', last_update:'2026-03-09T09:00:00Z' },
+    { component_uid:'BLD-NGR-LH1/L1/C2/COL/002', type:'Settlement', current_reading:1.2, unit:'mm', threshold:10.0, status:'normal', last_update:'2026-03-09T09:00:00Z' },
+    { component_uid:'BLD-GHA-001/RF/C1/COL/001', type:'Crack Width', current_reading:0.08, unit:'mm', threshold:0.3, status:'normal', last_update:'2026-03-09T09:00:00Z' },
+  ],
+  notifications: [
+    { type:'evidence_required', message:'Component BLD-NGR-LH1/L3/S1/SLAB/004 awaiting CAPTURE-LARGE evidence before Level 3 slab pour can proceed.', priority:'high', read:false, for_role:['supervisor','engineer'] },
+    { type:'tender_closing', message:'TND-UAE-003-2026 closes in 53 days. You have not submitted a bid.', priority:'medium', read:false, for_role:['contractor'] },
+    { type:'seal_ready', message:'BLD-GHA-001-2026 meets all SEAL™ requirements. Certification ceremony pending.', priority:'high', read:false, for_role:['engineer','admin'] },
+    { type:'material_suspended', message:'ORIGIN™ ALERT: Batch SUSPECT-001 has been suspended. Hash mismatch detected.', priority:'critical', read:false, for_role:['admin','engineer','supervisor'] },
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════════════
+//  APP STATE
+// ═══════════════════════════════════════════════════════════════════
+const STATE = {
+  currentUser: null,
+  currentPage: 'dashboard',
+  notifications: [],
+
+  setUser(user) { this.currentUser = user; },
+  getRole() { return this.currentUser?.role || 'guest'; },
+};
+
+// ═══════════════════════════════════════════════════════════════════
+//  UI UTILITIES
+// ═══════════════════════════════════════════════════════════════════
+function toast(msg, type='info') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast toast-${type}`;
+  t.innerHTML = `<strong style="font-family:var(--font-m);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:${type==='success'?'var(--green)':type==='error'?'var(--red)':'var(--gold)'}">${type.toUpperCase()}</strong><br>${msg}`;
+  c.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(), 300); }, 3500);
+}
+
+function openModal(html) {
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function fmtCurrency(val, currency='USD') {
+  if (val >= 1000000) return `${currency} ${(val/1000000).toFixed(1)}M`;
+  if (val >= 1000) return `${currency} ${(val/1000).toFixed(0)}K`;
+  return `${currency} ${val.toLocaleString()}`;
+}
+function fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+function shiClass(s) { return s>=88 ? 'shi-high' : s>=75 ? 'shi-mid' : s>0 ? 'shi-low' : 'text-gray'; }
+function bandBadge(b) { return `<span class="badge badge-${b?.toLowerCase()}">${b||'—'}</span>`; }
+function statusBadge(s) {
+  const map = { active:'active', complete:'complete', pending:'pending', released:'complete', locked:'locked', issued:'issued', resolved:'complete', suspended:'locked', open:'active', approved:'complete' };
+  return `<span class="badge badge-${map[s]||'pending'}">${s||'—'}</span>`;
+}
+
+async function logAudit(action, detail) {
+  await DB.add('audit_log', { action, actor: STATE.currentUser?.name || 'System', detail, timestamp: new Date().toISOString() });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════════════
+const NAV_CONFIG = {
+  admin: [
+    { section:'Platform', items:[
+      { id:'dashboard', icon:'▣', label:'Dashboard' },
+      { id:'notifications', icon:'◎', label:'Notifications', badge:'notif' },
+      { id:'audit', icon:'∞', label:'Audit Log' },
+    ]},
+    { section:'Core Modules', items:[
+      { id:'ident', icon:'◈', label:'IDENT™ Registry' },
+      { id:'projects', icon:'⬡', label:'Projects & TWIN™' },
+      { id:'market', icon:'◎', label:'MARKET™ Tenders' },
+      { id:'build', icon:'▣', label:'BUILD™ Evidence' },
+      { id:'vision', icon:'◉', label:'VISION™ Inspections' },
+      { id:'pay', icon:'◈', label:'PAY™ Escrow' },
+      { id:'seal', icon:'★', label:'SEAL™ Certification' },
+    ]},
+    { section:'Intelligence', items:[
+      { id:'origin', icon:'◇', label:'ORIGIN™ Materials' },
+      { id:'monitor', icon:'◉', label:'MONITOR™ Live' },
+      { id:'atlas', icon:'⊕', label:'ATLAS™ Dashboard' },
+      { id:'lex', icon:'⚖', label:'LEX™ Arbitration' },
+    ]},
+    { section:'Growth', items:[
+      { id:'academy', icon:'◉', label:'ACADEMY™' },
+      { id:'verifund', icon:'◈', label:'VERIFUND™' },
+    ]},
+  ],
+  engineer: [
+    { section:'My Work', items:[
+      { id:'dashboard', icon:'▣', label:'Dashboard' },
+      { id:'notifications', icon:'◎', label:'Notifications', badge:'notif' },
+      { id:'projects', icon:'⬡', label:'Projects & TWIN™' },
+      { id:'build', icon:'▣', label:'BUILD™ Evidence' },
+      { id:'vision', icon:'◉', label:'VISION™ Inspections' },
+      { id:'seal', icon:'★', label:'SEAL™ Certification' },
+      { id:'lex', icon:'⚖', label:'LEX™ Disputes' },
+    ]},
+    { section:'Platform', items:[
+      { id:'ident', icon:'◈', label:'IDENT™ Registry' },
+      { id:'origin', icon:'◇', label:'ORIGIN™ Materials' },
+      { id:'monitor', icon:'◉', label:'MONITOR™ Live' },
+      { id:'atlas', icon:'⊕', label:'ATLAS™ Dashboard' },
+    ]},
+  ],
+  inspector: [
+    { section:'My Work', items:[
+      { id:'dashboard', icon:'▣', label:'Dashboard' },
+      { id:'notifications', icon:'◎', label:'Notifications', badge:'notif' },
+      { id:'vision', icon:'◉', label:'VISION™ Inspections' },
+      { id:'build', icon:'▣', label:'BUILD™ Evidence' },
+      { id:'lex', icon:'⚖', label:'LEX™ Disputes' },
+    ]},
+    { section:'Platform', items:[
+      { id:'projects', icon:'⬡', label:'Projects' },
+      { id:'ident', icon:'◈', label:'IDENT™ Registry' },
+      { id:'origin', icon:'◇', label:'ORIGIN™ Materials' },
+      { id:'monitor', icon:'◉', label:'MONITOR™ Live' },
+    ]},
+  ],
+  supervisor: [
+    { section:'My Work', items:[
+      { id:'dashboard', icon:'▣', label:'Dashboard' },
+      { id:'notifications', icon:'◎', label:'Notifications', badge:'notif' },
+      { id:'build', icon:'▣', label:'BUILD™ Evidence' },
+      { id:'projects', icon:'⬡', label:'My Projects' },
+    ]},
+    { section:'Platform', items:[
+      { id:'ident', icon:'◈', label:'IDENT™ Registry' },
+      { id:'origin', icon:'◇', label:'ORIGIN™ Materials' },
+    ]},
+  ],
+  contractor: [
+    { section:'My Work', items:[
+      { id:'dashboard', icon:'▣', label:'Dashboard' },
+      { id:'notifications', icon:'◎', label:'Notifications', badge:'notif' },
+      { id:'market', icon:'◎', label:'MARKET™ Tenders' },
+      { id:'pay', icon:'◈', label:'PAY™ Escrow' },
+      { id:'projects', icon:'⬡', label:'My Projects' },
+    ]},
+    { section:'Profile', items:[
+      { id:'ident', icon:'◈', label:'IDENT™ Profile' },
+      { id:'academy', icon:'◉', label:'ACADEMY™' },
+    ]},
+  ],
+};
+
+function renderNav() {
+  const role = STATE.getRole();
+  const config = NAV_CONFIG[role] || NAV_CONFIG.admin;
+  const notifCount = STATE.notifications.filter(n => !n.read).length;
+
+  let html = '';
+  config.forEach(section => {
+    html += `<div class="nav-section-label">${section.section}</div>`;
+    section.items.forEach(item => {
+      const isActive = STATE.currentPage === item.id;
+      const badge = item.badge === 'notif' && notifCount > 0
+        ? `<span class="nav-badge">${notifCount}</span>` : '';
+      html += `<div class="nav-item ${isActive ? 'active' : ''}" onclick="navigate('${item.id}')">
+        <span class="nav-icon">${item.icon}</span>
+        <span>${item.label}</span>${badge}
+      </div>`;
+    });
+  });
+  document.getElementById('main-nav').innerHTML = html;
+}
+
+function renderRoleSwitcher() {
+  const roles = [
+    { role:'admin', label:'Admin' },
+    { role:'engineer', label:'Engineer' },
+    { role:'inspector', label:'Inspector' },
+    { role:'supervisor', label:'Supervisor' },
+    { role:'contractor', label:'Contractor' },
+  ];
+  const current = STATE.getRole();
+  const usersByRole = {};
+  roles.forEach(r => {
+    const u = SEED.professionals.find(p => p.role === r.role);
+    usersByRole[r.role] = u;
+  });
+
+  document.getElementById('current-role-display').textContent = STATE.currentUser?.name || '—';
+  document.getElementById('role-chips').innerHTML = roles.map(r =>
+    `<div class="role-chip ${current === r.role ? 'active' : ''}" onclick="switchRole('${r.role}')">${r.label}</div>`
+  ).join('');
+}
+
+async function switchRole(role) {
+  const users = await DB.getAll('professionals');
+  const user = users.find(u => u.role === role);
+  if (user) {
+    STATE.setUser(user);
+    renderRoleSwitcher();
+    renderNav();
+    navigate('dashboard');
+    toast(`Switched to ${user.name} (${role.toUpperCase()})`, 'info');
+  }
+}
+
+function navigate(page) {
+  STATE.currentPage = page;
+  renderNav();
+  renderPage(page);
+  document.getElementById('main-content').scrollTop = 0;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PAGE ROUTER
+// ═══════════════════════════════════════════════════════════════════
+function renderPage(page) {
+  const pages = {
+    dashboard: renderDashboard,
+    ident: renderIdent,
+    projects: renderProjects,
+    build: renderBuild,
+    vision: renderVision,
+    pay: renderPay,
+    seal: renderSeal,
+    market: renderMarket,
+    origin: renderOrigin,
+    monitor: renderMonitor,
+    atlas: renderAtlas,
+    lex: renderLex,
+    academy: renderAcademy,
+    verifund: renderVerifund,
+    notifications: renderNotifications,
+    audit: renderAudit,
+  };
+  const fn = pages[page] || renderDashboard;
+  fn();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════════════════════
+async function renderDashboard() {
+  const root = document.getElementById('page-root');
+  const [professionals, projects, payments, certifications, notifications] = await Promise.all([
+    DB.getAll('professionals'), DB.getAll('projects'), DB.getAll('payments'),
+    DB.getAll('certifications'), DB.getAll('notifications'),
+  ]);
+
+  const totalEscrow = projects.reduce((s, p) => s + (p.value * (p.progress/100)), 0);
+  const critNotif = notifications.filter(n => !n.read && n.priority === 'critical').length;
+
+  root.innerHTML = `
+    <div class="page-header">
+      <div>
+        <div class="page-subtitle">Platform Overview</div>
+        <div class="page-title">Dashboard</div>
+      </div>
+      <div class="flex gap-8">
+        ${critNotif > 0 ? `<div style="background:var(--red-dim);border:1px solid var(--red);padding:8px 16px;font-family:var(--font-m);font-size:9px;color:var(--red);letter-spacing:.1em">
+          ⚠ ${critNotif} CRITICAL ALERT${critNotif>1?'S':''}</div>` : ''}
+        <div style="font-family:var(--font-m);font-size:9px;color:var(--gray);padding:8px 0">
+          ${new Date().toLocaleDateString('en-GB', {weekday:'long', day:'2-digit', month:'long', year:'numeric'})}
+        </div>
+      </div>
+    </div>
+    <div class="content-area">
+
+      <!-- KPI Strip -->
+      <div class="kpi-grid mb-24">
+        <div class="kpi-card">
+          <div class="kpi-val">${professionals.length}</div>
+          <div class="kpi-lbl">Registered Professionals</div>
+          <div class="kpi-delta">↑ 3 this week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">${projects.length}</div>
+          <div class="kpi-lbl">Active Projects</div>
+          <div class="kpi-delta">${projects.filter(p=>p.status==='active').length} in execution</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">${certifications.length}</div>
+          <div class="kpi-lbl">SEAL™ Pending</div>
+          <div class="kpi-delta">1 ready for ceremony</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">${fmtCurrency(totalEscrow)}</div>
+          <div class="kpi-lbl">Value Under Management</div>
+          <div class="kpi-delta">PAY™ Escrow Active</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">${payments.length}</div>
+          <div class="kpi-lbl">Payments Released</div>
+          <div class="kpi-delta">${fmtCurrency(payments.reduce((s,p)=>s+p.amount,0))}</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">91.4</div>
+          <div class="kpi-lbl">Average SHI Score</div>
+          <div class="kpi-delta" style="color:var(--green)">↑ 0.3 this month</div>
+        </div>
+      </div>
+
+      <div class="grid-2 gap-16">
+        <!-- Active Projects -->
+        <div>
+          <div class="flex items-center justify-between mb-16">
+            <div class="label mb-0">Active Projects</div>
+            <button class="btn btn-sm btn-ghost" onclick="navigate('projects')"><span>View All →</span></button>
+          </div>
+          ${projects.map(p => `
+            <div class="card card-hover mb-12" onclick="openProjectDetail(${p.id})" style="cursor:pointer;border-left:3px solid ${p.status==='complete'?'var(--green)':p.shi>=90?'var(--gold)':'var(--border2)'}">
+              <div class="flex items-center justify-between mb-8">
+                <div>
+                  <div style="font-weight:600;font-size:.9rem">${p.name}</div>
+                  <div class="mono" style="font-size:8px;color:var(--gray);margin-top:2px">${p.uid}</div>
+                </div>
+                <div class="flex items-center gap-8">
+                  <span class="${shiClass(p.shi)}" style="font-family:var(--font-d);font-weight:700;font-size:1.1rem">${p.shi}</span>
+                  ${statusBadge(p.status)}
+                </div>
+              </div>
+              <div class="text-off text-sm mb-12">${p.phase} · ${p.country}</div>
+              <div class="progress">
+                <div class="progress-fill" style="width:${p.progress}%"></div>
+              </div>
+              <div class="flex justify-between mt-8">
+                <div class="mono text-xs text-gray">${p.progress}% evidence verified</div>
+                <div class="mono text-xs text-gray">${fmtCurrency(p.value, p.currency)}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Right Column -->
+        <div>
+          <!-- Notifications -->
+          <div>
+            <div class="flex items-center justify-between mb-16">
+              <div class="label mb-0">Active Alerts</div>
+              <button class="btn btn-sm btn-ghost" onclick="navigate('notifications')"><span>All Alerts →</span></button>
+            </div>
+            ${notifications.filter(n=>!n.read).slice(0,4).map(n => `
+              <div class="card mb-12" style="border-left:3px solid ${n.priority==='critical'?'var(--red)':n.priority==='high'?'var(--gold)':'var(--border2)'}">
+                <div class="flex items-start gap-12">
+                  <div style="font-size:1.1rem;color:${n.priority==='critical'?'var(--red)':n.priority==='high'?'var(--gold)':'var(--gray)'}">
+                    ${n.priority==='critical'?'⚠':n.priority==='high'?'◉':'◎'}
+                  </div>
+                  <div>
+                    <div style="font-family:var(--font-m);font-size:8px;color:${n.priority==='critical'?'var(--red)':'var(--gold)'};letter-spacing:.1em;margin-bottom:4px">${n.priority.toUpperCase()}</div>
+                    <div class="text-sm">${n.message}</div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="mt-24">
+            <div class="label mb-16">Quick Actions</div>
+            <div class="grid-2 gap-8">
+              ${[
+                { label:'New Evidence', icon:'▣', action:"navigate('build')" },
+                { label:'Run Inspection', icon:'◉', action:"navigate('vision')" },
+                { label:'View Tenders', icon:'◎', action:"navigate('market')" },
+                { label:'LEX™ Dispute', icon:'⚖', action:"navigate('lex')" },
+                { label:'ORIGIN™ Check', icon:'◇', action:"navigate('origin')" },
+                { label:'ATLAS™ Map', icon:'⊕', action:"navigate('atlas')" },
+              ].map(a => `
+                <div class="card card-hover flex items-center gap-12" onclick="${a.action}" style="cursor:pointer;padding:16px">
+                  <div style="font-size:1.2rem;color:var(--gold)">${a.icon}</div>
+                  <div style="font-size:.85rem">${a.label}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  IDENT™ REGISTRY
+// ═══════════════════════════════════════════════════════════════════
+async function renderIdent() {
+  const professionals = await DB.getAll('professionals');
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">IDENT™</div><div class="page-title">Professional Registry</div></div>
+      <button class="btn" onclick="openAddProfessional()"><span>+ Register Professional</span></button>
+    </div>
+    <div class="content-area">
+      <div class="kpi-grid mb-24">
+        ${['HONOR','TRUSTED','STABLE','PROVISIONAL'].map(b => `
+          <div class="kpi-card" style="border-top:2px solid ${b==='HONOR'?'#e0b86a':b==='TRUSTED'?'#7ab3d4':b==='STABLE'?'#8ab88a':'var(--gray)'}">
+            <div class="kpi-val" style="color:${b==='HONOR'?'#e0b86a':b==='TRUSTED'?'#7ab3d4':b==='STABLE'?'#8ab88a':'var(--gray)'}">${professionals.filter(p=>p.band===b).length}</div>
+            <div class="kpi-lbl">${b} Band</div>
+          </div>`).join('')}
+      </div>
+      <div class="card" style="overflow:auto">
+        <table>
+          <thead><tr>
+            <th>Professional</th><th>PRI Band</th><th>Discipline</th><th>Country</th>
+            <th>Projects</th><th>Avg SHI</th><th>PRI Score</th><th>Actions</th>
+          </tr></thead>
+          <tbody>
+            ${professionals.map(p => `
+              <tr>
+                <td>
+                  <div style="font-weight:600">${p.name}</div>
+                  <div class="mono" style="font-size:8px;color:var(--gray)">${p.email}</div>
+                </td>
+                <td>${bandBadge(p.band)}</td>
+                <td class="text-off text-sm">${p.discipline}</td>
+                <td class="text-off text-sm">${p.country}</td>
+                <td class="mono text-sm">${p.projects}</td>
+                <td class="${shiClass(p.shi_avg)} mono">${p.shi_avg||'—'}</td>
+                <td>
+                  <div class="progress" style="width:80px;display:inline-block;vertical-align:middle">
+                    <div class="progress-fill" style="width:${p.pri_score}%"></div>
+                  </div>
+                  <span class="mono text-xs ml-8">${p.pri_score}</span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-ghost" onclick="openProfessionalDetail(${p.id})"><span>View</span></button>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+async function openAddProfessional() {
+  openModal(`
+    <div class="label mb-16">Register New Professional</div>
+    <h3 class="cinzel mb-24" style="font-size:1.3rem">IDENT™ Registration</h3>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Full Name</label><input id="f-name" placeholder="Engr. Full Name"></div>
+      <div class="form-group"><label>Email</label><input id="f-email" type="email" placeholder="email@firm.com"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Discipline</label>
+        <select id="f-disc"><option>Structural Engineering</option><option>Civil Engineering</option><option>Geotechnical</option><option>Materials Science</option><option>Mechanical</option></select>
+      </div>
+      <div class="form-group"><label>Country</label><input id="f-country" placeholder="Country"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Role</label>
+        <select id="f-role"><option value="engineer">Engineer</option><option value="inspector">Inspector</option><option value="supervisor">Supervisor</option><option value="contractor">Contractor</option></select>
+      </div>
+      <div class="form-group"><label>Initial PRI Band</label>
+        <select id="f-band"><option>PROVISIONAL</option><option>STABLE</option><option>TRUSTED</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Professional Bio</label><textarea id="f-bio" rows="3" placeholder="Professional background and experience..."></textarea></div>
+    <button class="btn" style="width:100%" onclick="submitAddProfessional()"><span>Register in IDENT™</span></button>
+  `);
+}
+
+async function submitAddProfessional() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  if (!name || !email) { toast('Name and email are required.', 'error'); return; }
+  const data = {
+    name, email,
+    discipline: document.getElementById('f-disc').value,
+    country: document.getElementById('f-country').value,
+    role: document.getElementById('f-role').value,
+    band: document.getElementById('f-band').value,
+    bio: document.getElementById('f-bio').value,
+    projects: 0, shi_avg: 0, pri_score: 10, active: true, password: 'temp123',
+  };
+  await DB.add('professionals', data);
+  await logAudit('PROFESSIONAL_REGISTERED', `${name} registered in IDENT™ as ${data.band}`);
+  toast(`${name} registered successfully in IDENT™`, 'success');
+  closeModal();
+  renderIdent();
+}
+
+async function openProfessionalDetail(id) {
+  const p = await DB.get('professionals', id);
+  openModal(`
+    <div class="label mb-8">IDENT™ Professional Profile</div>
+    <div class="flex items-center gap-16 mb-24">
+      <div style="width:56px;height:56px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:1.2rem;color:var(--gold)">
+        ${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}
+      </div>
+      <div>
+        <h3 style="font-family:var(--font-d);font-size:1.2rem">${p.name}</h3>
+        <div class="mono" style="font-size:9px;color:var(--gray)">${p.email} · ${p.country}</div>
+      </div>
+      ${bandBadge(p.band)}
+    </div>
+    <div class="grid-2 gap-16 mb-20">
+      <div class="card"><div class="kpi-val">${p.projects}</div><div class="kpi-lbl">Verified Projects</div></div>
+      <div class="card"><div class="kpi-val ${shiClass(p.shi_avg)}">${p.shi_avg||'—'}</div><div class="kpi-lbl">Average SHI Impact</div></div>
+    </div>
+    <div class="form-group mb-16">
+      <label>PRI Score (${p.pri_score}/100)</label>
+      <div class="progress" style="height:8px;margin-top:8px"><div class="progress-fill" style="width:${p.pri_score}%"></div></div>
+    </div>
+    <div class="form-group"><label>Discipline</label><div class="text-off">${p.discipline}</div></div>
+    <div class="form-group"><label>Professional Bio</label><div class="text-off text-sm" style="line-height:1.7">${p.bio||'No bio provided.'}</div></div>
+    <div class="gold-divider"></div>
+    <div class="label mb-12">Update PRI Band</div>
+    <div class="flex gap-8">
+      ${['PROVISIONAL','STABLE','TRUSTED','HONOR'].map(b =>
+        `<button class="btn btn-sm ${p.band===b?'':'btn-ghost'}" onclick="updateBand(${id},'${b}')"><span>${b}</span></button>`
+      ).join('')}
+    </div>
+  `);
+}
+
+async function updateBand(id, band) {
+  const p = await DB.get('professionals', id);
+  await DB.update('professionals', { ...p, band });
+  await logAudit('PRI_BAND_UPDATED', `${p.name} band updated to ${band}`);
+  toast(`${p.name} updated to ${band}`, 'success');
+  closeModal();
+  renderIdent();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PROJECTS & TWIN™
+// ═══════════════════════════════════════════════════════════════════
+async function renderProjects() {
+  const projects = await DB.getAll('projects');
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">Projects & TWIN™</div><div class="page-title">Structural Lifecycle Memory</div></div>
+      <button class="btn" onclick="openNewProject()"><span>+ New Project</span></button>
+    </div>
+    <div class="content-area">
+      ${projects.map(p => `
+        <div class="card card-hover mb-16" style="border-left:3px solid ${p.shi>=90?'var(--gold)':p.shi>=80?'var(--amber)':'var(--border2)'}">
+          <div class="flex items-start justify-between mb-16">
+            <div>
+              <div class="mono" style="font-size:8px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px">${p.uid}</div>
+              <h3 style="font-family:var(--font-d);font-size:1.1rem;margin-bottom:4px">${p.name}</h3>
+              <div class="text-off text-sm">${p.client} · ${p.country} · ${p.type}</div>
+            </div>
+            <div class="flex items-center gap-12">
+              <div style="text-align:right">
+                <div class="cinzel ${shiClass(p.shi)}" style="font-size:2rem;font-weight:700;line-height:1">${p.shi}</div>
+                <div class="mono" style="font-size:8px;color:var(--gray)">SHI SCORE</div>
+              </div>
+              ${statusBadge(p.status)}
+            </div>
+          </div>
+          <div class="text-off text-sm mb-16" style="line-height:1.7">${p.description}</div>
+          <div class="progress mb-8"><div class="progress-fill" style="width:${p.progress}%"></div></div>
+          <div class="flex justify-between mb-16">
+            <div class="mono text-xs text-gray">${p.progress}% evidence verified</div>
+            <div class="mono text-xs text-gray">Phase: ${p.phase}</div>
+          </div>
+          <div class="grid-4 gap-8 mb-16">
+            <div><div class="label" style="font-size:8px">Contract Value</div><div style="font-family:var(--font-d);color:var(--gold)">${fmtCurrency(p.value,p.currency)}</div></div>
+            <div><div class="label" style="font-size:8px">Started</div><div class="text-sm text-off">${fmtDate(p.started)}</div></div>
+            <div><div class="label" style="font-size:8px">Target Completion</div><div class="text-sm text-off">${fmtDate(p.target_completion)}</div></div>
+            <div><div class="label" style="font-size:8px">Status</div>${statusBadge(p.status)}</div>
+          </div>
+          <div class="flex gap-8">
+            <button class="btn btn-sm" onclick="openTwinRecord('${p.uid}')"><span>View TWIN™ Record</span></button>
+            <button class="btn btn-sm btn-ghost" onclick="openProjectComponents('${p.uid}')"><span>Components</span></button>
+            <button class="btn btn-sm btn-ghost" onclick="openProjectMilestones(${p.id},'${p.uid}')"><span>Milestones</span></button>
+            ${p.status==='complete' || p.progress>=99 ? `<button class="btn btn-sm btn-success" onclick="navigate('seal')"><span>★ Apply for SEAL™</span></button>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+async function openTwinRecord(projectUid) {
+  const [evidence, inspections, payments, components] = await Promise.all([
+    DB.filter('evidence', e => e.component_uid?.startsWith(projectUid.replace('BLD-','BLD-').split('-').slice(0,3).join('-'))),
+    DB.getAll('inspections'),
+    DB.filter('payments', p => p.project_uid === projectUid),
+    DB.filter('components', c => c.project_uid === projectUid),
+  ]);
+
+  openModal(`
+    <div class="label mb-8">TWIN™ STRUCTURAL LIFECYCLE RECORD</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:20px">${projectUid}</div>
+    <div class="card mb-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+      <div class="mono" style="font-size:9px;color:var(--gold);letter-spacing:.1em">RECORD STATUS</div>
+      <div class="flex gap-24 mt-8">
+        <div><div class="kpi-val" style="font-size:1.4rem">${components.length}</div><div class="kpi-lbl">Components</div></div>
+        <div><div class="kpi-val" style="font-size:1.4rem">${evidence.length}</div><div class="kpi-lbl">Evidence Sets</div></div>
+        <div><div class="kpi-val" style="font-size:1.4rem">${payments.length}</div><div class="kpi-lbl">Payments</div></div>
+        <div><div class="kpi-val" style="font-size:1.4rem;color:var(--green)">IMMUTABLE</div><div class="kpi-lbl">Record Status</div></div>
+      </div>
+    </div>
+
+    <div class="label mb-12">Evidence Timeline</div>
+    <div class="timeline">
+      ${evidence.map(e => `
+        <div class="timeline-item complete">
+          <div class="mono" style="font-size:8px;color:var(--gold);letter-spacing:.1em">${e.type} · ${fmtDate(e.timestamp)}</div>
+          <div style="font-size:.85rem;margin:4px 0">${e.description}</div>
+          <div class="mono" style="font-size:8px;color:var(--gray)">${e.geo} · ${e.images} images · Hash: ${e.hash?.slice(0,16)}...</div>
+          <div style="margin-top:4px">${statusBadge(e.status)}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    ${payments.length > 0 ? `
+      <div class="gold-divider"></div>
+      <div class="label mb-12">Payment Events</div>
+      ${payments.map(p => `
+        <div class="card mb-8 flex items-center justify-between">
+          <div>
+            <div class="mono" style="font-size:8px;color:var(--gray)">${p.tx_id} · ${fmtDate(p.date)}</div>
+            <div class="text-sm">${p.from_party} → ${p.to_party}</div>
+          </div>
+          <div style="font-family:var(--font-d);color:var(--green)">${fmtCurrency(p.amount, p.currency)}</div>
+        </div>
+      `).join('')}
+    ` : ''}
+
+    <div class="gold-divider"></div>
+    <div class="card" style="background:var(--panel2)">
+      <div class="mono" style="font-size:9px;color:var(--gray);letter-spacing:.1em">CRYPTOGRAPHIC INTEGRITY</div>
+      <div class="mono" style="font-size:9px;color:var(--green);margin-top:8px">✓ All records hash-verified · ✓ No tampering detected · ✓ Blockchain anchor confirmed</div>
+    </div>
+  `);
+}
+
+async function openProjectComponents(projectUid) {
+  const components = await DB.filter('components', c => c.project_uid === projectUid);
+  openModal(`
+    <div class="label mb-8">PREFAB™ Component Registry</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:20px">${projectUid}</div>
+    <table>
+      <thead><tr><th>Component UID</th><th>Type</th><th>Spec</th><th>SHI</th><th>Status</th></tr></thead>
+      <tbody>
+        ${components.map(c => `
+          <tr>
+            <td class="mono" style="font-size:8px;color:var(--gold)">${c.uid}</td>
+            <td class="text-sm text-off">${c.type}</td>
+            <td class="mono" style="font-size:8px">${c.spec}</td>
+            <td class="${shiClass(c.shi)} mono">${c.shi || '—'}</td>
+            <td>${statusBadge(c.status)}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    ${STATE.getRole() !== 'contractor' ? `
+      <div class="gold-divider"></div>
+      <button class="btn" onclick="openAddComponent('${projectUid}')"><span>+ Add Component</span></button>
+    ` : ''}
+  `);
+}
+
+async function openAddComponent(projectUid) {
+  openModal(`
+    <div class="label mb-8">PREFAB™ — New Structural Component</div>
+    <div class="form-group"><label>Component UID</label><input id="c-uid" placeholder="${projectUid}/L1/C1/COL/001"></div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Type</label>
+        <select id="c-type"><option>Column</option><option>Beam</option><option>Slab</option><option>Wall</option><option>Foundation</option></select>
+      </div>
+      <div class="form-group"><label>Level</label><input id="c-level" placeholder="L1"></div>
+    </div>
+    <div class="form-group"><label>Structural Specification</label><input id="c-spec" placeholder="C-305x305-4T20+R8@150"></div>
+    <div class="form-group"><label>Reason Tag (Engineering Intent)</label><textarea id="c-notes" rows="2" placeholder="Why this specification matters for the load path..."></textarea></div>
+    <button class="btn" style="width:100%" onclick="submitAddComponent('${projectUid}')"><span>Register Component in PREFAB™</span></button>
+  `);
+}
+
+async function submitAddComponent(projectUid) {
+  const uid = document.getElementById('c-uid').value.trim();
+  const spec = document.getElementById('c-spec').value.trim();
+  if (!uid || !spec) { toast('UID and specification are required.', 'error'); return; }
+  await DB.add('components', {
+    uid, project_uid: projectUid,
+    type: document.getElementById('c-type').value,
+    level: document.getElementById('c-level').value,
+    spec, notes: document.getElementById('c-notes').value,
+    shi: 0, status: 'pending', material_batch: null, executed_by: null, approved_by: null,
+  });
+  await logAudit('COMPONENT_REGISTERED', `Component ${uid} registered in PREFAB™`);
+  toast(`Component ${uid} registered`, 'success');
+  closeModal();
+}
+
+async function openProjectMilestones(projectId, projectUid) {
+  const milestones = await DB.filter('milestones', m => m.project_uid === projectUid);
+  const payments = await DB.filter('payments', p => p.project_uid === projectUid);
+  const totalReleased = payments.reduce((s,p) => s + p.amount, 0);
+
+  openModal(`
+    <div class="label mb-8">PAY™ Milestone Escrow</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:20px">${projectUid}</div>
+    <div class="card mb-16" style="background:var(--green-dim);border-color:var(--green)">
+      <div class="mono" style="font-size:9px;color:var(--green)">TOTAL RELEASED</div>
+      <div class="cinzel" style="font-size:1.8rem;color:var(--green);font-weight:700;margin-top:4px">${fmtCurrency(totalReleased)}</div>
+    </div>
+    ${milestones.map((m, i) => `
+      <div class="card mb-12" style="border-left:3px solid ${m.status==='released'?'var(--green)':m.status==='active'?'var(--gold)':'var(--border2)'}">
+        <div class="flex items-start justify-between mb-8">
+          <div>
+            <div class="mono" style="font-size:8px;color:var(--gray)">PHASE ${m.phase}</div>
+            <div style="font-weight:600">${m.name}</div>
+          </div>
+          <div class="flex items-center gap-8">
+            <div style="font-family:var(--font-d);color:var(--gold)">${fmtCurrency(m.amount,m.currency)}</div>
+            ${statusBadge(m.status)}
+          </div>
+        </div>
+        <div class="text-sm text-off mb-8">${m.description}</div>
+        ${m.required_shi > 0 ? `<div class="mono" style="font-size:8px;color:var(--gray)">Required SHI: ≥${m.required_shi}</div>` : ''}
+        ${m.status === 'active' && STATE.getRole() !== 'contractor' ? `
+          <button class="btn btn-sm btn-success mt-8" onclick="releasePayment(${m.id},'${projectUid}',${m.amount},'${m.currency}')"><span>Release Payment</span></button>
+        ` : ''}
+        ${m.released_date ? `<div class="mono" style="font-size:8px;color:var(--green);margin-top:8px">✓ Released ${fmtDate(m.released_date)}</div>` : ''}
+      </div>
+    `).join('')}
+  `);
+}
+
+async function releasePayment(milestoneId, projectUid, amount, currency) {
+  const project = (await DB.filter('projects', p => p.uid === projectUid))[0];
+  if (!project) return;
+  const milestone = await DB.get('milestones', milestoneId);
+  if (project.shi < (milestone.required_shi || 0)) {
+    toast(`Cannot release: Project SHI ${project.shi} is below required ${milestone.required_shi}`, 'error');
+    return;
+  }
+  await DB.update('milestones', { ...milestone, status: 'released', released_date: new Date().toISOString().split('T')[0] });
+  const txId = `PAY-${new Date().getFullYear()}-${Math.random().toString(36).slice(2,8).toUpperCase()}`;
+  await DB.add('payments', {
+    project_uid: projectUid, milestone_id: milestoneId, amount, currency,
+    from_party: project.client, to_party: 'Contracted Firm',
+    released_by: 'PAY™ Escrow Engine', date: new Date().toISOString().split('T')[0],
+    tx_id: txId, status: 'completed',
+  });
+  await logAudit('PAYMENT_RELEASED', `${fmtCurrency(amount, currency)} released for ${milestone.name} on ${projectUid}. TX: ${txId}`);
+  toast(`Payment ${fmtCurrency(amount, currency)} released successfully. TX: ${txId}`, 'success');
+  closeModal();
+  renderProjects();
+}
+
+async function openNewProject() {
+  const professionals = await DB.getAll('professionals');
+  const engineers = professionals.filter(p => p.band === 'HONOR' || p.band === 'TRUSTED');
+  openModal(`
+    <div class="label mb-8">New Project Registration</div>
+    <h3 class="cinzel mb-24" style="font-size:1.2rem">Register Project in TWIN™</h3>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Project UID</label><input id="p-uid" placeholder="BLD-NGR-XXX-2026"></div>
+      <div class="form-group"><label>Project Name</label><input id="p-name" placeholder="Structure name"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Client</label><input id="p-client" placeholder="Client organisation"></div>
+      <div class="form-group"><label>Country</label><input id="p-country" placeholder="Country"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div class="form-group"><label>Type</label>
+        <select id="p-type"><option>Commercial</option><option>Infrastructure</option><option>Residential</option><option>Healthcare</option><option>Industrial</option><option>Cultural</option></select>
+      </div>
+      <div class="form-group"><label>Contract Value (USD)</label><input id="p-value" type="number" placeholder="5000000"></div>
+      <div class="form-group"><label>Lead Engineer</label>
+        <select id="p-engineer">
+          ${engineers.map(e => `<option value="${e.id}">${e.name} (${e.band})</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="p-desc" rows="3"></textarea></div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Start Date</label><input id="p-start" type="date"></div>
+      <div class="form-group"><label>Target Completion</label><input id="p-end" type="date"></div>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitNewProject()"><span>Register Project & Activate TWIN™</span></button>
+  `);
+}
+
+async function submitNewProject() {
+  const uid = document.getElementById('p-uid').value.trim();
+  const name = document.getElementById('p-name').value.trim();
+  if (!uid || !name) { toast('UID and name required.', 'error'); return; }
+  await DB.add('projects', {
+    uid, name,
+    client: document.getElementById('p-client').value,
+    country: document.getElementById('p-country').value,
+    type: document.getElementById('p-type').value,
+    value: parseInt(document.getElementById('p-value').value) || 0,
+    currency: 'USD',
+    phase: 'Foundation & Substructure',
+    status: 'active', progress: 0, shi: 0,
+    started: document.getElementById('p-start').value,
+    target_completion: document.getElementById('p-end').value,
+    lead_engineer_id: parseInt(document.getElementById('p-engineer').value),
+    description: document.getElementById('p-desc').value,
+  });
+  await logAudit('PROJECT_CREATED', `Project ${uid} registered. TWIN™ record activated.`);
+  toast(`Project ${uid} registered. TWIN™ record is live.`, 'success');
+  closeModal();
+  renderProjects();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  BUILD™ — EVIDENCE CAPTURE
+// ═══════════════════════════════════════════════════════════════════
+async function renderBuild() {
+  const [components, evidence, projects] = await Promise.all([
+    DB.getAll('components'), DB.getAll('evidence'), DB.getAll('projects')
+  ]);
+  const pendingComponents = components.filter(c => c.status === 'pending');
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">BUILD™</div><div class="page-title">Execution Evidence Console</div></div>
+      <button class="btn" onclick="openCaptureForm()"><span>+ Submit Evidence</span></button>
+    </div>
+    <div class="content-area">
+      ${pendingComponents.length > 0 ? `
+        <div class="card mb-20" style="border-color:var(--red);background:var(--red-dim)">
+          <div class="flex items-center gap-12">
+            <div style="font-size:1.5rem;color:var(--red)">⚠</div>
+            <div>
+              <div style="font-family:var(--font-m);font-size:9px;color:var(--red);letter-spacing:.1em;margin-bottom:4px">POUR HOLD ACTIVE</div>
+              <div>${pendingComponents.length} component(s) require CAPTURE-LARGE evidence before work can proceed:</div>
+              ${pendingComponents.map(c => `<div class="mono" style="font-size:9px;color:var(--red);margin-top:4px">→ ${c.uid}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+      ` : ''}
+
+      <div class="grid-2 gap-16">
+        <div>
+          <div class="label mb-16">Evidence Queue</div>
+          <div class="card" style="overflow:auto">
+            <table>
+              <thead><tr><th>Component UID</th><th>Type</th><th>Submitted</th><th>Images</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                ${evidence.map(e => `
+                  <tr>
+                    <td class="mono" style="font-size:8px;color:var(--gold)">${e.component_uid}</td>
+                    <td class="text-sm text-off">${e.type}</td>
+                    <td class="mono text-xs text-gray">${fmtDate(e.timestamp)}</td>
+                    <td class="mono text-sm">${e.images}</td>
+                    <td>${statusBadge(e.status)}</td>
+                    <td><button class="btn btn-sm btn-ghost" onclick="reviewEvidence(${e.id})"><span>Review</span></button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div class="label mb-16">Evidence Protocol — CAPTURE-LARGE</div>
+          ${[
+            { req:'Wide Context Shot', desc:'Component position in structure visible. Neighbouring elements in frame.', icon:'◉' },
+            { req:'Detail Close-Up', desc:'Reinforcement spacing, bar sizes, joint details matching PREFAB™ spec.', icon:'◈' },
+            { req:'Measurement Reference', desc:'Tape measure or laser reference visible. Scale unambiguous.', icon:'▣' },
+            { req:'Geo-tag + Timestamp', desc:'System-generated. Cannot be manually altered after submission.', icon:'◎' },
+            { req:'Component UID Linkage', desc:'Every image automatically linked to the UID it documents.', icon:'⬡' },
+            { req:'Before/After (if corrected)', desc:'If any deviation was corrected, a before/after pair is mandatory.', icon:'◇' },
+          ].map(r => `
+            <div class="card card-hover mb-8 flex items-start gap-12">
+              <div style="font-size:1.1rem;color:var(--gold);flex-shrink:0">${r.icon}</div>
+              <div>
+                <div style="font-weight:600;font-size:.85rem;margin-bottom:2px">${r.req}</div>
+                <div class="text-sm text-off">${r.desc}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+async function openCaptureForm() {
+  const components = await DB.getAll('components');
+  openModal(`
+    <div class="label mb-8">BUILD™ — CAPTURE-LARGE Protocol</div>
+    <h3 class="cinzel mb-20" style="font-size:1.2rem">Submit Execution Evidence</h3>
+    <div class="form-group"><label>Component UID</label>
+      <select id="ev-comp">
+        ${components.map(c => `<option value="${c.uid}">${c.uid} (${c.type})</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group"><label>Evidence Description</label>
+      <textarea id="ev-desc" rows="3" placeholder="Describe what the evidence shows. Be specific: reinforcement placement, measurements, conditions observed..."></textarea>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Number of Images Captured</label><input id="ev-imgs" type="number" min="3" value="5" placeholder="Min. 3"></div>
+      <div class="form-group"><label>GPS Coordinates</label><input id="ev-geo" placeholder="6.4281°N, 3.4219°E"></div>
+    </div>
+    <div class="form-group">
+      <label>Simulated Photo Upload (describe your images)</label>
+      <textarea id="ev-photos" rows="3" placeholder="e.g. Wide shot showing column C1 in grid. Close-up of tie spacing at 120mm (matches PREFAB™ spec). Measurement tape visible showing 32mm cover..."></textarea>
+    </div>
+    <div class="card mb-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+      <div class="mono" style="font-size:9px;color:var(--gold)">CRITICAL: No evidence = No pour authorisation. This record is permanent and immutable in TWIN™.</div>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitEvidence()"><span>Submit & Hash to TWIN™</span></button>
+  `);
+}
+
+async function submitEvidence() {
+  const compUid = document.getElementById('ev-comp').value;
+  const desc = document.getElementById('ev-desc').value.trim();
+  if (!desc) { toast('Description is required.', 'error'); return; }
+  const hash = Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('');
+  await DB.add('evidence', {
+    component_uid: compUid,
+    type: 'CAPTURE-LARGE',
+    images: parseInt(document.getElementById('ev-imgs').value) || 5,
+    submitted_by: STATE.currentUser?.id,
+    approved_by: null,
+    description: desc,
+    timestamp: new Date().toISOString(),
+    geo: document.getElementById('ev-geo').value || 'GPS locked',
+    hash, status: 'pending',
+  });
+  // Update component status
+  const comp = (await DB.filter('components', c => c.uid === compUid))[0];
+  if (comp) await DB.update('components', { ...comp, status: 'evidence_submitted' });
+  await logAudit('EVIDENCE_SUBMITTED', `CAPTURE-LARGE evidence submitted for ${compUid}. Hash: ${hash.slice(0,16)}`);
+  toast('Evidence submitted and hashed to TWIN™ record.', 'success');
+  closeModal();
+  renderBuild();
+}
+
+async function reviewEvidence(id) {
+  const ev = await DB.get('evidence', id);
+  openModal(`
+    <div class="label mb-8">BUILD™ — Evidence Review</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:16px">${ev.component_uid}</div>
+    <div class="card mb-16">
+      <div class="grid-2 gap-16">
+        <div><div class="label" style="font-size:8px">Submitted</div><div class="text-sm">${fmtDate(ev.timestamp)}</div></div>
+        <div><div class="label" style="font-size:8px">Images</div><div class="text-sm">${ev.images}</div></div>
+        <div><div class="label" style="font-size:8px">GPS</div><div class="mono text-xs">${ev.geo}</div></div>
+        <div><div class="label" style="font-size:8px">Hash</div><div class="mono text-xs">${ev.hash?.slice(0,20)}...</div></div>
+      </div>
+    </div>
+    <div class="form-group mb-20"><label>Evidence Description</label><div class="text-off" style="line-height:1.7">${ev.description}</div></div>
+    ${ev.status === 'pending' && (STATE.getRole() === 'inspector' || STATE.getRole() === 'engineer' || STATE.getRole() === 'admin') ? `
+      <div class="label mb-12">Inspector Decision</div>
+      <div class="form-group"><label>Approval Reason Tag</label>
+        <textarea id="ev-reason" rows="2" placeholder="State specifically why this evidence confirms compliance with PREFAB™ specification..."></textarea>
+      </div>
+      <div class="flex gap-8">
+        <button class="btn btn-success" onclick="approveEvidence(${id})"><span>✓ Approve Evidence</span></button>
+        <button class="btn btn-danger" onclick="rejectEvidence(${id})"><span>✗ Reject — Request Recapture</span></button>
+      </div>
+    ` : `<div>${statusBadge(ev.status)}</div>`}
+  `);
+}
+
+async function approveEvidence(id) {
+  const ev = await DB.get('evidence', id);
+  const reason = document.getElementById('ev-reason')?.value || 'Evidence reviewed and approved.';
+  await DB.update('evidence', { ...ev, status: 'approved', approved_by: STATE.currentUser?.id, reason_tag: reason });
+  const comp = (await DB.filter('components', c => c.uid === ev.component_uid))[0];
+  if (comp) await DB.update('components', { ...comp, status: 'evidence_approved', approved_by: STATE.currentUser?.id });
+  await logAudit('EVIDENCE_APPROVED', `Evidence for ${ev.component_uid} approved by ${STATE.currentUser?.name}`);
+  toast('Evidence approved. Component cleared for next stage.', 'success');
+  closeModal();
+  renderBuild();
+}
+
+async function rejectEvidence(id) {
+  const ev = await DB.get('evidence', id);
+  await DB.update('evidence', { ...ev, status: 'rejected' });
+  await logAudit('EVIDENCE_REJECTED', `Evidence for ${ev.component_uid} rejected. Recapture required.`);
+  toast('Evidence rejected. Executor notified. Recapture required.', 'error');
+  closeModal();
+  renderBuild();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  VISION™ — INSPECTIONS & SHI SCORING
+// ═══════════════════════════════════════════════════════════════════
+async function renderVision() {
+  const inspections = await DB.getAll('inspections');
+  const components = await DB.getAll('components');
+  const approved = components.filter(c => c.status === 'evidence_approved' || c.status === 'verified');
+  const avgShi = inspections.length ? (inspections.reduce((s,i) => s + i.shi, 0) / inspections.length).toFixed(1) : 0;
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">VISION™</div><div class="page-title">SHI Intelligence & Inspection</div></div>
+      <button class="btn" onclick="openNewInspection()"><span>+ New Inspection</span></button>
+    </div>
+    <div class="content-area">
+      <div class="kpi-grid mb-24">
+        <div class="kpi-card"><div class="kpi-val">${inspections.length}</div><div class="kpi-lbl">Inspections Completed</div></div>
+        <div class="kpi-card"><div class="kpi-val ${shiClass(parseFloat(avgShi))}">${avgShi}</div><div class="kpi-lbl">Platform Average SHI</div></div>
+        <div class="kpi-card"><div class="kpi-val">${approved.length}</div><div class="kpi-lbl">Awaiting Inspection</div></div>
+        <div class="kpi-card"><div class="kpi-val" style="color:var(--green)">${inspections.filter(i=>i.status==='passed').length}</div><div class="kpi-lbl">Passed</div></div>
+      </div>
+
+      <div class="grid-2 gap-16">
+        <div>
+          <div class="label mb-16">Inspection Records</div>
+          <div class="card" style="overflow:auto">
+            <table>
+              <thead><tr><th>Component</th><th>SHI</th><th>Inspector</th><th>Date</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                ${inspections.map(ins => `
+                  <tr>
+                    <td class="mono" style="font-size:8px;color:var(--gold)">${ins.component_uid?.split('/').slice(-2).join('/')}</td>
+                    <td class="${shiClass(ins.shi)} cinzel" style="font-size:1.1rem;font-weight:700">${ins.shi}</td>
+                    <td class="text-sm text-off">Inspector #${ins.inspector_id}</td>
+                    <td class="mono text-xs text-gray">${fmtDate(ins.timestamp)}</td>
+                    <td>${statusBadge(ins.status)}</td>
+                    <td><button class="btn btn-sm btn-ghost" onclick="openInspectionDetail(${ins.id})"><span>Detail</span></button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div class="label mb-16">SHI-2 Scoring Model</div>
+          ${[
+            { cat:'Material Integrity', weight:30, color:'#7ab3d4' },
+            { cat:'Assembly Correctness', weight:40, color:'#6ab88a' },
+            { cat:'Environmental Risk Context', weight:10, color:'#d4c46a' },
+            { cat:'Supervisory Accountability', weight:20, color:'#e0b86a' },
+          ].map(s => `
+            <div class="card mb-8">
+              <div class="flex items-center justify-between mb-8">
+                <div style="font-size:.85rem">${s.cat}</div>
+                <div class="mono" style="font-size:1rem;color:${s.color};font-weight:700">${s.weight}%</div>
+              </div>
+              <div class="progress"><div class="progress-fill" style="width:${s.weight*2}%;background:${s.color}"></div></div>
+            </div>
+          `).join('')}
+
+          <div class="card mt-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+            <div class="mono" style="font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px">AI GOVERNANCE PROTOCOL</div>
+            <div class="text-sm text-off" style="line-height:1.7">AI assistance is decision-support only — never verification authority. Human inspector judgment is always primary. All AI flags require Accept or Dismiss with mandatory reason tag.</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function openNewInspection() {
+  const components = await DB.getAll('components');
+  const eligible = components.filter(c => c.status === 'evidence_approved' || c.status === 'verified');
+
+  openModal(`
+    <div class="label mb-8">VISION™ — SHI-2 Inspection</div>
+    <h3 class="cinzel mb-20" style="font-size:1.2rem">Record Structural Inspection</h3>
+    <div class="form-group"><label>Component</label>
+      <select id="ins-comp">
+        ${eligible.map(c => `<option value="${c.uid}">${c.uid} — ${c.type}</option>`).join('')}
+        ${eligible.length === 0 ? '<option>No components with approved evidence</option>' : ''}
+      </select>
+    </div>
+    <div class="label mb-8 mt-16">SHI-2 Score Components</div>
+    <div class="grid-2 gap-12 mb-16">
+      <div class="form-group"><label>Material Integrity (30%)</label><input id="ins-mat" type="number" min="0" max="100" value="90" placeholder="0–100"></div>
+      <div class="form-group"><label>Assembly Correctness (40%)</label><input id="ins-asm" type="number" min="0" max="100" value="88" placeholder="0–100"></div>
+      <div class="form-group"><label>Environmental Risk (10%)</label><input id="ins-env" type="number" min="0" max="100" value="85" placeholder="0–100"></div>
+      <div class="form-group"><label>Supervisory Accountability (20%)</label><input id="ins-sup" type="number" min="0" max="100" value="92" placeholder="0–100"></div>
+    </div>
+    <div id="shi-preview" class="card mb-16" style="text-align:center;background:var(--gold-dim);border-color:var(--gold-d)">
+      <div class="mono" style="font-size:9px;color:var(--gray)">COMPUTED SHI SCORE</div>
+      <div class="cinzel" style="font-size:2.5rem;font-weight:700;color:var(--gold)" id="shi-computed">—</div>
+    </div>
+    <div class="form-group"><label>Reason Tag (mandatory)</label>
+      <textarea id="ins-reason" rows="3" placeholder="State specifically what was observed, what the AI flagged (if anything), and the engineering basis for your determination..."></textarea>
+    </div>
+    <div class="form-group"><label>AI Flags Raised</label>
+      <select id="ins-ai"><option value="0">0 — No flags</option><option value="1">1 — Flag raised; reviewed and dismissed</option><option value="2">2+ — Flags raised; corrections made</option></select>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitInspection()"><span>Record SHI Score in TWIN™</span></button>
+  `);
+
+  // Live SHI calculation
+  ['ins-mat','ins-asm','ins-env','ins-sup'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', () => {
+      const m = parseFloat(document.getElementById('ins-mat').value)||0;
+      const a = parseFloat(document.getElementById('ins-asm').value)||0;
+      const e = parseFloat(document.getElementById('ins-env').value)||0;
+      const s = parseFloat(document.getElementById('ins-sup').value)||0;
+      const shi = (m*0.3 + a*0.4 + e*0.1 + s*0.2).toFixed(1);
+      const el = document.getElementById('shi-computed');
+      if (el) { el.textContent = shi; el.className = `cinzel ${shiClass(parseFloat(shi))}`; el.style.fontSize = '2.5rem'; el.style.fontWeight = '700'; }
+    });
+  });
+}
+
+async function submitInspection() {
+  const compUid = document.getElementById('ins-comp').value;
+  const mat = parseFloat(document.getElementById('ins-mat').value)||0;
+  const asm = parseFloat(document.getElementById('ins-asm').value)||0;
+  const env = parseFloat(document.getElementById('ins-env').value)||0;
+  const sup = parseFloat(document.getElementById('ins-sup').value)||0;
+  const reason = document.getElementById('ins-reason').value.trim();
+  if (!reason) { toast('Reason tag is mandatory.', 'error'); return; }
+  const shi = parseFloat((mat*0.3 + asm*0.4 + env*0.1 + sup*0.2).toFixed(1));
+  if (shi < 60) { toast(`SHI ${shi} — Critical risk. PAY™ locked. Immediate intervention required.`, 'error'); }
+
+  await DB.add('inspections', {
+    component_uid: compUid,
+    inspector_id: STATE.currentUser?.id,
+    shi, material_score: mat, assembly_score: asm, env_score: env, supervision_score: sup,
+    ai_flags: parseInt(document.getElementById('ins-ai').value)||0,
+    reason_tag: reason,
+    timestamp: new Date().toISOString(),
+    status: shi >= 60 ? 'passed' : 'failed',
+  });
+
+  // Update component SHI
+  const comp = (await DB.filter('components', c => c.uid === compUid))[0];
+  if (comp) await DB.update('components', { ...comp, shi, status: shi >= 60 ? 'verified' : 'failed' });
+  await logAudit('INSPECTION_RECORDED', `SHI ${shi} recorded for ${compUid} by ${STATE.currentUser?.name}`);
+  toast(`SHI ${shi} recorded for ${compUid}. ${shi < 75 ? 'REMEDIATION REQUIRED.' : 'Structure healthy.'}`, shi >= 75 ? 'success' : 'error');
+  closeModal();
+  renderVision();
+}
+
+async function openInspectionDetail(id) {
+  const ins = await DB.get('inspections', id);
+  openModal(`
+    <div class="label mb-8">VISION™ — Inspection Record</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:16px">${ins.component_uid}</div>
+    <div class="flex items-center gap-24 mb-20">
+      <div style="text-align:center">
+        <div class="cinzel ${shiClass(ins.shi)}" style="font-size:3rem;font-weight:700;line-height:1">${ins.shi}</div>
+        <div class="mono" style="font-size:9px;color:var(--gray)">SHI COMPOSITE</div>
+      </div>
+      <div style="flex:1">
+        ${[
+          { label:'Material Integrity', val:ins.material_score, weight:30 },
+          { label:'Assembly Correctness', val:ins.assembly_score, weight:40 },
+          { label:'Environmental Risk', val:ins.env_score, weight:10 },
+          { label:'Supervisory Accountability', val:ins.supervision_score, weight:20 },
+        ].map(s => `
+          <div class="flex items-center gap-12 mb-8">
+            <div style="width:140px;font-size:.8rem;color:var(--off)">${s.label}</div>
+            <div class="progress" style="flex:1;height:4px"><div class="progress-fill" style="width:${s.val}%"></div></div>
+            <div class="mono text-xs" style="width:28px;text-align:right">${s.val}</div>
+            <div class="mono text-xs text-gray" style="width:24px">${s.weight}%</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Inspector Reason Tag</label>
+      <div class="card text-sm text-off" style="line-height:1.7;background:var(--panel2)">${ins.reason_tag}</div>
+    </div>
+    <div class="grid-2 gap-16 mt-16">
+      <div><div class="label" style="font-size:8px">AI Flags</div><div>${ins.ai_flags} flag(s) raised</div></div>
+      <div><div class="label" style="font-size:8px">Inspector ID</div><div class="text-sm">Professional #${ins.inspector_id}</div></div>
+    </div>
+    <div class="gold-divider"></div>
+    <div class="mono" style="font-size:9px;color:var(--green)">✓ Record permanently anchored in TWIN™</div>
+  `);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PAY™ — ESCROW
+// ═══════════════════════════════════════════════════════════════════
+async function renderPay() {
+  const [payments, milestones, projects] = await Promise.all([
+    DB.getAll('payments'), DB.getAll('milestones'), DB.getAll('projects')
+  ]);
+  const totalReleased = payments.reduce((s,p) => s+p.amount, 0);
+  const totalPending = milestones.filter(m=>m.status==='pending'||m.status==='active').reduce((s,m)=>s+m.amount, 0);
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">PAY™</div><div class="page-title">Milestone Escrow System</div></div>
+    </div>
+    <div class="content-area">
+      <div class="kpi-grid mb-24">
+        <div class="kpi-card" style="border-top:2px solid var(--green)">
+          <div class="kpi-val" style="color:var(--green)">${fmtCurrency(totalReleased)}</div>
+          <div class="kpi-lbl">Total Released</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">${fmtCurrency(totalPending)}</div>
+          <div class="kpi-lbl">In Escrow</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val">${payments.length}</div>
+          <div class="kpi-lbl">Transactions Complete</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-val" style="color:var(--green)">0</div>
+          <div class="kpi-lbl">Disputed Payments</div>
+        </div>
+      </div>
+
+      <div class="card mb-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+        <div class="mono" style="font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px">PAY™ DOCTRINE</div>
+        <div class="text-off" style="font-style:italic">"Money follows structural truth. Truth does not follow money. No milestone releases without verified BUILD™ evidence and passing VISION™ SHI scores."</div>
+      </div>
+
+      <div class="label mb-16">All Milestones</div>
+      ${milestones.map(m => `
+        <div class="card mb-12" style="border-left:3px solid ${m.status==='released'?'var(--green)':m.status==='active'?'var(--gold)':'var(--border2)'}">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="mono" style="font-size:8px;color:var(--gray);margin-bottom:4px">PHASE ${m.phase} · ${m.project_uid}</div>
+              <div style="font-weight:600">${m.name}</div>
+              <div class="text-sm text-off mt-4">${m.description}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-family:var(--font-d);font-size:1.3rem;color:var(--gold)">${fmtCurrency(m.amount,m.currency)}</div>
+              <div class="mt-8">${statusBadge(m.status)}</div>
+            </div>
+          </div>
+          ${m.required_shi > 0 ? `<div class="mono" style="font-size:8px;color:var(--gray);margin-top:12px">Required SHI: ≥${m.required_shi}</div>` : ''}
+          ${m.released_date ? `<div class="mono" style="font-size:8px;color:var(--green);margin-top:4px">✓ Released ${fmtDate(m.released_date)}</div>` : ''}
+        </div>
+      `).join('')}
+
+      <div class="label mb-16 mt-32">Payment History</div>
+      <div class="card" style="overflow:auto">
+        <table>
+          <thead><tr><th>TX ID</th><th>Project</th><th>From</th><th>To</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody>
+            ${payments.map(p => `
+              <tr>
+                <td class="mono" style="font-size:8px;color:var(--gold)">${p.tx_id}</td>
+                <td class="mono text-xs">${p.project_uid}</td>
+                <td class="text-sm text-off">${p.from_party}</td>
+                <td class="text-sm text-off">${p.to_party}</td>
+                <td style="font-family:var(--font-d);color:var(--green)">${fmtCurrency(p.amount,p.currency)}</td>
+                <td class="mono text-xs text-gray">${fmtDate(p.date)}</td>
+                <td>${statusBadge(p.status)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  SEAL™ — CERTIFICATION
+// ═══════════════════════════════════════════════════════════════════
+async function renderSeal() {
+  const [certifications, projects] = await Promise.all([DB.getAll('certifications'), DB.getAll('projects')]);
+  const eligible = projects.filter(p => p.progress >= 95 && p.shi >= 75);
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">SEAL™</div><div class="page-title">Structural Truth Certification</div></div>
+      <button class="btn" onclick="openSealApplication()"><span>★ Apply for SEAL™</span></button>
+    </div>
+    <div class="content-area">
+      ${certifications.map(cert => `
+        <div class="card mb-20" style="border:2px solid var(--gold);background:linear-gradient(135deg,var(--panel),var(--gold-dim))">
+          <div class="flex items-start justify-between mb-24">
+            <div>
+              <div class="mono" style="font-size:9px;color:var(--gold);letter-spacing:.15em;margin-bottom:8px">${cert.type}</div>
+              <h3 class="cinzel" style="font-size:1.5rem;margin-bottom:4px">${cert.project_uid}</h3>
+              <div class="mono" style="font-size:9px;color:var(--gray)">Physical Plate: ${cert.physical_plate}</div>
+            </div>
+            <div style="text-align:center">
+              <svg width="80" height="80" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="46" stroke="#c9a14f" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+                <circle cx="50" cy="50" r="30" fill="rgba(201,161,79,0.15)" stroke="#c9a14f" stroke-width="1.2"/>
+                <polygon points="50,22 56,42 76,42 60,54 66,74 50,62 34,74 40,54 24,42 44,42" fill="#c9a14f"/>
+                <circle cx="50" cy="50" r="8" fill="#0d0d0d"/>
+                <text x="50" y="54" text-anchor="middle" fill="#c9a14f" font-size="7" font-family="Cinzel" font-weight="700">V</text>
+              </svg>
+            </div>
+          </div>
+          <div class="grid-4 gap-16 mb-20">
+            <div><div class="label" style="font-size:8px">SHI Composite</div><div class="cinzel ${shiClass(cert.shi_composite)}" style="font-size:1.8rem;font-weight:700">${cert.shi_composite}</div></div>
+            <div><div class="label" style="font-size:8px">Issued By</div><div class="text-sm text-off">Professional #${cert.issued_by}</div></div>
+            <div><div class="label" style="font-size:8px">Co-Signed</div><div class="text-sm text-off">Professional #${cert.co_signed_by}</div></div>
+            <div><div class="label" style="font-size:8px">Status</div>${statusBadge(cert.status)}</div>
+          </div>
+          ${cert.notes ? `<div class="card text-sm text-off" style="background:var(--panel2);line-height:1.7">${cert.notes}</div>` : ''}
+          ${cert.status === 'pending_ceremony' && STATE.getRole() !== 'contractor' ? `
+            <div class="flex gap-8 mt-16">
+              <button class="btn" onclick="issueSeal(${cert.id})"><span>★ Issue SEAL™ — Record in TWIN™</span></button>
+            </div>
+          ` : ''}
+        </div>
+      `).join('')}
+
+      <div class="label mb-16">Projects Eligible for SEAL™ Application</div>
+      ${eligible.length === 0 ? `<div class="card text-off text-sm">No projects currently meet eligibility criteria (≥95% progress, SHI ≥75, all milestones on track).</div>` : ''}
+      ${eligible.map(p => `
+        <div class="card card-hover mb-12 flex items-center justify-between">
+          <div>
+            <div class="mono" style="font-size:8px;color:var(--gold)">${p.uid}</div>
+            <div style="font-weight:600">${p.name}</div>
+          </div>
+          <div class="flex items-center gap-16">
+            <div class="${shiClass(p.shi)} cinzel" style="font-size:1.4rem;font-weight:700">${p.shi}</div>
+            <button class="btn btn-sm" onclick="openSealApplication(${p.id})"><span>Apply</span></button>
+          </div>
+        </div>
+      `).join('')}
+
+      <div class="mt-32">
+        <div class="label mb-16">SEAL™ Requirements Checklist</div>
+        <div class="card">
+          ${[
+            'Complete PREFAB™ component identity for all structural elements',
+            'Full CAPTURE-LARGE evidence for every irreversible construction action',
+            'SHI scores ≥ threshold for all major structural elements',
+            'All milestone payments processed correctly through PAY™ escrow',
+            'ORIGIN™ material provenance verified for primary structural elements',
+            'TWIN™ lifecycle record complete and permanently anchored',
+            'No unresolved LEX™ arbitration cases',
+            'Certifying engineer holds PRI: HONOR band',
+          ].map((r,i) => `
+            <div class="flex items-start gap-12 ${i>0?'mt-12':''}">
+              <div style="color:var(--green);flex-shrink:0">✓</div>
+              <div class="text-sm text-off">${r}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+async function openSealApplication(projectId) {
+  const professionals = await DB.getAll('professionals');
+  const honor = professionals.filter(p => p.band === 'HONOR');
+  const projects = await DB.getAll('projects');
+
+  openModal(`
+    <div class="label mb-8">SEAL™ Application</div>
+    <div class="card mb-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+      <div class="mono" style="font-size:9px;color:var(--gold)">The SEAL™ cannot be bought, negotiated, or influenced. It can only be proven.</div>
+    </div>
+    <div class="form-group"><label>Project</label>
+      <select id="seal-proj">
+        ${projects.map(p=>`<option value="${p.uid}">${p.uid} — ${p.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Certifying Engineer (HONOR only)</label>
+        <select id="seal-eng1">
+          ${honor.map(h=>`<option value="${h.id}">${h.name}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group"><label>Co-Signing Engineer (HONOR only)</label>
+        <select id="seal-eng2">
+          ${honor.map(h=>`<option value="${h.id}">${h.name}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>SEAL™ Type</label>
+      <select id="seal-type">
+        <option value="SEAL-HONOR">SEAL-HONOR (Standard — SHI ≥75)</option>
+        <option value="SEAL-SOVEREIGN">SEAL-SOVEREIGN (Strategic — SHI ≥85)</option>
+        <option value="SEAL-CARBON">SEAL-CARBON (Green Finance — CARBON™ verified)</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Certifying Notes</label>
+      <textarea id="seal-notes" rows="3" placeholder="Summarise the certification basis. This becomes part of the permanent TWIN™ record."></textarea>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitSealApplication()"><span>Submit SEAL™ Application</span></button>
+  `);
+}
+
+async function submitSealApplication() {
+  const projUid = document.getElementById('seal-proj').value;
+  const project = (await DB.filter('projects', p => p.uid === projUid))[0];
+  const sealType = document.getElementById('seal-type').value;
+  if (project.shi < 75) { toast('SHI score below minimum for SEAL™ certification.', 'error'); return; }
+
+  const plateId = `SEAL-${projUid.split('-').slice(1,3).join('')}-${new Date().getFullYear()}-${sealType.split('-')[1]}`;
+  await DB.add('certifications', {
+    project_uid: projUid,
+    type: sealType,
+    shi_composite: project.shi,
+    issued_by: parseInt(document.getElementById('seal-eng1').value),
+    co_signed_by: parseInt(document.getElementById('seal-eng2').value),
+    issued_date: new Date().toISOString().split('T')[0],
+    physical_plate: plateId,
+    status: 'pending_ceremony',
+    qr_code: `VRF-${projUid}-QR`,
+    notes: document.getElementById('seal-notes').value,
+  });
+  await logAudit('SEAL_APPLIED', `${sealType} application submitted for ${projUid}`);
+  toast(`SEAL™ application submitted for ${projUid}. Pending ceremony.`, 'success');
+  closeModal();
+  renderSeal();
+}
+
+async function issueSeal(certId) {
+  const cert = await DB.get('certifications', certId);
+  await DB.update('certifications', { ...cert, status: 'issued', issued_date: new Date().toISOString().split('T')[0] });
+  const proj = (await DB.filter('projects', p => p.uid === cert.project_uid))[0];
+  if (proj) await DB.update('projects', { ...proj, status: 'complete', progress: 100 });
+  await logAudit('SEAL_ISSUED', `${cert.type} issued for ${cert.project_uid}. Plate: ${cert.physical_plate}`);
+  toast(`★ SEAL™ ISSUED for ${cert.project_uid}! Bronze plate engraved. TWIN™ record finalised.`, 'success');
+  closeModal();
+  renderSeal();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  MARKET™ — TENDERS & PROCUREMENT
+// ═══════════════════════════════════════════════════════════════════
+async function renderMarket() {
+  const [tenders, bids] = await Promise.all([DB.getAll('tenders'), DB.getAll('bids')]);
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">MARKET™</div><div class="page-title">Evidence-Based Procurement</div></div>
+      ${STATE.getRole() === 'admin' ? `<button class="btn" onclick="openNewTender()"><span>+ Post Tender</span></button>` : ''}
+    </div>
+    <div class="content-area">
+      <div class="card mb-20" style="background:var(--blue-dim);border-color:var(--blue)">
+        <div class="mono" style="font-size:9px;color:var(--blue);letter-spacing:.1em;margin-bottom:8px">MATRIX-C SCORING: ${45}% Execution Integrity · ${35}% Capacity · ${20}% Price Rationality</div>
+        <div class="text-sm text-off">Contracts award to firms with the highest evidence-weighted score — not the lowest bid. No exceptions.</div>
+      </div>
+
+      ${tenders.map(t => {
+        const tenderBids = bids.filter(b => b.tender_uid === t.uid);
+        return `
+          <div class="card mb-20" style="border-left:3px solid ${t.status==='open'?'var(--green)':'var(--border2)'}">
+            <div class="flex items-start justify-between mb-16">
+              <div>
+                <div class="mono" style="font-size:8px;color:var(--gold);margin-bottom:4px">${t.uid} · ${t.type}</div>
+                <h3 style="font-family:var(--font-d);font-size:1.1rem;margin-bottom:4px">${t.name}</h3>
+                <div class="text-off text-sm">${t.client} · ${t.country}</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-family:var(--font-d);font-size:1.5rem;color:var(--gold)">${fmtCurrency(t.value,t.currency)}</div>
+                <div class="mono" style="font-size:8px;color:var(--gray);margin-top:4px">Closes ${fmtDate(t.deadline)}</div>
+                <div class="mt-8">${statusBadge(t.status)}</div>
+              </div>
+            </div>
+            <div class="text-sm text-off mb-16">${t.description}</div>
+            ${tenderBids.length > 0 ? `
+              <div class="label mb-8">Submitted Bids (${tenderBids.length})</div>
+              <table style="margin-bottom:12px">
+                <thead><tr><th>Firm</th><th>Price</th><th>Integrity Score</th><th>Capacity</th><th>SHI History</th><th>MATRIX-C</th></tr></thead>
+                <tbody>
+                  ${tenderBids.sort((a,b)=>b.matrix_score-a.matrix_score).map((b,i) => `
+                    <tr style="${i===0?'background:var(--green-dim)':''}">
+                      <td style="font-weight:${i===0?600:400}">${b.firm} ${i===0?'<span style="color:var(--green);font-size:.7rem">(HIGHEST RATED)</span>':''}</td>
+                      <td class="cinzel" style="color:var(--gold)">${fmtCurrency(b.price,t.currency)}</td>
+                      <td class="${shiClass(b.integrity_score)} mono">${b.integrity_score}</td>
+                      <td class="mono">${b.capacity_score}</td>
+                      <td class="${shiClass(b.shi_history)} mono">${b.shi_history||'—'}</td>
+                      <td class="${shiClass(b.matrix_score)} cinzel" style="font-size:1.1rem;font-weight:700">${b.matrix_score}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            ` : '<div class="text-sm text-gray mb-12">No bids submitted yet.</div>'}
+            <div class="flex gap-8">
+              ${t.status === 'open' && STATE.getRole() === 'contractor' ? `<button class="btn btn-sm" onclick="openBidForm('${t.uid}','${t.currency}',${t.value})"><span>Submit Bid</span></button>` : ''}
+              ${STATE.getRole() === 'admin' && tenderBids.length > 0 ? `<button class="btn btn-sm btn-success" onclick="awardTender('${t.uid}')"><span>Award Contract</span></button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>`;
+}
+
+async function openBidForm(tenderUid, currency, tenderValue) {
+  const user = STATE.currentUser;
+  openModal(`
+    <div class="label mb-8">MARKET™ — Submit Bid</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:20px">${tenderUid}</div>
+    <div class="form-group"><label>Firm Name</label><input id="bid-firm" value="${user?.name?.replace('Engr. ','').replace('Olu ','Adeyemi Civil ') || ''} Construction Ltd"></div>
+    <div class="form-group"><label>Bid Price (${currency})</label><input id="bid-price" type="number" placeholder="${Math.round(tenderValue*0.92)}"></div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Declared Capacity Score (0–100)</label><input id="bid-cap" type="number" value="${user?.pri_score||50}" min="0" max="100"></div>
+      <div class="form-group"><label>SHI History Average</label><input id="bid-shi" type="number" value="${user?.shi_avg||0}" min="0" max="100" step="0.1"></div>
+    </div>
+    <div class="card mb-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+      <div class="mono" style="font-size:9px;color:var(--gold)">Your PRI Score (${user?.pri_score||0}) forms 25% of your integrity score. This is automatically retrieved from IDENT™.</div>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitBid('${tenderUid}')"><span>Submit Bid via MARKET™</span></button>
+  `);
+}
+
+async function submitBid(tenderUid) {
+  const firm = document.getElementById('bid-firm').value.trim();
+  const price = parseFloat(document.getElementById('bid-price').value);
+  const cap = parseFloat(document.getElementById('bid-cap').value)||50;
+  const shi = parseFloat(document.getElementById('bid-shi').value)||0;
+  if (!firm || !price) { toast('Firm name and price are required.', 'error'); return; }
+  const pri = STATE.currentUser?.pri_score || 50;
+  const integrity = Math.round((pri * 0.5 + shi * 0.5));
+  const matrix = parseFloat((integrity*0.45 + cap*0.35 + Math.min(100, 100 - Math.abs(price/1000000 - 80)*2)*0.20).toFixed(1));
+  await DB.add('bids', {
+    tender_uid: tenderUid, firm, price, integrity_score: integrity,
+    capacity_score: cap, shi_history: shi, matrix_score: matrix,
+    status: 'submitted', submitted_by: STATE.currentUser?.id,
+  });
+  await logAudit('BID_SUBMITTED', `${firm} submitted bid of ${fmtCurrency(price)} for ${tenderUid}. MATRIX-C: ${matrix}`);
+  toast(`Bid submitted. Your MATRIX-C score: ${matrix}`, 'success');
+  closeModal();
+  renderMarket();
+}
+
+async function awardTender(tenderUid) {
+  const bids = await DB.filter('bids', b => b.tender_uid === tenderUid);
+  const winner = bids.sort((a,b)=>b.matrix_score-a.matrix_score)[0];
+  if (!winner) { toast('No bids to award.', 'error'); return; }
+  const t = (await DB.filter('tenders', t => t.uid === tenderUid))[0];
+  await DB.update('tenders', { ...t, status: 'awarded', winner: winner.firm });
+  await logAudit('TENDER_AWARDED', `${tenderUid} awarded to ${winner.firm}. MATRIX-C: ${winner.matrix_score}`);
+  toast(`Contract awarded to ${winner.firm} (MATRIX-C: ${winner.matrix_score})`, 'success');
+  renderMarket();
+}
+
+async function openNewTender() {
+  openModal(`
+    <div class="label mb-8">MARKET™ — Post New Tender</div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Tender UID</label><input id="t-uid" placeholder="TND-NGR-004-2026"></div>
+      <div class="form-group"><label>Project Name</label><input id="t-name" placeholder="Project name"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Client</label><input id="t-client" placeholder="Client organisation"></div>
+      <div class="form-group"><label>Country</label><input id="t-country" placeholder="Country"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div class="form-group"><label>Type</label>
+        <select id="t-type"><option>Infrastructure</option><option>Commercial</option><option>Residential</option><option>Healthcare</option><option>Industrial</option></select>
+      </div>
+      <div class="form-group"><label>Contract Value (USD)</label><input id="t-value" type="number" placeholder="10000000"></div>
+      <div class="form-group"><label>Closing Date</label><input id="t-deadline" type="date"></div>
+    </div>
+    <div class="form-group"><label>Description & Requirements</label><textarea id="t-desc" rows="3"></textarea></div>
+    <button class="btn" style="width:100%" onclick="submitNewTender()"><span>Post to MARKET™</span></button>
+  `);
+}
+
+async function submitNewTender() {
+  const uid = document.getElementById('t-uid').value.trim();
+  if (!uid) { toast('UID required.', 'error'); return; }
+  await DB.add('tenders', {
+    uid, name: document.getElementById('t-name').value,
+    client: document.getElementById('t-client').value, country: document.getElementById('t-country').value,
+    type: document.getElementById('t-type').value,
+    value: parseInt(document.getElementById('t-value').value)||0, currency:'USD',
+    deadline: document.getElementById('t-deadline').value,
+    description: document.getElementById('t-desc').value, status:'open',
+  });
+  toast('Tender posted to MARKET™', 'success');
+  closeModal();
+  renderMarket();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  ORIGIN™ — MATERIALS
+// ═══════════════════════════════════════════════════════════════════
+async function renderOrigin() {
+  const materials = await DB.getAll('materials');
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">ORIGIN™</div><div class="page-title">Materials & Supply Chain Integrity</div></div>
+      <button class="btn" onclick="openRegisterMaterial()"><span>+ Register Material Batch</span></button>
+    </div>
+    <div class="content-area">
+      ${materials.filter(m=>m.status==='suspended').length > 0 ? `
+        <div class="card mb-20" style="border-color:var(--red);background:var(--red-dim)">
+          <div class="mono" style="font-size:9px;color:var(--red);margin-bottom:8px">ORIGIN™ CRITICAL ALERT</div>
+          ${materials.filter(m=>m.status==='suspended').map(m => `
+            <div><strong>${m.batch_uid}</strong> — ${m.suspension_reason}</div>
+          `).join('')}
+        </div>
+      ` : ''}
+      <div class="card" style="overflow:auto">
+        <table>
+          <thead><tr><th>Batch UID</th><th>Material</th><th>Grade</th><th>Supplier</th><th>Country</th><th>Test Strength</th><th>Required</th><th>Verified</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            ${materials.map(m => `
+              <tr style="${m.status==='suspended'?'background:var(--red-dim)':''}">
+                <td class="mono" style="font-size:8px;color:var(--gold)">${m.batch_uid}</td>
+                <td class="text-sm">${m.name}</td>
+                <td class="mono text-xs text-off">${m.grade}</td>
+                <td class="text-sm text-off">${m.supplier}</td>
+                <td class="text-sm text-off">${m.country}</td>
+                <td class="mono ${m.test_strength>=m.required_strength?'shi-high':'shi-low'}">${m.test_strength?.toLocaleString()||'—'}</td>
+                <td class="mono text-gray">${m.required_strength?.toLocaleString()}</td>
+                <td style="color:${m.verified?'var(--green)':'var(--red)'}">${m.verified?'✓':'✗'}</td>
+                <td>${statusBadge(m.status)}</td>
+                <td>
+                  ${m.status!=='suspended' && STATE.getRole()==='admin' ? `<button class="btn btn-sm btn-danger" onclick="suspendMaterial(${m.id})"><span>Suspend</span></button>` : ''}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+async function openRegisterMaterial() {
+  openModal(`
+    <div class="label mb-8">ORIGIN™ — Register Material Batch</div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Batch UID</label><input id="m-uid" placeholder="SM-2026-XXX"></div>
+      <div class="form-group"><label>Material Name</label><input id="m-name" placeholder="High-Yield Deformed Bars"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Grade Standard</label><input id="m-grade" placeholder="Grade 60 / BS 4449"></div>
+      <div class="form-group"><label>Certificate Number</label><input id="m-cert" placeholder="MTC-2026-XXX"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Supplier Name</label><input id="m-supplier" placeholder="Supplier name"></div>
+      <div class="form-group"><label>Country of Origin</label><input id="m-country" placeholder="Country"></div>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Test Strength (kN/m²)</label><input id="m-test" type="number" placeholder="68000"></div>
+      <div class="form-group"><label>Required Strength (kN/m²)</label><input id="m-req" type="number" placeholder="60000"></div>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitMaterial()"><span>Register & Hash to ORIGIN™</span></button>
+  `);
+}
+
+async function submitMaterial() {
+  const uid = document.getElementById('m-uid').value.trim();
+  const test = parseInt(document.getElementById('m-test').value)||0;
+  const req = parseInt(document.getElementById('m-req').value)||0;
+  if (!uid) { toast('Batch UID required.', 'error'); return; }
+  await DB.add('materials', {
+    batch_uid: uid, name: document.getElementById('m-name').value,
+    grade: document.getElementById('m-grade').value, supplier: document.getElementById('m-supplier').value,
+    country: document.getElementById('m-country').value,
+    cert_number: document.getElementById('m-cert').value,
+    verified: test >= req, projects_used: [],
+    test_strength: test, required_strength: req,
+    status: test >= req ? 'approved' : 'pending',
+  });
+  await logAudit('MATERIAL_REGISTERED', `Material batch ${uid} registered in ORIGIN™`);
+  toast(`Material batch ${uid} registered. ${test>=req?'Test passed.':'Test strength below required — review needed.'}`, test>=req?'success':'error');
+  closeModal();
+  renderOrigin();
+}
+
+async function suspendMaterial(id) {
+  const m = await DB.get('materials', id);
+  const reason = prompt('Reason for suspension:');
+  if (!reason) return;
+  await DB.update('materials', { ...m, status:'suspended', suspension_reason: reason, verified: false });
+  await logAudit('MATERIAL_SUSPENDED', `Batch ${m.batch_uid} suspended: ${reason}`);
+  toast(`Batch ${m.batch_uid} suspended.`, 'error');
+  renderOrigin();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  MONITOR™ — LIVE IoT
+// ═══════════════════════════════════════════════════════════════════
+async function renderMonitor() {
+  let sensors = await DB.getAll('sensors');
+  // Simulate live readings
+  sensors = sensors.map(s => ({
+    ...s,
+    current_reading: parseFloat((s.current_reading + (Math.random()-0.5)*0.05).toFixed(3)),
+    last_update: new Date().toISOString(),
+  }));
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">MONITOR™</div><div class="page-title">Post-Occupancy Structural Monitoring</div></div>
+      <div class="flex items-center gap-8">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease infinite"></div>
+        <div class="mono" style="font-size:9px;color:var(--green)">LIVE DATA</div>
+      </div>
+    </div>
+    <div class="content-area">
+      <div class="card mb-20" style="background:var(--blue-dim);border-color:var(--blue)">
+        <div class="mono" style="font-size:9px;color:var(--blue);margin-bottom:8px">MONITOR™ LIVE</div>
+        <div class="text-sm text-off">IoT sensors embedded during construction feed TWIN™ continuously. SHI scores update as conditions change. Degradation is visible before it becomes critical.</div>
+      </div>
+      <div class="grid-3 gap-16 mb-20">
+        ${sensors.map(s => {
+          const pct = (s.current_reading / s.threshold) * 100;
+          const status = pct > 80 ? 'critical' : pct > 50 ? 'warning' : 'normal';
+          return `
+            <div class="card" style="border-top:3px solid ${status==='critical'?'var(--red)':status==='warning'?'var(--amber)':'var(--green)'}">
+              <div class="mono" style="font-size:8px;color:var(--gray);margin-bottom:12px">${s.component_uid?.split('/').slice(-2).join('/')}</div>
+              <div style="font-weight:600;margin-bottom:4px">${s.type} Sensor</div>
+              <div class="cinzel" style="font-size:2rem;font-weight:700;color:${status==='critical'?'var(--red)':status==='warning'?'var(--amber)':'var(--green)'};line-height:1;margin:12px 0">
+                ${s.current_reading.toFixed(3)}
+                <span style="font-size:.8rem;color:var(--gray);font-family:var(--font-m)">${s.unit}</span>
+              </div>
+              <div class="mono" style="font-size:8px;color:var(--gray);margin-bottom:6px">Threshold: ${s.threshold} ${s.unit}</div>
+              <div class="progress"><div class="progress-fill" style="width:${Math.min(100,pct)}%;background:${status==='critical'?'var(--red)':status==='warning'?'var(--amber)':'var(--green)'}"></div></div>
+              <div class="mono" style="font-size:8px;color:${status==='critical'?'var(--red)':status==='warning'?'var(--amber)':'var(--green)'};margin-top:6px">${pct.toFixed(0)}% of threshold</div>
+              <div class="mono" style="font-size:8px;color:var(--gray);margin-top:8px">Updated: ${new Date(s.last_update).toLocaleTimeString()}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <div class="flex gap-8">
+        <button class="btn btn-ghost" onclick="renderMonitor()"><span>↻ Refresh Readings</span></button>
+        <button class="btn btn-sm btn-ghost" onclick="addSensorModal()"><span>+ Add Sensor</span></button>
+      </div>
+    </div>`;
+}
+
+async function addSensorModal() {
+  const components = await DB.getAll('components');
+  openModal(`
+    <div class="label mb-8">MONITOR™ — Register Sensor</div>
+    <div class="form-group"><label>Component UID</label>
+      <select id="s-comp">${components.map(c=>`<option value="${c.uid}">${c.uid}</option>`).join('')}</select>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Sensor Type</label>
+        <select id="s-type"><option>Vibration</option><option>Settlement</option><option>Crack Width</option><option>Temperature</option><option>Moisture</option><option>Load</option></select>
+      </div>
+      <div class="form-group"><label>Alert Threshold</label><input id="s-thresh" type="number" step="0.1" placeholder="2.0"></div>
+    </div>
+    <div class="form-group"><label>Unit</label>
+      <select id="s-unit"><option>mm/s</option><option>mm</option><option>°C</option><option>kN</option><option>%</option></select>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitSensor()"><span>Activate Sensor in MONITOR™</span></button>
+  `);
+}
+
+async function submitSensor() {
+  const compUid = document.getElementById('s-comp').value;
+  const thresh = parseFloat(document.getElementById('s-thresh').value)||1;
+  await DB.add('sensors', {
+    component_uid: compUid, type: document.getElementById('s-type').value,
+    current_reading: parseFloat((Math.random()*thresh*0.3).toFixed(3)),
+    unit: document.getElementById('s-unit').value,
+    threshold: thresh, status: 'normal', last_update: new Date().toISOString(),
+  });
+  toast('Sensor activated in MONITOR™', 'success');
+  closeModal();
+  renderMonitor();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  ATLAS™ — NATIONAL DASHBOARD
+// ═══════════════════════════════════════════════════════════════════
+async function renderAtlas() {
+  const [projects, professionals, certifications] = await Promise.all([
+    DB.getAll('projects'), DB.getAll('professionals'), DB.getAll('certifications')
+  ]);
+
+  const byCountry = {};
+  projects.forEach(p => {
+    if (!byCountry[p.country]) byCountry[p.country] = { projects:0, value:0, avgShi:[], seals:0 };
+    byCountry[p.country].projects++;
+    byCountry[p.country].value += p.value;
+    if (p.shi > 0) byCountry[p.country].avgShi.push(p.shi);
+  });
+  certifications.forEach(c => {
+    const proj = projects.find(p => p.uid === c.project_uid);
+    if (proj && byCountry[proj.country]) byCountry[proj.country].seals++;
+  });
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">ATLAS™</div><div class="page-title">National Infrastructure Intelligence</div></div>
+    </div>
+    <div class="content-area">
+      <div class="kpi-grid mb-24">
+        <div class="kpi-card"><div class="kpi-val">${Object.keys(byCountry).length}</div><div class="kpi-lbl">Countries Active</div></div>
+        <div class="kpi-card"><div class="kpi-val">${projects.reduce((s,p)=>s+(p.value/1e6),0).toFixed(0)}M</div><div class="kpi-lbl">USD Value Certified</div></div>
+        <div class="kpi-card"><div class="kpi-val">${professionals.length}</div><div class="kpi-lbl">Registered Professionals</div></div>
+        <div class="kpi-card"><div class="kpi-val">${certifications.length}</div><div class="kpi-lbl">SEAL™ Records</div></div>
+      </div>
+
+      <div class="label mb-16">Country-Level Infrastructure Health</div>
+      <div class="card mb-24" style="overflow:auto">
+        <table>
+          <thead><tr><th>Country</th><th>Projects</th><th>Value Certified</th><th>Avg SHI</th><th>SEAL™ Count</th><th>Health Status</th></tr></thead>
+          <tbody>
+            ${Object.entries(byCountry).map(([country, data]) => {
+              const avgShi = data.avgShi.length ? (data.avgShi.reduce((s,v)=>s+v,0)/data.avgShi.length).toFixed(1) : '—';
+              const health = parseFloat(avgShi) >= 90 ? 'Excellent' : parseFloat(avgShi) >= 80 ? 'Good' : 'Monitor';
+              return `
+                <tr>
+                  <td style="font-weight:600">${country}</td>
+                  <td class="mono">${data.projects}</td>
+                  <td style="font-family:var(--font-d);color:var(--gold)">${fmtCurrency(data.value)}</td>
+                  <td class="${shiClass(parseFloat(avgShi))} mono" style="font-size:1rem;font-weight:700">${avgShi}</td>
+                  <td class="mono">${data.seals}</td>
+                  <td><span class="badge ${health==='Excellent'?'badge-issued':health==='Good'?'badge-active':'badge-pending'}">${health}</span></td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid-2 gap-16">
+        <div class="card">
+          <div class="label mb-16">ATLAS™ Data Products</div>
+          ${[
+            { name:'Government API — National SHI Map', subscribers:2, revenue:'USD 8.5M/yr' },
+            { name:'Insurer Actuarial Package', subscribers:3, revenue:'USD 4.2M/yr' },
+            { name:'Investor Portfolio Dashboard', subscribers:7, revenue:'USD 1.8M/yr' },
+            { name:'Research & Academic License', subscribers:5, revenue:'USD 0.4M/yr' },
+          ].map(p => `
+            <div class="flex items-center justify-between mb-12 pb-12" style="border-bottom:1px solid var(--border)">
+              <div>
+                <div style="font-size:.85rem;font-weight:600">${p.name}</div>
+                <div class="mono" style="font-size:8px;color:var(--gray)">${p.subscribers} subscriber(s)</div>
+              </div>
+              <div style="font-family:var(--font-d);color:var(--gold);font-size:.9rem">${p.revenue}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="card">
+          <div class="label mb-16">Platform Financial Summary</div>
+          ${[
+            { stream:'SEAL™ Certification Fees', ytd:'USD 1.8M' },
+            { stream:'IDENT™ Registration', ytd:'USD 0.4M' },
+            { stream:'PAY™ Escrow Margin', ytd:'USD 0.9M' },
+            { stream:'ATLAS™ Subscriptions', ytd:'USD 14.9M' },
+            { stream:'ACADEMY™ Programmes', ytd:'USD 0.6M' },
+            { stream:'LEX™ Arbitration Fees', ytd:'USD 0.2M' },
+          ].map(s => `
+            <div class="flex items-center justify-between mb-12">
+              <div class="text-sm text-off">${s.stream}</div>
+              <div style="font-family:var(--font-d);color:var(--gold);font-size:.85rem">${s.ytd}</div>
+            </div>
+          `).join('')}
+          <div class="gold-divider"></div>
+          <div class="flex justify-between">
+            <div style="font-weight:600">Total YTD Revenue</div>
+            <div style="font-family:var(--font-d);color:var(--gold);font-size:1.1rem">USD 18.8M</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  LEX™ — ARBITRATION
+// ═══════════════════════════════════════════════════════════════════
+async function renderLex() {
+  const disputes = await DB.getAll('disputes');
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">LEX™</div><div class="page-title">Evidence-First Arbitration</div></div>
+      <button class="btn" onclick="openNewDispute()"><span>+ Raise Dispute</span></button>
+    </div>
+    <div class="content-area">
+      <div class="card mb-20" style="background:var(--blue-dim);border-color:var(--blue)">
+        <div class="mono" style="font-size:9px;color:var(--blue);margin-bottom:8px">ARB-C DOCTRINE</div>
+        <div class="text-off text-sm">"There are no winners and losers. There is only what is structurally real and what is not." Disputes resolve from TWIN™ records — not from testimony, not from pressure. Resolution target: ≤15 days (technical), ≤30 days (financial).</div>
+      </div>
+      ${disputes.length === 0 ? '<div class="card text-off text-sm">No disputes filed. A clean record.</div>' : ''}
+      ${disputes.map(d => `
+        <div class="card mb-16" style="border-left:3px solid ${d.status==='resolved'?'var(--green)':'var(--amber)'}">
+          <div class="flex items-start justify-between mb-12">
+            <div>
+              <div class="mono" style="font-size:8px;color:var(--gold);margin-bottom:4px">${d.uid}</div>
+              <h3 style="font-weight:600">${d.type}</h3>
+              <div class="text-sm text-off">${d.project_uid}</div>
+            </div>
+            ${statusBadge(d.status)}
+          </div>
+          <div class="text-sm text-off mb-12">${d.description}</div>
+          ${d.status==='resolved' ? `
+            <div class="card" style="background:var(--green-dim);border-color:var(--green)">
+              <div class="mono" style="font-size:8px;color:var(--green);margin-bottom:4px">ARBITRATION DETERMINATION</div>
+              <div class="text-sm text-off">${d.resolution}</div>
+              <div class="mono" style="font-size:8px;color:var(--gray);margin-top:8px">Resolved: ${fmtDate(d.resolved_date)}</div>
+            </div>
+          ` : `<button class="btn btn-sm" onclick="resolveDispute(${d.id})"><span>Record Determination</span></button>`}
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+async function openNewDispute() {
+  const projects = await DB.getAll('projects');
+  openModal(`
+    <div class="label mb-8">LEX™ — Raise Dispute</div>
+    <div class="form-group"><label>Project</label>
+      <select id="d-proj">${projects.map(p=>`<option value="${p.uid}">${p.uid} — ${p.name}</option>`).join('')}</select>
+    </div>
+    <div class="form-row" style="grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group"><label>Dispute Type</label>
+        <select id="d-type"><option>Technical Execution</option><option>Financial/Payment</option><option>Scope Interpretation</option><option>Material Defect</option></select>
+      </div>
+      <div class="form-group"><label>Against Party</label><input id="d-party" placeholder="Firm or individual name"></div>
+    </div>
+    <div class="form-group"><label>Description (factual only, max 500 chars)</label>
+      <textarea id="d-desc" rows="3" maxlength="500" placeholder="State the structural or contractual fact in dispute. No emotional language. Evidence references preferred."></textarea>
+    </div>
+    <div class="card mb-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+      <div class="mono" style="font-size:9px;color:var(--gold)">LEX™ will auto-compile: TWIN™ evidence records, SHI scores, PREFAB™ specifications, PAY™ history, and all relevant IDENT™ records for the arbitration panel.</div>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitDispute()"><span>File with LEX™ Arbitration Desk</span></button>
+  `);
+}
+
+async function submitDispute() {
+  const proj = document.getElementById('d-proj').value;
+  const desc = document.getElementById('d-desc').value.trim();
+  if (!desc) { toast('Description required.', 'error'); return; }
+  const uid = `LEX-${proj.split('-').slice(1,3).join('')}-${Date.now().toString(36).slice(-4).toUpperCase()}`;
+  await DB.add('disputes', {
+    uid, project_uid: proj, type: document.getElementById('d-type').value,
+    raised_by: STATE.currentUser?.id, against_party: document.getElementById('d-party').value,
+    description: desc, status: 'open', resolution: null,
+    raised_date: new Date().toISOString().split('T')[0], resolved_date: null, arbitrator_id: null,
+  });
+  await logAudit('DISPUTE_FILED', `${uid} filed for ${proj} by ${STATE.currentUser?.name}`);
+  toast(`Dispute ${uid} filed. TWIN™ evidence auto-compiled for panel review.`, 'info');
+  closeModal();
+  renderLex();
+}
+
+async function resolveDispute(id) {
+  const d = await DB.get('disputes', id);
+  openModal(`
+    <div class="label mb-8">LEX™ — Record Arbitration Determination</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:16px">${d.uid}</div>
+    <div class="card mb-16 text-sm text-off">${d.description}</div>
+    <div class="form-group"><label>Arbitration Determination</label>
+      <textarea id="d-res" rows="4" placeholder="State the determination based on TWIN™ evidence. Reference specific evidence records. Include required correction actions and any PRI implications."></textarea>
+    </div>
+    <button class="btn" style="width:100%" onclick="submitResolution(${id})"><span>Record Determination in TWIN™</span></button>
+  `);
+}
+
+async function submitResolution(id) {
+  const d = await DB.get('disputes', id);
+  const res = document.getElementById('d-res').value.trim();
+  if (!res) { toast('Resolution text required.', 'error'); return; }
+  await DB.update('disputes', {
+    ...d, status: 'resolved', resolution: res,
+    resolved_date: new Date().toISOString().split('T')[0],
+    arbitrator_id: STATE.currentUser?.id,
+  });
+  await logAudit('DISPUTE_RESOLVED', `${d.uid} resolved by ${STATE.currentUser?.name}`);
+  toast(`Dispute ${d.uid} resolved. Determination recorded in TWIN™.`, 'success');
+  closeModal();
+  renderLex();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  ACADEMY™
+// ═══════════════════════════════════════════════════════════════════
+async function renderAcademy() {
+  const professionals = await DB.getAll('professionals');
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">ACADEMY™</div><div class="page-title">Professional Development</div></div>
+    </div>
+    <div class="content-area">
+      <div class="kpi-grid mb-24">
+        <div class="kpi-card"><div class="kpi-val">12,400</div><div class="kpi-lbl">Active Learners</div></div>
+        <div class="kpi-card"><div class="kpi-val">847</div><div class="kpi-lbl">Graduates</div></div>
+        <div class="kpi-card"><div class="kpi-val">6</div><div class="kpi-lbl">Languages</div></div>
+        <div class="kpi-card"><div class="kpi-val">94%</div><div class="kpi-lbl">Completion Rate</div></div>
+      </div>
+
+      <div class="label mb-16">PRI Advancement Pathways</div>
+      <div class="grid-2 gap-16 mb-24">
+        ${[
+          { from:'PROVISIONAL', to:'STABLE', dur:'6–12 months', color:'#8ab88a', modules:['BUILD™ workflow & evidence capture','PREFAB™ specification reading','ORIGIN™ material verification basics','Supervised execution competency'] },
+          { from:'STABLE', to:'TRUSTED', dur:'12–24 months', color:'#7ab3d4', modules:['SHI-2 scoring methodology','VISION™ inspection protocols','LEX™ evidence preparation','Site leadership and supervision'] },
+          { from:'TRUSTED', to:'HONOR', dur:'24–48 months', color:'#e0b86a', modules:['Structural review leadership','SEAL™ certification authority','Multi-project integrity management','CST governance participation'] },
+          { from:'ICE Programme', to:'Certification', dur:'6 months', color:'#d4a06a', modules:['Integrity Compliance Engineer','Field enforcement protocols','Zero-tolerance execution doctrine','System-level oversight'] },
+        ].map(p => `
+          <div class="card card-hover" style="border-left:3px solid ${p.color}">
+            <div class="flex items-center justify-between mb-16">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span class="badge" style="color:${p.color};border-color:${p.color}">${p.from}</span>
+                <span style="color:var(--gray)">→</span>
+                <span class="badge" style="color:${p.color};border-color:${p.color}">${p.to}</span>
+              </div>
+              <div class="mono" style="font-size:8px;color:var(--gray)">${p.dur}</div>
+            </div>
+            ${p.modules.map(m => `
+              <div class="flex items-start gap-8 mb-8">
+                <div style="width:4px;height:4px;border-radius:50%;background:${p.color};margin-top:7px;flex-shrink:0"></div>
+                <div class="text-sm text-off">${m}</div>
+              </div>
+            `).join('')}
+            <button class="btn btn-sm btn-ghost mt-16" onclick="toast('Enrolment confirmed. Your ACADEMY™ learning path has been activated.','success')"><span>Enrol</span></button>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="label mb-16">Professionals Awaiting Advancement</div>
+      <div class="card" style="overflow:auto">
+        <table>
+          <thead><tr><th>Professional</th><th>Current Band</th><th>Next Band</th><th>Projects</th><th>Avg SHI</th><th>Eligible</th></tr></thead>
+          <tbody>
+            ${professionals.filter(p=>p.band!=='HONOR').map(p => {
+              const next = {PROVISIONAL:'STABLE',STABLE:'TRUSTED',TRUSTED:'HONOR'}[p.band];
+              const eligible = p.projects >= (p.band==='PROVISIONAL'?3:p.band==='STABLE'?8:15) && p.shi_avg >= (p.band==='PROVISIONAL'?0:80);
+              return `
+                <tr>
+                  <td style="font-weight:600">${p.name}</td>
+                  <td>${bandBadge(p.band)}</td>
+                  <td>${bandBadge(next)}</td>
+                  <td class="mono">${p.projects}</td>
+                  <td class="${shiClass(p.shi_avg)} mono">${p.shi_avg||'—'}</td>
+                  <td style="color:${eligible?'var(--green)':'var(--gray)'}">${eligible?'✓ Eligible':'Not yet'}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  VERIFUND™
+// ═══════════════════════════════════════════════════════════════════
+async function renderVerifund() {
+  const projects = await DB.getAll('projects');
+  const sealProjects = projects.filter(p => p.status === 'complete');
+
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">VERIFUND™</div><div class="page-title">Finance & Insurance Ecosystem</div></div>
+    </div>
+    <div class="content-area">
+      <div class="card mb-24" style="background:var(--gold-dim);border-color:var(--gold-d)">
+        <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:8px">VERIFUND™ PRINCIPLE</div>
+        <div class="text-off text-sm italic">"The most powerful lever for adoption is financial incentive. Integrity data, when converted to financial advantage, makes certification economically irrational to avoid."</div>
+      </div>
+
+      <div class="grid-3 gap-16 mb-24">
+        ${[
+          { name:'Construction Finance', icon:'◈', advantage:'1.5–2.5% lower interest', desc:'Partnered with AfDB, IFC, ADB. High SHI = lower risk = better terms.', color:'#6ab88a' },
+          { name:'Insurance Products', icon:'⊕', advantage:'20–35% premium reduction', desc:'Underwritten using TWIN™ SHI data and live MONITOR™ readings.', color:'#7ab3d4' },
+          { name:'Completion Guarantee', icon:'★', advantage:'1–3% of project value', desc:'Guarantees certified standards completion. Underwritten by PAY™ mechanics.', color:'#e0b86a' },
+          { name:'Infrastructure Bond', icon:'◎', advantage:'Green bond eligibility', desc:'Municipality bonds rated on Veritas certification + TWIN™ health scores.', color:'#a87ab3' },
+          { name:'Maintenance Reserve', icon:'◉', advantage:'Prevent emergency debt', desc:'Triggered by MONITOR™ alerts and TWIN™ degradation forecasts.', color:'#d4a06a' },
+          { name:'ATLAS™ Actuarial', icon:'∞', advantage:'USD 2–5M per insurer', desc:'First construction-specific actuarial intelligence product ever built.', color:'#8ab3a8' },
+        ].map(p => `
+          <div class="card card-hover" style="border-top:3px solid ${p.color}">
+            <div style="font-size:1.5rem;color:${p.color};margin-bottom:12px">${p.icon}</div>
+            <h3 style="font-size:.95rem;font-weight:600;margin-bottom:8px">${p.name}</h3>
+            <div class="text-sm text-off mb-12">${p.desc}</div>
+            <div style="padding:6px 12px;background:var(--gold-dim);border:1px solid var(--gold-d);display:inline-block">
+              <div class="mono" style="font-size:8px;color:var(--gold);letter-spacing:.1em">${p.advantage.toUpperCase()}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      ${sealProjects.length > 0 ? `
+        <div class="label mb-16">SEAL™-Certified Projects — Finance Eligible</div>
+        ${sealProjects.map(p => `
+          <div class="card mb-12 flex items-center justify-between">
+            <div>
+              <div class="mono" style="font-size:8px;color:var(--gold)">${p.uid}</div>
+              <div style="font-weight:600">${p.name}</div>
+            </div>
+            <div class="flex items-center gap-16">
+              <div class="${shiClass(p.shi)} cinzel" style="font-size:1.3rem;font-weight:700">${p.shi}</div>
+              <button class="btn btn-sm btn-success" onclick="toast('VERIFUND™ finance application submitted. A partner institution will respond within 5 business days.','success')"><span>Apply for VERIFUND™</span></button>
+            </div>
+          </div>
+        `).join('')}
+      ` : '<div class="card text-off text-sm">No SEAL™-certified projects yet. Complete a project and obtain SEAL™ certification to unlock VERIFUND™ products.</div>'}
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════════════
+async function renderNotifications() {
+  const notifications = await DB.getAll('notifications');
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">System</div><div class="page-title">Notifications & Alerts</div></div>
+      <button class="btn btn-ghost" onclick="markAllRead()"><span>Mark All Read</span></button>
+    </div>
+    <div class="content-area">
+      ${notifications.length === 0 ? '<div class="card text-off text-sm">No notifications.</div>' : ''}
+      ${notifications.map(n => `
+        <div class="card mb-12" style="border-left:3px solid ${n.priority==='critical'?'var(--red)':n.priority==='high'?'var(--gold)':n.priority==='medium'?'var(--amber)':'var(--border2)'};opacity:${n.read?0.5:1}">
+          <div class="flex items-start gap-12">
+            <div style="font-size:1.1rem;color:${n.priority==='critical'?'var(--red)':n.priority==='high'?'var(--gold)':'var(--gray)'};flex-shrink:0">
+              ${n.priority==='critical'?'⚠':n.priority==='high'?'◉':'◎'}
+            </div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                <span class="mono" style="font-size:8px;color:${n.priority==='critical'?'var(--red)':'var(--gold)'};letter-spacing:.1em">${n.priority.toUpperCase()}</span>
+                <span class="mono" style="font-size:8px;color:var(--gray)">${n.type.toUpperCase()}</span>
+                ${n.read ? '' : '<span class="notif-dot"></span>'}
+              </div>
+              <div class="text-sm">${n.message}</div>
+            </div>
+            ${!n.read ? `<button class="btn btn-sm btn-ghost" onclick="markRead(${n.id})"><span>Dismiss</span></button>` : ''}
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+async function markRead(id) {
+  const n = await DB.get('notifications', id);
+  await DB.update('notifications', { ...n, read: true });
+  renderNotifications();
+  renderNav();
+}
+
+async function markAllRead() {
+  const all = await DB.getAll('notifications');
+  await Promise.all(all.map(n => DB.update('notifications', { ...n, read: true })));
+  STATE.notifications = [];
+  renderNotifications();
+  renderNav();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  AUDIT LOG
+// ═══════════════════════════════════════════════════════════════════
+async function renderAudit() {
+  const logs = await DB.getAll('audit_log');
+  document.getElementById('page-root').innerHTML = `
+    <div class="page-header">
+      <div><div class="page-subtitle">TWIN™</div><div class="page-title">Immutable Audit Log</div></div>
+    </div>
+    <div class="content-area">
+      <div class="card mb-16" style="background:var(--gold-dim);border-color:var(--gold-d)">
+        <div class="mono" style="font-size:9px;color:var(--gold)">All platform actions are permanently recorded. No entry can be edited or deleted. This is the truth of what happened.</div>
+      </div>
+      <div class="card" style="overflow:auto">
+        <table>
+          <thead><tr><th>Timestamp</th><th>Action</th><th>Actor</th><th>Detail</th></tr></thead>
+          <tbody>
+            ${[...logs].reverse().map(l => `
+              <tr>
+                <td class="mono text-xs text-gray">${new Date(l.timestamp).toLocaleString()}</td>
+                <td class="mono" style="font-size:8px;color:var(--gold);letter-spacing:.08em">${l.action}</td>
+                <td class="text-sm text-off">${l.actor}</td>
+                <td class="text-sm text-off" style="max-width:400px">${l.detail}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PROJECT DETAIL MODAL
+// ═══════════════════════════════════════════════════════════════════
+async function openProjectDetail(id) {
+  const p = await DB.get('projects', id);
+  openModal(`
+    <div class="label mb-8">Project Overview</div>
+    <div class="mono" style="font-size:9px;color:var(--gold);margin-bottom:8px">${p.uid}</div>
+    <h3 class="cinzel" style="font-size:1.3rem;margin-bottom:4px">${p.name}</h3>
+    <div class="text-off text-sm mb-20">${p.client} · ${p.country} · ${p.type}</div>
+    <div class="grid-4 gap-12 mb-20">
+      <div class="card"><div class="${shiClass(p.shi)} cinzel" style="font-size:1.8rem;font-weight:700">${p.shi}</div><div class="kpi-lbl">SHI Score</div></div>
+      <div class="card"><div class="kpi-val">${p.progress}%</div><div class="kpi-lbl">Progress</div></div>
+      <div class="card"><div style="font-family:var(--font-d);color:var(--gold);font-size:1.2rem">${fmtCurrency(p.value,p.currency)}</div><div class="kpi-lbl">Value</div></div>
+      <div class="card">${statusBadge(p.status)}</div>
+    </div>
+    <div class="text-off text-sm mb-20" style="line-height:1.7">${p.description}</div>
+    <div class="flex gap-8">
+      <button class="btn btn-sm" onclick="closeModal();navigate('projects')"><span>Full View</span></button>
+      <button class="btn btn-sm btn-ghost" onclick="openTwinRecord('${p.uid}')"><span>TWIN™ Record</span></button>
+    </div>
+  `);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════
+async function seedIfEmpty() {
+  const count = await DB.count('professionals');
+  if (count > 0) return;
+  for (const store of Object.keys(SEED)) {
+    for (const item of SEED[store]) {
+      await DB.add(store, item);
+    }
+  }
+}
+
+async function init() {
+  await DB.init();
+  await seedIfEmpty();
+  document.getElementById('db-status').textContent = 'DB: IndexedDB Online';
+
+  // Load notifications for badge
+  STATE.notifications = await DB.filter('notifications', n => !n.read);
+
+  // Default user: admin
+  const users = await DB.getAll('professionals');
+  const admin = users.find(u => u.role === 'admin');
+  STATE.setUser(admin);
+
+  renderRoleSwitcher();
+  renderNav();
+  navigate('dashboard');
+}
+
+// Start
+init().catch(err => {
+  console.error('Init error:', err);
+  document.getElementById('page-root').innerHTML = `<div style="padding:40px;color:var(--red)">Initialisation error: ${err.message}</div>`;
+});
+</script>
+</body>
+</html>

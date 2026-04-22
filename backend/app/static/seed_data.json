@@ -1,0 +1,458 @@
+{
+  "professionals": [
+    {
+      "name": "Engr. Adaora Okonkwo",
+      "email": "a.okonkwo@visc.org",
+      "band": "HONOR",
+      "discipline": "Structural Engineering",
+      "country": "Nigeria",
+      "projects": 47,
+      "shi_avg": 94.2,
+      "pri_score": 96,
+      "role": "engineer",
+      "password": "honor123",
+      "active": true,
+      "bio": "Senior Structural Engineer with 22 years in West Africa. Specialises in high-rise structural systems."
+    },
+    {
+      "name": "Ing. Marco Rodrigues",
+      "email": "m.rodrigues@visc.org",
+      "band": "HONOR",
+      "discipline": "Civil Engineering",
+      "country": "Brazil",
+      "projects": 38,
+      "shi_avg": 91.8,
+      "pri_score": 93,
+      "role": "inspector",
+      "password": "honor123",
+      "active": true,
+      "bio": "Lead Inspector and SEAL\u2122 Certifying Engineer. 18 years of evidence-based practice."
+    },
+    {
+      "name": "Dr. S. Al-Rashidi",
+      "email": "s.rashidi@visc.org",
+      "band": "HONOR",
+      "discipline": "Geotechnical",
+      "country": "UAE",
+      "projects": 29,
+      "shi_avg": 93.1,
+      "pri_score": 94,
+      "role": "engineer",
+      "password": "honor123",
+      "active": true,
+      "bio": "CST Member. Geotechnical specialist for deep foundation systems."
+    },
+    {
+      "name": "Engr. Kwame Mensah",
+      "email": "k.mensah@visc.org",
+      "band": "TRUSTED",
+      "discipline": "Structural",
+      "country": "Ghana",
+      "projects": 21,
+      "shi_avg": 88.4,
+      "pri_score": 82,
+      "role": "supervisor",
+      "password": "trusted123",
+      "active": true,
+      "bio": "Site Supervisor and ICE Programme graduate."
+    },
+    {
+      "name": "Engr. Fatima Osei",
+      "email": "f.osei@visc.org",
+      "band": "TRUSTED",
+      "discipline": "Materials Science",
+      "country": "Ghana",
+      "projects": 15,
+      "shi_avg": 86.7,
+      "pri_score": 79,
+      "role": "inspector",
+      "password": "trusted123",
+      "active": true,
+      "bio": "Materials specialist. Certified ORIGIN\u2122 Material Verifier."
+    },
+    {
+      "name": "Olu Adeyemi",
+      "email": "o.adeyemi@visc.org",
+      "band": "STABLE",
+      "discipline": "Civil Engineering",
+      "country": "Nigeria",
+      "projects": 6,
+      "shi_avg": 81.9,
+      "pri_score": 61,
+      "role": "contractor",
+      "password": "stable123",
+      "active": true,
+      "bio": "General contractor. Accredited subcontractor with 2 completed certifications."
+    },
+    {
+      "name": "Admin User",
+      "email": "admin@visc.org",
+      "band": "HONOR",
+      "discipline": "Platform Administration",
+      "country": "International",
+      "projects": 0,
+      "shi_avg": 0,
+      "pri_score": 0,
+      "role": "admin",
+      "password": "admin123",
+      "active": true,
+      "bio": "System administrator."
+    },
+    {
+      "name": "Ibrahim Al-Sayed",
+      "email": "i.alsayed@visc.org",
+      "band": "PROVISIONAL",
+      "discipline": "Structural",
+      "country": "UAE",
+      "projects": 2,
+      "shi_avg": 79.1,
+      "pri_score": 32,
+      "role": "contractor",
+      "password": "prov123",
+      "active": true,
+      "bio": "New entrant. Completing ACADEMY\u2122 PROVISIONAL pathway."
+    }
+  ],
+  "projects": [
+    {
+      "uid": "BLD-NGR-LH1-2026",
+      "name": "Victoria Island Bridge Approach",
+      "client": "Lagos State Infrastructure Agency",
+      "country": "Nigeria",
+      "type": "Infrastructure",
+      "value": 45000000,
+      "currency": "USD",
+      "phase": "Frame & Load Paths",
+      "status": "active",
+      "progress": 67,
+      "shi": 92.4,
+      "started": "2026-01-08",
+      "target_completion": "2027-06-30",
+      "lead_engineer_id": 1,
+      "description": "Critical bridge approach road and elevated section connecting Victoria Island to the mainland. 420m span. Strategic Lighthouse Project LH-1."
+    },
+    {
+      "uid": "BLD-GHA-001-2026",
+      "name": "Accra Tech Hub Tower",
+      "client": "Goldcoast Properties Ltd",
+      "country": "Ghana",
+      "type": "Commercial",
+      "value": 28000000,
+      "currency": "USD",
+      "phase": "SEAL\u2122 Certification",
+      "status": "complete",
+      "progress": 99,
+      "shi": 94.1,
+      "started": "2025-06-01",
+      "target_completion": "2026-03-01",
+      "lead_engineer_id": 1,
+      "description": "22-storey mixed-use commercial tower. First fully Veritas-certified structure in Ghana."
+    },
+    {
+      "uid": "BLD-UAE-LH2-2026",
+      "name": "Rashid Medical Tower",
+      "client": "Dubai Health Authority",
+      "country": "UAE",
+      "type": "Healthcare",
+      "value": 120000000,
+      "currency": "USD",
+      "phase": "Foundation & Substructure",
+      "status": "active",
+      "progress": 28,
+      "shi": 89.3,
+      "started": "2026-02-15",
+      "target_completion": "2028-12-31",
+      "lead_engineer_id": 3,
+      "description": "35-storey specialist medical facility. Lighthouse Project LH-2. SEAL-SOVEREIGN target."
+    }
+  ],
+  "components": [
+    {
+      "uid": "BLD-NGR-LH1/L1/C1/COL/001",
+      "project_uid": "BLD-NGR-LH1-2026",
+      "type": "Column",
+      "spec": "C-450x450-8T25+R10@120",
+      "level": "L1",
+      "grid": "C1",
+      "shi": 95,
+      "status": "verified",
+      "material_batch": "SM-2026-001",
+      "executed_by": 6,
+      "approved_by": 4,
+      "notes": "Primary pier column. High execution sensitivity."
+    },
+    {
+      "uid": "BLD-NGR-LH1/L2/B1/BEAM/003",
+      "project_uid": "BLD-NGR-LH1-2026",
+      "type": "Beam",
+      "spec": "B-600x350-6T20B+4T16T+R8@150",
+      "level": "L2",
+      "grid": "B1",
+      "shi": 91,
+      "status": "verified",
+      "material_batch": "SM-2026-003",
+      "executed_by": 6,
+      "approved_by": 4,
+      "notes": "Transfer beam. Cantilever load path."
+    },
+    {
+      "uid": "BLD-NGR-LH1/L3/S1/SLAB/004",
+      "project_uid": "BLD-NGR-LH1-2026",
+      "type": "Slab",
+      "spec": "S-200-T12@200-BOTT+T10@200-TOP",
+      "level": "L3",
+      "grid": "S1",
+      "shi": 0,
+      "status": "pending",
+      "material_batch": null,
+      "executed_by": null,
+      "approved_by": null,
+      "notes": "Awaiting evidence capture."
+    }
+  ],
+  "evidence": [
+    {
+      "component_uid": "BLD-NGR-LH1/L1/C1/COL/001",
+      "type": "CAPTURE-LARGE",
+      "images": 5,
+      "submitted_by": 6,
+      "approved_by": 4,
+      "description": "Full reinforcement cage before pour. All ties visible. Cover blocks confirmed.",
+      "timestamp": "2026-01-15T09:22:00Z",
+      "geo": "6.4281\u00b0N, 3.4219\u00b0E",
+      "hash": "a8f3c2d1e9b4f7a3c8d2e1f9b4a7c3d2",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-NGR-LH1/L2/B1/BEAM/003",
+      "type": "CAPTURE-LARGE",
+      "images": 6,
+      "submitted_by": 6,
+      "approved_by": 5,
+      "description": "Bottom steel placed. Stirrups at 150mm confirmed. Video evidence included for cantilever zone.",
+      "timestamp": "2026-02-03T14:10:00Z",
+      "geo": "6.4281\u00b0N, 3.4219\u00b0E",
+      "hash": "c7e5f4d3b2a1f9e8d7c6b5a4f3e2d1c0",
+      "status": "approved"
+    }
+  ],
+  "inspections": [
+    {
+      "component_uid": "BLD-NGR-LH1/L1/C1/COL/001",
+      "inspector_id": 5,
+      "shi": 95,
+      "material_score": 97,
+      "assembly_score": 94,
+      "env_score": 95,
+      "supervision_score": 95,
+      "ai_flags": 0,
+      "reason_tag": "All reinforcement placed per PREFAB\u2122 spec. No deviations. Excellent workmanship.",
+      "timestamp": "2026-01-15T14:30:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-NGR-LH1/L2/B1/BEAM/003",
+      "inspector_id": 2,
+      "shi": 91,
+      "material_score": 92,
+      "assembly_score": 91,
+      "env_score": 89,
+      "supervision_score": 92,
+      "ai_flags": 0,
+      "reason_tag": "Bottom steel placement excellent. Stirrup spacing consistent throughout. Cantilever zone carefully detailed.",
+      "timestamp": "2026-02-04T09:15:00Z",
+      "status": "passed"
+    }
+  ],
+  "milestones": [
+    {
+      "project_uid": "BLD-NGR-LH1-2026",
+      "name": "Foundation & Substructure",
+      "phase": 1,
+      "amount": 6750000,
+      "currency": "USD",
+      "required_shi": 80,
+      "status": "released",
+      "released_date": "2026-02-20",
+      "description": "Pile caps, pile heads, ground beams, basement walls."
+    },
+    {
+      "project_uid": "BLD-NGR-LH1-2026",
+      "name": "Frame & Primary Load Paths",
+      "phase": 2,
+      "amount": 18000000,
+      "currency": "USD",
+      "required_shi": 82,
+      "status": "active",
+      "released_date": null,
+      "description": "All columns, beams, and slabs for Levels 1\u20138."
+    }
+  ],
+  "payments": [
+    {
+      "project_uid": "BLD-NGR-LH1-2026",
+      "milestone_id": 1,
+      "amount": 6750000,
+      "currency": "USD",
+      "from_party": "Lagos State Infrastructure Agency",
+      "to_party": "VeritasBridge Constructors Ltd",
+      "released_by": "PAY\u2122 Escrow Engine",
+      "date": "2026-02-20",
+      "tx_id": "PAY-2026-NGR-0001",
+      "status": "completed"
+    }
+  ],
+  "tenders": [
+    {
+      "uid": "TND-NGR-001-2026",
+      "name": "Lekki-Epe Expressway Flyover Package 3",
+      "client": "Federal Ministry of Works",
+      "country": "Nigeria",
+      "value": 85000000,
+      "currency": "USD",
+      "deadline": "2026-04-30",
+      "status": "open",
+      "type": "Infrastructure",
+      "description": "Design-and-build contract for 2.8km elevated highway. Minimum PRI: TRUSTED. SHI history \u226585 required."
+    },
+    {
+      "uid": "TND-UAE-003-2026",
+      "name": "Abu Dhabi Cultural Quarter Phase 2",
+      "client": "Abu Dhabi Culture & Tourism",
+      "country": "UAE",
+      "value": 420000000,
+      "currency": "USD",
+      "deadline": "2026-05-31",
+      "status": "open",
+      "type": "Cultural",
+      "description": "Major cultural precinct. SEAL-SOVEREIGN target. HONOR-level lead engineer mandatory."
+    }
+  ],
+  "bids": [
+    {
+      "tender_uid": "TND-NGR-001-2026",
+      "firm": "VeritasBridge Constructors Ltd",
+      "price": 81200000,
+      "integrity_score": 88,
+      "capacity_score": 85,
+      "shi_history": 91.2,
+      "matrix_score": 87.4,
+      "status": "submitted",
+      "submitted_by": 6
+    },
+    {
+      "tender_uid": "TND-NGR-001-2026",
+      "firm": "Meridian Civil Works Ltd",
+      "price": 79500000,
+      "integrity_score": 71,
+      "capacity_score": 78,
+      "shi_history": 83.6,
+      "matrix_score": 74.8,
+      "status": "submitted",
+      "submitted_by": null
+    }
+  ],
+  "disputes": [
+    {
+      "uid": "LEX-GHA-001-2026",
+      "project_uid": "BLD-GHA-001-2026",
+      "component_uid": "BLD-GHA-001/RF/C1/COL/001",
+      "type": "Technical Execution",
+      "raised_by": 6,
+      "against_party": "Skyline Civil Ltd",
+      "description": "Disputed reinforcement cover measurement \u2014 site supervisor claimed 32mm, evidence shows 28mm.",
+      "status": "resolved",
+      "resolution": "Evidence reviewed. BUILD\u2122 images confirm 28mm cover at one face. PREFAB\u2122 requires 30mm min. Correction note added to TWIN\u2122 record. No structural impact per SHI 94. Supervisor PRI noted.",
+      "raised_date": "2026-02-10",
+      "resolved_date": "2026-02-22",
+      "arbitrator_id": 2
+    }
+  ],
+  "materials": [
+    {
+      "batch_uid": "SM-2026-001",
+      "name": "High-Yield Deformed Bars",
+      "grade": "Grade 60 / BS 4449",
+      "supplier": "SteelMark Ltd",
+      "country": "Nigeria",
+      "cert_number": "SM-2026-001-MTC",
+      "verified": true,
+      "projects_used": [
+        "BLD-NGR-LH1-2026"
+      ],
+      "test_strength": 68200,
+      "required_strength": 60000,
+      "status": "approved"
+    },
+    {
+      "batch_uid": "SUSPECT-001",
+      "name": "Ordinary Portland Cement",
+      "grade": "CEM I 42.5N",
+      "supplier": "Unknown Supplier Co.",
+      "country": "Nigeria",
+      "cert_number": "INVALID",
+      "verified": false,
+      "projects_used": [],
+      "test_strength": 0,
+      "required_strength": 42500,
+      "status": "suspended",
+      "suspension_reason": "Certificate hash mismatch. Accredited laboratory record not found. Supplier not registered in ORIGIN\u2122."
+    }
+  ],
+  "certifications": [
+    {
+      "project_uid": "BLD-GHA-001-2026",
+      "type": "SEAL-HONOR",
+      "shi_composite": 94.1,
+      "issued_by": 1,
+      "co_signed_by": 2,
+      "issued_date": "2026-03-08",
+      "physical_plate": "SEAL-GHA-001-2026-HONOR",
+      "status": "pending_ceremony",
+      "qr_code": "VRF-GHA-001-2026-QR",
+      "notes": "All requirements met. Physical plate engraved. Ceremony scheduled."
+    }
+  ],
+  "audit_logs": [
+    {
+      "action": "SYSTEM_INIT",
+      "actor": "System",
+      "detail": "Veritas Infra Platform initialised. Database seeded.",
+      "timestamp": "2026-03-09T00:00:00Z"
+    }
+  ],
+  "sensors": [
+    {
+      "component_uid": "BLD-NGR-LH1/L1/C1/COL/001",
+      "type": "Vibration",
+      "current_reading": 0.12,
+      "unit": "mm/s",
+      "threshold": 2.0,
+      "status": "normal",
+      "last_update": "2026-03-09T09:00:00Z"
+    }
+  ],
+  "notifications": [
+    {
+      "type": "evidence_required",
+      "message": "Component BLD-NGR-LH1/L3/S1/SLAB/004 awaiting CAPTURE-LARGE evidence before Level 3 slab pour can proceed.",
+      "priority": "high",
+      "read": false,
+      "for_role": [
+        "supervisor",
+        "engineer"
+      ]
+    },
+    {
+      "type": "material_suspended",
+      "message": "ORIGIN\u2122 ALERT: Batch SUSPECT-001 has been suspended. Hash mismatch detected.",
+      "priority": "critical",
+      "read": false,
+      "for_role": [
+        "admin",
+        "engineer",
+        "supervisor"
+      ]
+    }
+  ]
+}

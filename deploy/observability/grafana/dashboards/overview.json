@@ -1,0 +1,62 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "graphTooltip": 0,
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "-- Grafana --"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Backend Health",
+      "type": "text",
+      "options": {
+        "content": "Use Prometheus + /metrics from the backend to extend this dashboard.",
+        "mode": "markdown"
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "-- Grafana --"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "title": "Deployment Notes",
+      "type": "text",
+      "options": {
+        "content": "Initial deployment-ready provisioning is included in this build.",
+        "mode": "markdown"
+      }
+    }
+  ],
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "veritas"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timezone": "browser",
+  "title": "Veritas Overview",
+  "version": 1
+}

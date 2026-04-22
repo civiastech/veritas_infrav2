@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VERITAS • INFRA™ — Institutional Operating System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="toastContainer" class="toast-container"></div>
+
+  <div id="loginOverlay" class="overlay open">
+    <div class="login-shell">
+      <div class="login-brand">
+        <div class="crest">V</div>
+        <div>
+          <div class="eyebrow">The Global Standard for Structural Integrity</div>
+          <h1>VERITAS • INFRA™</h1>
+          <p>Prototype doctrine, institutional posture, and live operational backend unified into one console.</p>
+        </div>
+      </div>
+      <div class="login-card panel">
+        <div class="section-title">Enter the platform</div>
+        <form id="loginForm" class="form-grid one">
+          <label>
+            <span>Email</span>
+            <input id="emailInput" type="email" value="admin@visc.org" required />
+          </label>
+          <label>
+            <span>Password</span>
+            <input id="passwordInput" type="password" value="AdminPass123!" required />
+          </label>
+          <button class="btn btn-primary" type="submit">Authenticate</button>
+          <div id="loginMessage" class="muted small"></div>
+        </form>
+        <div class="login-help">
+          <div class="mini-chip">Admin: admin@visc.org / AdminPass123!</div>
+          <div class="mini-chip">Engineer: a.okonkwo@visc.org / honor123</div>
+          <div class="mini-chip">Inspector: m.rodrigues@visc.org / honor123</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="appShell" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="crest large">V</div>
+        <div>
+          <div class="brand-name">VERITAS <span>•</span> INFRA</div>
+          <div class="brand-sub">Institutional Operating System</div>
+        </div>
+      </div>
+
+      <div class="profile-block panel-soft">
+        <div class="eyebrow">Authenticated Identity</div>
+        <div id="profileName" class="profile-name">—</div>
+        <div id="profileMeta" class="muted">—</div>
+        <div class="profile-actions">
+          <button id="refreshButton" class="btn btn-ghost btn-sm" type="button">Refresh</button>
+          <button id="logoutButton" class="btn btn-ghost btn-sm" type="button">Logout</button>
+        </div>
+      </div>
+
+      <nav id="sidebarNav" class="sidebar-nav"></nav>
+
+      <div class="sidebar-footer panel-soft">
+        <div class="eyebrow">Canonical stack</div>
+        <div class="footer-list">
+          <div>IDENT™ • TWIN™ • BUILD™ • VISION™</div>
+          <div>PAY™ • SEAL™ • MARKET™ • ORIGIN™</div>
+          <div>MONITOR™ • LEX™ • ATLAS™ • VERIFUND™</div>
+          <div>ACADEMY™ • CLONE™ • GOVERNANCE • REGULATORY</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-shell">
+      <header class="page-header">
+        <div>
+          <div id="pageEyebrow" class="eyebrow">Operational overview</div>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+        <div class="header-actions">
+          <button id="openQuickCreate" class="btn btn-primary btn-sm" type="button">Quick create</button>
+        </div>
+      </header>
+
+      <section id="heroBanner" class="hero-banner"></section>
+      <section id="kpiGrid" class="kpi-grid"></section>
+      <section id="workspace" class="workspace"></section>
+    </main>
+  </div>
+
+  <div id="modal" class="overlay">
+    <div class="modal-shell panel">
+      <div class="modal-head">
+        <div>
+          <div id="modalEyebrow" class="eyebrow">Detail</div>
+          <h3 id="modalTitle">—</h3>
+        </div>
+        <button id="closeModal" class="icon-btn" type="button">✕</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

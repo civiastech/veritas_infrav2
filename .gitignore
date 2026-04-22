@@ -1,0 +1,43 @@
+.env
+*.log
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+backend/.venv/
+frontend/node_modules/
+postgres_data/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+
+# Env
+.env
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Node
+node_modules/
+
+# Build
+dist/
+build/
+
+# DB
+*.sqlite
+*.db

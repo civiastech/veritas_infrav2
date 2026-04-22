@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veritas Infra v3.1.1 Frontend</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand-wrap">
+        <div class="brand">VERITAS <span>•</span> INFRA</div>
+        <div class="subtitle">Institutional Operations Console</div>
+      </div>
+
+      <section class="sidebar-card" id="userBox">
+        <div class="eyebrow">Session</div>
+        <div id="userName" class="user-name">Guest</div>
+        <div id="userMeta" class="muted">Not signed in</div>
+        <button id="logoutButton" class="secondary hidden">Logout</button>
+      </section>
+
+      <nav class="nav" id="navTabs">
+        <button data-tab="overview" class="nav-btn active">Overview</button>
+        <button data-tab="delivery" class="nav-btn">Delivery</button>
+        <button data-tab="quality" class="nav-btn">Quality</button>
+        <button data-tab="finance" class="nav-btn">Finance</button>
+        <button data-tab="intelligence" class="nav-btn">Intelligence</button>
+        <button data-tab="governance" class="nav-btn">Governance</button>
+        <button data-tab="academy" class="nav-btn">Academy</button>
+      </nav>
+
+      <section class="sidebar-card">
+        <div class="eyebrow">Useful links</div>
+        <a class="sidebar-link" href="/api/v1/docs" target="_blank" rel="noreferrer">API docs</a>
+        <a class="sidebar-link" href="/health" target="_blank" rel="noreferrer">Health</a>
+        <a class="sidebar-link" href="/ready" target="_blank" rel="noreferrer">Readiness</a>
+      </section>
+    </aside>
+
+    <main class="content">
+      <section id="loginView" class="login-wrap">
+        <div class="card login-card">
+          <div class="eyebrow">Secure access</div>
+          <h1>Sign in to Veritas Infra</h1>
+          <p class="muted">This frontend is wired to the live API and deploys behind Nginx with relative API routing.</p>
+
+          <form id="loginForm" class="stack">
+            <label>
+              <span>Email</span>
+              <input id="emailInput" type="email" placeholder="Email" value="admin@visc.org" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input id="passwordInput" type="password" placeholder="Password" value="AdminPass123!" required />
+            </label>
+            <button type="submit">Sign in</button>
+          </form>
+
+          <div id="loginMessage" class="muted status-line"></div>
+
+          <div class="seeded-box">
+            <div class="eyebrow">Seeded accounts</div>
+            <ul>
+              <li>admin@visc.org / AdminPass123!</li>
+              <li>a.okonkwo@visc.org / honor123</li>
+              <li>m.rodrigues@visc.org / honor123</li>
+              <li>k.mensah@visc.org / trusted123</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="appView" class="hidden app-shell">
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">Deployment-ready frontend</div>
+            <h1>Executive Command View</h1>
+            <div class="muted">Single-page operations console for the Veritas Infra API.</div>
+          </div>
+          <div class="top-actions">
+            <button id="refreshButton" class="secondary">Refresh data</button>
+          </div>
+        </header>
+
+        <section id="summary" class="stats-grid"></section>
+
+        <section id="tab-overview" class="tab-panel active">
+          <div class="panel-grid two">
+            <article class="card"><div class="panel-head"><h2>Projects</h2></div><div id="projects"></div></article>
+            <article class="card"><div class="panel-head"><h2>Notifications</h2></div><div id="notifications"></div></article>
+            <article class="card"><div class="panel-head"><h2>Professionals</h2></div><div id="professionals"></div></article>
+            <article class="card"><div class="panel-head"><h2>Open Tenders</h2></div><div id="tenders"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-delivery" class="tab-panel">
+          <div class="panel-grid two">
+            <article class="card"><div class="panel-head"><h2>Components</h2></div><div id="components"></div></article>
+            <article class="card"><div class="panel-head"><h2>Evidence Queue</h2></div><div id="evidence"></div></article>
+            <article class="card"><div class="panel-head"><h2>Inspections</h2></div><div id="inspections"></div></article>
+            <article class="card"><div class="panel-head"><h2>TWIN Events</h2></div><div id="twin"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-quality" class="tab-panel">
+          <div class="panel-grid two">
+            <article class="card"><div class="panel-head"><h2>Materials</h2></div><div id="materials"></div></article>
+            <article class="card"><div class="panel-head"><h2>Certifications</h2></div><div id="certifications"></div></article>
+            <article class="card"><div class="panel-head"><h2>Sensors</h2></div><div id="sensors"></div></article>
+            <article class="card"><div class="panel-head"><h2>Alerts & Disputes</h2></div><div id="qualityNotes"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-finance" class="tab-panel">
+          <div class="panel-grid two">
+            <article class="card"><div class="panel-head"><h2>Milestones</h2></div><div id="milestones"></div></article>
+            <article class="card"><div class="panel-head"><h2>Payments</h2></div><div id="payments"></div></article>
+            <article class="card"><div class="panel-head"><h2>VERIFUND Applications</h2></div><div id="verifund"></div></article>
+            <article class="card"><div class="panel-head"><h2>VERIFUND Products</h2></div><div id="verifundProducts"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-intelligence" class="tab-panel">
+          <div class="panel-grid two">
+            <article class="card"><div class="panel-head"><h2>ATLAS Portfolio</h2></div><div id="atlas"></div></article>
+            <article class="card"><div class="panel-head"><h2>ATLAS Reports</h2></div><div id="atlasReports"></div></article>
+            <article class="card"><div class="panel-head"><h2>Clone Rollout</h2></div><div id="clone"></div></article>
+            <article class="card"><div class="panel-head"><h2>Regulatory Readiness</h2></div><div id="regulatory"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-governance" class="tab-panel">
+          <div class="panel-grid two">
+            <article class="card"><div class="panel-head"><h2>Governance Dashboard</h2></div><div id="governance"></div></article>
+            <article class="card"><div class="panel-head"><h2>Policy Evaluation</h2></div><div id="policy"></div></article>
+            <article class="card"><div class="panel-head"><h2>Feature Flags</h2></div><div id="flags"></div></article>
+            <article class="card"><div class="panel-head"><h2>Audit Trail</h2></div><div id="audit"></div></article>
+          </div>
+        </section>
+
+        <section id="tab-academy" class="tab-panel">
+          <div class="panel-grid two">
+            <article class="card"><div class="panel-head"><h2>Advancement</h2></div><div id="academy"></div></article>
+            <article class="card"><div class="panel-head"><h2>Learning Paths</h2></div><div id="paths"></div></article>
+            <article class="card"><div class="panel-head"><h2>Courses</h2></div><div id="courses"></div></article>
+            <article class="card"><div class="panel-head"><h2>Credentials</h2></div><div id="credentials"></div></article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

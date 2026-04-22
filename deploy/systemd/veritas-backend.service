@@ -1,0 +1,14 @@
+[Unit]
+Description=Veritas Infra Backend
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/opt/veritas-infra/backend
+EnvironmentFile=/opt/veritas-infra/backend/.env
+ExecStart=/opt/veritas-infra/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
