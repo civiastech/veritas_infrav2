@@ -54,7 +54,7 @@ from app.services.twin import append_twin_event, ensure_stream
 SEED_FILE = Path(__file__).resolve().parent / "static" / "seed_data.json"
 
 DEFAULT_ADMIN_EMAIL = os.getenv("FIRST_SUPERUSER_EMAIL", "admin@visc.org").strip().lower()
-DEFAULT_ADMIN_PASSWORD = os.getenv("FIRST_SUPERUSER_PASSWORD", "AdminPass123!")
+DEFAULT_ADMIN_PASSWORD = os.getenv("FIRST_SUPERUSER_PASSWORD", "AdminPass123!").strip()
 
 MODEL_MAP: dict[str, type] = {
     "projects": Project,
@@ -78,6 +78,8 @@ def utcnow() -> datetime:
 def normalize_email(value: str | None) -> str:
     return (value or "").strip().lower()
 
+def normalize_secret(value: str | None, fallback: str = "") -> str:
+    return (value or fallback).strip()
 
 def table_exists(db: Session, table_name: str) -> bool:
     inspector = inspect(db.bind)
@@ -121,7 +123,7 @@ def ensure_admin_user(db: Session) -> None:
         .first()
     )
 
-    admin_hash = get_password_hash(DEFAULT_ADMIN_PASSWORD)
+    admin_hash = get_password_hash(DEFAULT_ADMIN_PASSWORD.strip())
 
     if admin:
         admin.name = "Admin User"
