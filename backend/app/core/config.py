@@ -31,12 +31,12 @@ class Settings(BaseSettings):
         "http://localhost,"
         "http://127.0.0.1"
     )
-    trusted_hosts: str = "localhost,127.0.0.1,backend,nginx,*"
+    trusted_hosts: str = "localhost,127.0.0.1"
 
     first_superuser_email: str = "admin@visc.org"
     first_superuser_password: str = "AdminPass123!"
 
-    auto_create_tables: bool = True
+    auto_create_tables: bool = False
     uploads_dir: str = str(BASE_DIR / "uploads")
     max_upload_size_mb: int = 50
 
@@ -64,6 +64,9 @@ class Settings(BaseSettings):
     celery_concurrency: int = 2
     celery_loglevel: str = "info"
     celery_queues: str = "celery"
+
+    run_migrations: bool = True
+    run_seed_on_boot: bool = False
 
     @field_validator("environment", mode="before")
     @classmethod
@@ -106,7 +109,10 @@ class Settings(BaseSettings):
 
     @property
     def trusted_host_list(self) -> List[str]:
-        return [item.strip() for item in self.trusted_hosts.split(",") if item.strip()]
+        hosts = [item.strip() for item in self.trusted_hosts.split(",") if item.strip()]
+        if not hosts:
+            return ["localhost", "127.0.0.1"]
+        return hosts
 
     @property
     def uploads_path(self) -> Path:
