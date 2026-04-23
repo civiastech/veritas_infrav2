@@ -1,65 +1,152 @@
-## Enterprise UI Completion Pass
-- Canonical prototype frontend expanded to cover clone, governance, regulatory, pay, seal, lex, monitor, atlas, academy, policy, platform configuration, and workflow operations.
-- Enterprise control-plane actions exposed in the dashboard and module screens.
-- Live API paths corrected to backend route prefixes.
+# 🟡 VERITAS INFRA  
+### Institutional Infrastructure Intelligence Platform
 
-# Veritas Infra v3.1.3 Prototype-Live Unified Master
+![Status](https://img.shields.io/badge/status-stabilization--checkpoint-gold)
+![Version](https://img.shields.io/badge/version-v3.1.5-black)
+![Backend](https://img.shields.io/badge/backend-FastAPI-black)
+![Database](https://img.shields.io/badge/database-PostgreSQL-blue)
+![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white)
+![Monitoring](https://img.shields.io/badge/observability-Prometheus%20%7C%20Grafana-orange)
+![License](https://img.shields.io/badge/license-proprietary-red)
 
-# Veritas Infra V3.1.2 Prototype-Aligned Master
+---
 
-This repository is the merged final baseline built to align as closely as possible to the original institutional prototype while preserving the strongest real-world deployment spine from the V3.1.0 master.
+## 🔥 Overview
 
-## What this build does
+Veritas Infra is a **deployment-grade, multi-domain infrastructure operating system** designed to unify:
 
-- keeps the **full V3 operational backend** and deployment stack
-- promotes the **original prototype HTML** to the canonical frontend entrypoint in `frontend/index.html`
-- preserves the lighter API-facing operational console as `frontend/ops_console.html`
-- retains Docker Compose, PostgreSQL, Redis, MinIO, Nginx, Prometheus, Grafana, migrations, seeding, and tests
-- includes documentation showing how the prototype doctrine maps to backend modules
+- Execution  
+- Compliance  
+- Financial flows  
+- Governance  
+- Intelligence  
 
-## Why this version exists
+into a single verifiable platform.
 
-The original prototype captured the doctrine, institutional tone, module language, and full-platform imagination better than the later minimal SPA. The V3 backend captured the deployable runtime spine better than the prototype. This repo combines both.
+> This is not a dashboard.  
+> This is not a CRUD system.  
+>  
+> **This is infrastructure made accountable.**
 
-## Canonical user-facing entrypoints
+---
 
-- `frontend/index.html` → original prototype-aligned institutional experience
-- `frontend/ops_console.html` → lighter authenticated operational console bound to `/api/v1`
-- `frontend/prototype_reference.html` → frozen reference copy of the original prototype
+## 🧠 Core Philosophy
 
-## Included business/API areas
+> Every infrastructure action must be traceable, verifiable, and governed.
 
-Operational backend APIs:
+The platform enforces:
 
-- Auth / RBAC
-- Dashboard
-- Projects / Components / Evidence
-- Vision / Twin / Payments / Seal
-- Monitor / Lex / Atlas / Verifund
-- Academy / Clone / Governance / Regulatory
-- Workflow / Policy / Platform / Country configuration
+- Evidence-backed execution  
+- Real-time validation  
+- Institutional oversight  
+- Full lifecycle traceability  
 
-## Quick start
+---
+
+## 🧩 Platform Architecture
+                ┌───────────────────────────────┐
+                │        VERITAS CORE           │
+                │  Identity • Auth • Logging    │
+                └─────────────┬─────────────────┘
+                              │
+    ┌─────────────────────────┼─────────────────────────┐
+    │                         │                         │
+    ┌────▼────┐ ┌─────▼─────┐ ┌─────▼─────┐
+│ TWIN │ │ BUILD │ │ VISION │
+│ Projects│ │ Evidence │ │Inspection │
+└────┬────┘ └─────┬─────┘ └─────┬─────┘
+│ │ │
+├───────────────┬─────────┼───────────┬─────────────┤
+│ │ │ │ │
+┌────▼────┐ ┌────▼────┐ ┌──▼────┐ ┌────▼────┐ ┌──────▼─────┐
+│ PAY │ │ MONITOR │ │ORIGIN │ │ LEX │ │ GOVERNANCE │
+│Finance │ │Sensors │ │Materials│ │Disputes│ │Oversight │
+└────┬────┘ └────┬────┘ └──┬────┘ └────┬────┘ └──────┬─────┘
+│ │ │ │ │
+└──────┬────────┴──────────┴───────────┴──────────────┘
+│
+┌──────▼────────┐
+│ ATLAS │
+│ Intelligence │
+└───────────────┘
+
+---
+
+## 🧩 Module System
+
+| Module | Purpose |
+|------|--------|
+| IDENT | Professional identity + verification |
+| TWIN | Project lifecycle + digital twin |
+| BUILD | Evidence + validation |
+| VISION | Inspections |
+| PAY | Financial flows |
+| SEAL | Certifications |
+| MARKET | Tenders |
+| ORIGIN | Material traceability |
+| MONITOR | Sensors + alerts |
+| LEX | Disputes |
+| ATLAS | Portfolio intelligence |
+| VERIFUND | Financial instruments |
+| ACADEMY | Learning + credentials |
+| GOVERNANCE | Oversight + committees |
+| REGULATORY | Compliance intelligence |
+| CLONE | Deployment replication |
+
+---
+
+## 🏗️ Enterprise UI Completion
+
+- Canonical prototype expanded into a full institutional interface  
+- Covers:
+  - Clone  
+  - Governance  
+  - Regulatory  
+  - Pay  
+  - Seal  
+  - Lex  
+  - Monitor  
+  - Atlas  
+  - Academy  
+  - Policy  
+  - Platform configuration  
+  - Workflow operations  
+
+- Dashboard exposes **enterprise control-plane actions**  
+- Frontend aligned with `/api/v1` backend routes  
+
+---
+
+## ⚙️ System Stack
+Frontend → HTML / JS / CSS (Prototype-Aligned UI)
+Backend → FastAPI
+ORM → SQLAlchemy
+Database → PostgreSQL
+Cache/Queue → Redis
+Storage → MinIO
+Proxy → Nginx
+Monitoring → Prometheus + Grafana
+Container → Docker Compose
+
+---
+
+## 🚀 Deployment
 
 ```bash
 cp .env.example .env
 docker compose up --build -d
-```
 
-Open:
+## 🔥 Overview Access Points
 
-- http://localhost
-- http://localhost/health
-- http://localhost/api/v1/docs
-- http://localhost/ops_console.html
-- http://localhost:3001 (Grafana)
-- http://localhost:9001 (MinIO console)
+Service	URL
+Main UI	http://localhost
 
-## Important note
+Health	http://localhost/health
 
-This is the strongest merged baseline available from the supplied repos and prototype. It is **the closest practical alignment** to the original HTML vision, but it does **not** claim that every prototype interaction has been fully re-engineered into the backend/API layer. The prototype remains the canonical institutional experience, while the operational backend provides the deployable system spine.
+API Docs	http://localhost/api/v1/docs
 
+Ops Console	http://localhost/ops_console.html
 
-## Frontend status
+Grafana	http://localhost:3001
 
-The primary frontend at `/` is now a live API-backed institutional console aligned to the original prototype doctrine. It authenticates against the backend and supports live reads plus key write flows for projects, components, evidence, inspections, tenders, ATLAS reports, VERIFUND products/applications, and ACADEMY paths/courses.
+MinIO	http://localhost:9001
