@@ -121,59 +121,48 @@ def ensure_admin_user(db: Session) -> None:
         .first()
     )
 
+    admin_hash = get_password_hash(DEFAULT_ADMIN_PASSWORD)
+
     if admin:
-        changed = False
+        admin.name = "Admin User"
+        admin.email = DEFAULT_ADMIN_EMAIL
+        admin.hashed_password = admin_hash
+        admin.role = "admin"
+        admin.band = "HONOR"
+        admin.discipline = "Platform Administration"
+        admin.country = "International"
 
-        if not admin.name:
-            admin.name = "Admin User"
-            changed = True
+        if hasattr(admin, "projects"):
+            admin.projects = 0 if admin.projects is None else admin.projects
 
-        # Never overwrite admin password on reseed if it already exists.
-        if not admin.hashed_password:
-            admin.hashed_password = get_password_hash(DEFAULT_ADMIN_PASSWORD)
-            changed = True
+        if hasattr(admin, "shi_avg"):
+            admin.shi_avg = 0 if admin.shi_avg is None else admin.shi_avg
 
-        if admin.role != "admin":
-            admin.role = "admin"
-            changed = True
+        if hasattr(admin, "pri_score"):
+            admin.pri_score = 0 if admin.pri_score is None else admin.pri_score
 
-        if not admin.band:
-            admin.band = "HONOR"
-            changed = True
-
-        if not admin.discipline:
-            admin.discipline = "Platform Administration"
-            changed = True
-
-        if not admin.country:
-            admin.country = "International"
-            changed = True
-
-        if hasattr(admin, "projects") and admin.projects is None:
-            admin.projects = 0
-            changed = True
-
-        if hasattr(admin, "shi_avg") and admin.shi_avg is None:
-            admin.shi_avg = 0
-            changed = True
-
-        if hasattr(admin, "pri_score") and admin.pri_score is None:
-            admin.pri_score = 0
-            changed = True
-
-        if hasattr(admin, "active") and admin.active is None:
+        if hasattr(admin, "active"):
             admin.active = True
-            changed = True
 
-        if hasattr(admin, "failed_login_attempts") and admin.failed_login_attempts is None:
+        if hasattr(admin, "failed_login_attempts"):
             admin.failed_login_attempts = 0
-            changed = True
 
-        if hasattr(admin, "mfa_enabled") and admin.mfa_enabled is None:
+        if hasattr(admin, "locked_until"):
+            admin.locked_until = None
+
+        if hasattr(admin, "mfa_enabled"):
             admin.mfa_enabled = False
-            changed = True
 
-        if changed and hasattr(admin, "updated_at"):
+        if hasattr(admin, "mfa_secret"):
+            admin.mfa_secret = None
+
+        if hasattr(admin, "is_deleted"):
+            admin.is_deleted = False
+
+        if hasattr(admin, "deleted_at"):
+            admin.deleted_at = None
+
+        if hasattr(admin, "updated_at"):
             admin.updated_at = utcnow()
 
         db.flush()
@@ -182,7 +171,7 @@ def ensure_admin_user(db: Session) -> None:
     admin = Professional(
         name="Admin User",
         email=DEFAULT_ADMIN_EMAIL,
-        hashed_password=get_password_hash(DEFAULT_ADMIN_PASSWORD),
+        hashed_password=admin_hash,
         role="admin",
         band="HONOR",
         discipline="Platform Administration",
@@ -191,8 +180,10 @@ def ensure_admin_user(db: Session) -> None:
         shi_avg=0,
         pri_score=0,
         active=True,
-        mfa_enabled=False,
         failed_login_attempts=0,
+        locked_until=None,
+        mfa_enabled=False,
+        mfa_secret=None,
         created_at=utcnow(),
         updated_at=utcnow(),
         is_deleted=False,
@@ -212,7 +203,12 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
         if not email:
             continue
 
+        # Admin is managed only by ensure_admin_user().
+        if email == DEFAULT_ADMIN_EMAIL:
+            continue
+
         plain = payload.pop("password", None)
+        payload.pop("hashed_password", None)
         payload["email"] = email
 
         payload.setdefault("band", "TRUSTED")
@@ -224,63 +220,26 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
         payload.setdefault("active", True)
         payload.setdefault("mfa_enabled", False)
         payload.setdefault("failed_login_attempts", 0)
+        payload.setdefault("is_deleted", False)
+        payload.setdefault("deleted_at", None)
 
         existing = db.query(Professional).filter(Professional.email == email).first()
 
         if existing:
-            changed = False
-
             for key, value in payload.items():
-                if key == "hashed_password":
-                    continue
+                setattr(existing, key, value)
 
-                # Never let seed data downgrade the admin role.
-                if key == "role" and email == DEFAULT_ADMIN_EMAIL:
-                    if existing.role != "admin":
-                        existing.role = "admin"
-                        changed = True
-                    continue
+            if plain:
+                existing.hashed_password = get_password_hash(plain)
 
-                current = getattr(existing, key, None)
-
-                # For admin, only fill missing safe fields.
-                if email == DEFAULT_ADMIN_EMAIL:
-                    if current is None or current == "":
-                        setattr(existing, key, value)
-                        changed = True
-                    continue
-
-                # For non-admin users, update values from seed data.
-                if current != value:
-                    setattr(existing, key, value)
-                    changed = True
-
-            # CRITICAL: never overwrite existing admin password from seed data.
-            if email != DEFAULT_ADMIN_EMAIL:
-                if not getattr(existing, "hashed_password", None) and plain:
-                    existing.hashed_password = get_password_hash(plain)
-                    changed = True
-
-            if changed and hasattr(existing, "updated_at"):
+            if hasattr(existing, "updated_at"):
                 existing.updated_at = utcnow()
 
             continue
 
-        if email == DEFAULT_ADMIN_EMAIL:
-            payload["hashed_password"] = get_password_hash(DEFAULT_ADMIN_PASSWORD)
-            payload["role"] = "admin"
-            payload["band"] = payload.get("band") or "HONOR"
-            payload["discipline"] = payload.get("discipline") or "Platform Administration"
-            payload["country"] = payload.get("country") or "International"
-        elif plain:
-            payload["hashed_password"] = get_password_hash(plain)
-        else:
-            payload["hashed_password"] = get_password_hash("ChangeMe123!")
-
+        payload["hashed_password"] = get_password_hash(plain or "ChangeMe123!")
         payload.setdefault("created_at", utcnow())
         payload.setdefault("updated_at", utcnow())
-        payload.setdefault("is_deleted", False)
-        payload.setdefault("deleted_at", None)
 
         db.add(Professional(**payload))
 
