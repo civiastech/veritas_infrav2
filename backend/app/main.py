@@ -60,7 +60,8 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
         forwarded_proto = request.headers.get("x-forwarded-proto", "")
         is_https = request.url.scheme == "https" or forwarded_proto.lower() == "https"
-        if settings.environment.lower() == "production" and is_https:
+
+        if settings.is_production and is_https:
             response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
 
         return response
@@ -71,7 +72,9 @@ async def lifespan(_: FastAPI):
     if settings.auto_create_tables:
         Base.metadata.create_all(bind=engine)
 
-    ensure_bucket()
+    if settings.minio_enabled:
+        ensure_bucket()
+
     yield
 
 
@@ -126,7 +129,7 @@ def ready():
     return {
         "status": "ready",
         "database": "ok",
-        "storage": "ok",
+        "storage": "ok" if settings.minio_enabled else "disabled",
     }
 
 
@@ -163,9 +166,7 @@ for router in ROUTERS:
     app.include_router(router, prefix=settings.api_v1_str)
 
 static_dir = Path(__file__).resolve().parent / "static"
-uploads_dir = Path(settings.uploads_dir)
-
-uploads_dir.mkdir(parents=True, exist_ok=True)
+uploads_dir = settings.uploads_path
 
 if static_dir.exists():
     app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
