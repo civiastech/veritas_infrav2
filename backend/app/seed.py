@@ -53,8 +53,22 @@ from app.services.twin import append_twin_event, ensure_stream
 
 SEED_FILE = Path(__file__).resolve().parent / "static" / "seed_data.json"
 
-DEFAULT_ADMIN_EMAIL = os.getenv("FIRST_SUPERUSER_EMAIL", "admin@visc.org").strip().lower()
-DEFAULT_ADMIN_PASSWORD = os.getenv("FIRST_SUPERUSER_PASSWORD", "AdminPass123!").strip()
+
+def normalize_email(value: str | None) -> str:
+    return (value or "").strip().lower()
+
+
+def normalize_secret(value: str | None, fallback: str = "") -> str:
+    return (value or fallback).strip()
+
+
+DEFAULT_ADMIN_EMAIL = normalize_email(
+    os.getenv("FIRST_SUPERUSER_EMAIL", "admin@visc.org")
+)
+DEFAULT_ADMIN_PASSWORD = normalize_secret(
+    os.getenv("FIRST_SUPERUSER_PASSWORD", "AdminPass123!"),
+    "AdminPass123!",
+)
 
 MODEL_MAP: dict[str, type] = {
     "projects": Project,
