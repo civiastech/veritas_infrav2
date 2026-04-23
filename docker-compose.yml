@@ -1,4 +1,3 @@
-version: "3.9"
 
 services:
   postgres:
@@ -101,6 +100,34 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+  seed:
+    build:
+      context: ./backend
+    container_name: veritas_seed
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-veritas}:${POSTGRES_PASSWORD:-veritas_change_me}@postgres:5432/${POSTGRES_DB:-veritas}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-this-in-production}
+      FIRST_SUPERUSER_EMAIL: ${FIRST_SUPERUSER_EMAIL:-admin@visc.org}
+      FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD:-AdminPass123!}
+      REDIS_URL: redis://redis:6379/0
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_BUCKET_EVIDENCE: ${MINIO_BUCKET_EVIDENCE:-veritas-evidence}
+      MINIO_SECURE: "false"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
+      minio-init:
+        condition: service_completed_successfully
+    command: python -m app.seed
+    restart: "no"
 
   worker:
     build:
