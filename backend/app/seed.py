@@ -109,10 +109,20 @@ def ensure_admin_user(db: Session) -> None:
 
     admin = db.query(Professional).filter(Professional.email == DEFAULT_ADMIN_EMAIL).first()
     if admin:
+        admin.name = admin.name or "Admin User"
         admin.hashed_password = get_password_hash(DEFAULT_ADMIN_PASSWORD)
         admin.role = "admin"
-        if not getattr(admin, "name", None):
-            admin.name = "Admin User"
+        admin.band = admin.band or "ADMIN"
+        admin.discipline = admin.discipline or "Platform Administration"
+        admin.country = admin.country or "Nigeria"
+        if hasattr(admin, "projects") and admin.projects is None:
+            admin.projects = 0
+        if hasattr(admin, "shi_avg") and admin.shi_avg is None:
+            admin.shi_avg = 0
+        if hasattr(admin, "pri_score") and admin.pri_score is None:
+            admin.pri_score = 0
+        if hasattr(admin, "active") and admin.active is None:
+            admin.active = True
         db.flush()
         return
 
@@ -121,10 +131,16 @@ def ensure_admin_user(db: Session) -> None:
         email=DEFAULT_ADMIN_EMAIL,
         hashed_password=get_password_hash(DEFAULT_ADMIN_PASSWORD),
         role="admin",
+        band="ADMIN",
+        discipline="Platform Administration",
+        country="Nigeria",
+        projects=0,
+        shi_avg=0,
+        pri_score=0,
+        active=True,
     )
     db.add(admin)
     db.flush()
-
 
 def seed_professionals(db: Session, data: dict[str, Any]) -> None:
     if not table_exists(db, "professionals"):
@@ -136,8 +152,17 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
         if not email:
             continue
 
-        existing = db.query(Professional).filter(Professional.email == email).first()
         plain = payload.pop("password", None)
+
+        payload.setdefault("band", "TRUSTED")
+        payload.setdefault("discipline", "General Engineering")
+        payload.setdefault("country", "Nigeria")
+        payload.setdefault("projects", 0)
+        payload.setdefault("shi_avg", 0)
+        payload.setdefault("pri_score", 0)
+        payload.setdefault("active", True)
+
+        existing = db.query(Professional).filter(Professional.email == email).first()
 
         if existing:
             for key, value in payload.items():
@@ -148,9 +173,9 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
 
         if plain:
             payload["hashed_password"] = get_password_hash(plain)
+
         db.add(Professional(**payload))
 
-    # Always repair admin credentials last
     ensure_admin_user(db)
 
 
