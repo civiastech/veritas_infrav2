@@ -3,8 +3,8 @@
 
 ![Status](https://img.shields.io/badge/status-stabilization--checkpoint-gold)
 ![Version](https://img.shields.io/badge/version-v3.1.5-black)
-![Backend](https://img.shields.io/badge/backend-FastAPI-black)
-![Database](https://img.shields.io/badge/database-PostgreSQL-blue)
+![Backend](https://img.shields.io/badge/backend-FastAPI-009688)
+![Database](https://img.shields.io/badge/database-PostgreSQL-336791)
 ![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white)
 ![Monitoring](https://img.shields.io/badge/observability-Prometheus%20%7C%20Grafana-orange)
 ![License](https://img.shields.io/badge/license-proprietary-red)
@@ -13,7 +13,7 @@
 
 ## 🔥 Overview
 
-Veritas Infra is a **deployment-grade, multi-domain infrastructure operating system** designed to unify:
+**Veritas Infra** is a **deployment-grade infrastructure operating system** that unifies:
 
 - Execution  
 - Compliance  
@@ -21,10 +21,10 @@ Veritas Infra is a **deployment-grade, multi-domain infrastructure operating sys
 - Governance  
 - Intelligence  
 
-into a single verifiable platform.
+into a single, verifiable platform.
 
 > This is not a dashboard.  
-> This is not a CRUD system.  
+> This is not CRUD software.  
 >  
 > **This is infrastructure made accountable.**
 
@@ -32,9 +32,13 @@ into a single verifiable platform.
 
 ## 🧠 Core Philosophy
 
-> Every infrastructure action must be traceable, verifiable, and governed.
+Every action in infrastructure must be:
 
-The platform enforces:
+- **Traceable**
+- **Verifiable**
+- **Governed**
+
+The system enforces:
 
 - Evidence-backed execution  
 - Real-time validation  
@@ -44,31 +48,15 @@ The platform enforces:
 ---
 
 ## 🧩 Platform Architecture
-                ┌───────────────────────────────┐
-                │        VERITAS CORE           │
-                │  Identity • Auth • Logging    │
-                └─────────────┬─────────────────┘
-                              │
-    ┌─────────────────────────┼─────────────────────────┐
-    │                         │                         │
-    ┌────▼────┐ ┌─────▼─────┐ ┌─────▼─────┐
-│ TWIN │ │ BUILD │ │ VISION │
-│ Projects│ │ Evidence │ │Inspection │
-└────┬────┘ └─────┬─────┘ └─────┬─────┘
-│ │ │
-├───────────────┬─────────┼───────────┬─────────────┤
-│ │ │ │ │
-┌────▼────┐ ┌────▼────┐ ┌──▼────┐ ┌────▼────┐ ┌──────▼─────┐
-│ PAY │ │ MONITOR │ │ORIGIN │ │ LEX │ │ GOVERNANCE │
-│Finance │ │Sensors │ │Materials│ │Disputes│ │Oversight │
-└────┬────┘ └────┬────┘ └──┬────┘ └────┬────┘ └──────┬─────┘
-│ │ │ │ │
-└──────┬────────┴──────────┴───────────┴──────────────┘
-│
-┌──────▼────────┐
-│ ATLAS │
-│ Intelligence │
-└───────────────┘
+
+The platform is structured as a layered institutional system:
+
+- Core control layer  
+- Execution modules  
+- Governance & regulatory layer  
+- Intelligence layer (ATLAS)
+
+![Veritas Infra Architecture](docs/architecture.svg)
 
 ---
 
@@ -76,20 +64,20 @@ The platform enforces:
 
 | Module | Purpose |
 |------|--------|
-| IDENT | Professional identity + verification |
-| TWIN | Project lifecycle + digital twin |
-| BUILD | Evidence + validation |
-| VISION | Inspections |
-| PAY | Financial flows |
+| IDENT | Professional identity & verification |
+| TWIN | Project lifecycle & digital twin |
+| BUILD | Evidence & validation |
+| VISION | Inspections & condition tracking |
+| PAY | Financial flows & milestones |
 | SEAL | Certifications |
 | MARKET | Tenders |
 | ORIGIN | Material traceability |
-| MONITOR | Sensors + alerts |
-| LEX | Disputes |
+| MONITOR | Sensors & alerts |
+| LEX | Disputes & legal tracking |
 | ATLAS | Portfolio intelligence |
 | VERIFUND | Financial instruments |
-| ACADEMY | Learning + credentials |
-| GOVERNANCE | Oversight + committees |
+| ACADEMY | Learning & credentials |
+| GOVERNANCE | Oversight & committees |
 | REGULATORY | Compliance intelligence |
 | CLONE | Deployment replication |
 
@@ -97,56 +85,45 @@ The platform enforces:
 
 ## 🏗️ Enterprise UI Completion
 
-- Canonical prototype expanded into a full institutional interface  
-- Covers:
-  - Clone  
-  - Governance  
-  - Regulatory  
-  - Pay  
-  - Seal  
-  - Lex  
-  - Monitor  
-  - Atlas  
-  - Academy  
-  - Policy  
-  - Platform configuration  
-  - Workflow operations  
+The frontend is aligned with the original institutional prototype and now supports:
 
-- Dashboard exposes **enterprise control-plane actions**  
-- Frontend aligned with `/api/v1` backend routes  
+- Governance  
+- Regulatory  
+- Payments  
+- Certification (Seal)  
+- Disputes (Lex)  
+- Monitoring  
+- Atlas intelligence  
+- Academy (paths, courses, credentials)  
+- Policy & workflow  
+- Platform configuration  
+
+### Key Improvements
+
+- Prototype UI is now **API-connected**
+- Control-plane actions exposed in dashboard
+- Backend routes aligned with `/api/v1`
 
 ---
 
 ## ⚙️ System Stack
-Frontend → HTML / JS / CSS (Prototype-Aligned UI)
-Backend → FastAPI
-ORM → SQLAlchemy
-Database → PostgreSQL
-Cache/Queue → Redis
-Storage → MinIO
-Proxy → Nginx
-Monitoring → Prometheus + Grafana
-Container → Docker Compose
+
+| Layer | Technology |
+|------|-----------|
+| Frontend | HTML / JS / CSS (Prototype-aligned) |
+| Backend | FastAPI |
+| ORM | SQLAlchemy |
+| Database | PostgreSQL |
+| Cache / Queue | Redis |
+| Object Storage | MinIO |
+| Reverse Proxy | Nginx |
+| Monitoring | Prometheus + Grafana |
+| Containerization | Docker Compose |
 
 ---
 
-## 🚀 Deployment
+## 🚀 Quick Start
 
 ```bash
 cp .env.example .env
 docker compose up --build -d
-
-## 🔥 Overview Access Points
-
-Service	URL
-Main UI	http://localhost
-
-Health	http://localhost/health
-
-API Docs	http://localhost/api/v1/docs
-
-Ops Console	http://localhost/ops_console.html
-
-Grafana	http://localhost:3001
-
-MinIO	http://localhost:9001
