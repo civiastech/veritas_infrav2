@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -53,7 +53,7 @@ from app.services.twin import append_twin_event, ensure_stream
 
 SEED_FILE = Path(__file__).resolve().parent / "static" / "seed_data.json"
 
-DEFAULT_ADMIN_EMAIL = os.getenv("FIRST_SUPERUSER_EMAIL", "admin@visc.org")
+DEFAULT_ADMIN_EMAIL = os.getenv("FIRST_SUPERUSER_EMAIL", "admin@visc.org").strip().lower()
 DEFAULT_ADMIN_PASSWORD = os.getenv("FIRST_SUPERUSER_PASSWORD", "AdminPass123!")
 
 MODEL_MAP: dict[str, type] = {
@@ -69,6 +69,14 @@ MODEL_MAP: dict[str, type] = {
     "audit_logs": AuditLog,
     "notifications": Notification,
 }
+
+
+def utcnow() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def normalize_email(value: str | None) -> str:
+    return (value or "").strip().lower()
 
 
 def table_exists(db: Session, table_name: str) -> bool:
@@ -99,7 +107,7 @@ def run_seed_block(db: Session, name: str, fn: Callable[[], None]) -> None:
 def users_map(db: Session) -> dict[str, Professional]:
     if not table_exists(db, "professionals"):
         return {}
-    return {u.email: u for u in db.query(Professional).all()}
+    return {normalize_email(u.email): u for u in db.query(Professional).all()}
 
 
 def ensure_admin_user(db: Session) -> None:
@@ -107,22 +115,67 @@ def ensure_admin_user(db: Session) -> None:
         print("admin bootstrap: professionals table missing")
         return
 
-    admin = db.query(Professional).filter(Professional.email == DEFAULT_ADMIN_EMAIL).first()
+    admin = (
+        db.query(Professional)
+        .filter(Professional.email == DEFAULT_ADMIN_EMAIL)
+        .first()
+    )
+
     if admin:
-        admin.name = admin.name or "Admin User"
-        admin.hashed_password = get_password_hash(DEFAULT_ADMIN_PASSWORD)
-        admin.role = "admin"
-        admin.band = admin.band or "ADMIN"
-        admin.discipline = admin.discipline or "Platform Administration"
-        admin.country = admin.country or "Nigeria"
+        changed = False
+
+        if not admin.name:
+            admin.name = "Admin User"
+            changed = True
+
+        # CRITICAL: do not overwrite password on reseed if it already exists
+        if not admin.hashed_password:
+            admin.hashed_password = get_password_hash(DEFAULT_ADMIN_PASSWORD)
+            changed = True
+
+        if admin.role != "admin":
+            admin.role = "admin"
+            changed = True
+
+        if not admin.band:
+            admin.band = "HONOR"
+            changed = True
+
+        if not admin.discipline:
+            admin.discipline = "Platform Administration"
+            changed = True
+
+        if not admin.country:
+            admin.country = "International"
+            changed = True
+
         if hasattr(admin, "projects") and admin.projects is None:
             admin.projects = 0
+            changed = True
+
         if hasattr(admin, "shi_avg") and admin.shi_avg is None:
             admin.shi_avg = 0
+            changed = True
+
         if hasattr(admin, "pri_score") and admin.pri_score is None:
             admin.pri_score = 0
+            changed = True
+
         if hasattr(admin, "active") and admin.active is None:
             admin.active = True
+            changed = True
+
+        if hasattr(admin, "failed_login_attempts") and admin.failed_login_attempts is None:
+            admin.failed_login_attempts = 0
+            changed = True
+
+        if hasattr(admin, "mfa_enabled") and admin.mfa_enabled is None:
+            admin.mfa_enabled = False
+            changed = True
+
+        if changed and hasattr(admin, "updated_at"):
+            admin.updated_at = utcnow()
+
         db.flush()
         return
 
@@ -131,16 +184,23 @@ def ensure_admin_user(db: Session) -> None:
         email=DEFAULT_ADMIN_EMAIL,
         hashed_password=get_password_hash(DEFAULT_ADMIN_PASSWORD),
         role="admin",
-        band="ADMIN",
+        band="HONOR",
         discipline="Platform Administration",
-        country="Nigeria",
+        country="International",
         projects=0,
         shi_avg=0,
         pri_score=0,
         active=True,
+        mfa_enabled=False,
+        failed_login_attempts=0,
+        created_at=utcnow(),
+        updated_at=utcnow(),
+        is_deleted=False,
+        deleted_at=None,
     )
     db.add(admin)
     db.flush()
+
 
 def seed_professionals(db: Session, data: dict[str, Any]) -> None:
     if not table_exists(db, "professionals"):
@@ -148,31 +208,61 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
 
     for item in data.get("professionals", []):
         payload = dict(item)
-        email = payload.get("email")
+        email = normalize_email(payload.get("email"))
         if not email:
             continue
 
         plain = payload.pop("password", None)
+        payload["email"] = email
 
         payload.setdefault("band", "TRUSTED")
         payload.setdefault("discipline", "General Engineering")
-        payload.setdefault("country", "Nigeria")
+        payload.setdefault("country", "International")
         payload.setdefault("projects", 0)
         payload.setdefault("shi_avg", 0)
         payload.setdefault("pri_score", 0)
         payload.setdefault("active", True)
+        payload.setdefault("mfa_enabled", False)
+        payload.setdefault("failed_login_attempts", 0)
 
         existing = db.query(Professional).filter(Professional.email == email).first()
 
         if existing:
+            changed = False
+
+            # update only missing / safe fields
             for key, value in payload.items():
-                setattr(existing, key, value)
-            if plain:
+                current = getattr(existing, key, None)
+
+                if key in {"role"} and email == DEFAULT_ADMIN_EMAIL:
+                    if current != "admin":
+                        setattr(existing, key, "admin")
+                        changed = True
+                    continue
+
+                if current is None or current == "":
+                    setattr(existing, key, value)
+                    changed = True
+
+            # CRITICAL: do not overwrite existing password hash on reseed
+            if not getattr(existing, "hashed_password", None) and plain:
                 existing.hashed_password = get_password_hash(plain)
+                changed = True
+
+            if changed and hasattr(existing, "updated_at"):
+                existing.updated_at = utcnow()
+
             continue
 
         if plain:
             payload["hashed_password"] = get_password_hash(plain)
+        else:
+            payload["hashed_password"] = get_password_hash("ChangeMe123!")
+
+        payload.setdefault("created_at", utcnow())
+        payload.setdefault("updated_at", utcnow())
+        payload.setdefault("is_deleted", False)
+        payload.setdefault("deleted_at", None)
 
         db.add(Professional(**payload))
 
@@ -187,6 +277,7 @@ def seed_projects(db: Session, data: dict[str, Any]) -> None:
         uid = item.get("uid")
         if not uid:
             continue
+
         existing = db.query(Project).filter(Project.uid == uid).first()
         if existing:
             for key, value in item.items():
@@ -395,7 +486,7 @@ def seed_project_assignments(db: Session) -> None:
     ]
 
     for project_uid, email, role_on_project, can_approve in assignments:
-        user = users.get(email)
+        user = users.get(normalize_email(email))
         if not user:
             continue
 
