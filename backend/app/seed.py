@@ -128,7 +128,7 @@ def ensure_admin_user(db: Session) -> None:
             admin.name = "Admin User"
             changed = True
 
-        # CRITICAL: do not overwrite password on reseed if it already exists
+        # Never overwrite admin password on reseed if it already exists.
         if not admin.hashed_password:
             admin.hashed_password = get_password_hash(DEFAULT_ADMIN_PASSWORD)
             changed = True
@@ -230,31 +230,49 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
         if existing:
             changed = False
 
-            # update only missing / safe fields
             for key, value in payload.items():
-                current = getattr(existing, key, None)
+                if key == "hashed_password":
+                    continue
 
-                if key in {"role"} and email == DEFAULT_ADMIN_EMAIL:
-                    if current != "admin":
-                        setattr(existing, key, "admin")
+                # Never let seed data downgrade the admin role.
+                if key == "role" and email == DEFAULT_ADMIN_EMAIL:
+                    if existing.role != "admin":
+                        existing.role = "admin"
                         changed = True
                     continue
 
-                if current is None or current == "":
+                current = getattr(existing, key, None)
+
+                # For admin, only fill missing safe fields.
+                if email == DEFAULT_ADMIN_EMAIL:
+                    if current is None or current == "":
+                        setattr(existing, key, value)
+                        changed = True
+                    continue
+
+                # For non-admin users, update values from seed data.
+                if current != value:
                     setattr(existing, key, value)
                     changed = True
 
-            # CRITICAL: do not overwrite existing password hash on reseed
-            if not getattr(existing, "hashed_password", None) and plain:
-                existing.hashed_password = get_password_hash(plain)
-                changed = True
+            # CRITICAL: never overwrite existing admin password from seed data.
+            if email != DEFAULT_ADMIN_EMAIL:
+                if not getattr(existing, "hashed_password", None) and plain:
+                    existing.hashed_password = get_password_hash(plain)
+                    changed = True
 
             if changed and hasattr(existing, "updated_at"):
                 existing.updated_at = utcnow()
 
             continue
 
-        if plain:
+        if email == DEFAULT_ADMIN_EMAIL:
+            payload["hashed_password"] = get_password_hash(DEFAULT_ADMIN_PASSWORD)
+            payload["role"] = "admin"
+            payload["band"] = payload.get("band") or "HONOR"
+            payload["discipline"] = payload.get("discipline") or "Platform Administration"
+            payload["country"] = payload.get("country") or "International"
+        elif plain:
             payload["hashed_password"] = get_password_hash(plain)
         else:
             payload["hashed_password"] = get_password_hash("ChangeMe123!")
@@ -313,7 +331,7 @@ def seed_core_model_map_tables(db: Session, data: dict[str, Any]) -> None:
         "payments": "payment_ref",
         "tenders": "tender_no",
         "bids": "bid_no",
-        "disputes": "dispute_ref",
+        "disputes": "uid",
         "materials": "batch_no",
         "certifications": "certificate_no",
         "audit_logs": None,
@@ -329,8 +347,10 @@ def seed_core_model_map_tables(db: Session, data: dict[str, Any]) -> None:
             continue
 
         natural_key = natural_keys.get(key)
+
         for item in data.get(key, []):
             existing = None
+
             if natural_key and item.get(natural_key) is not None:
                 existing = (
                     db.query(model)
