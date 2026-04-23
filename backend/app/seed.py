@@ -53,6 +53,7 @@ from app.services.twin import append_twin_event, ensure_stream
 
 SEED_FILE = Path(__file__).resolve().parent / "static" / "seed_data.json"
 
+
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -87,16 +88,6 @@ MODEL_MAP: dict[str, type] = {
     "notifications": Notification,
 }
 
-
-def utcnow() -> datetime:
-    return datetime.now(timezone.utc)
-
-
-def normalize_email(value: str | None) -> str:
-    return (value or "").strip().lower()
-
-def normalize_secret(value: str | None, fallback: str = "") -> str:
-    return (value or fallback).strip()
 
 def table_exists(db: Session, table_name: str) -> bool:
     inspector = inspect(db.bind)
@@ -188,8 +179,8 @@ def ensure_admin_user(db: Session) -> None:
             changed = True
 
         # IMPORTANT:
-        # Never touch admin.hashed_password here.
-        # Password reset must be explicit, not part of seed.
+        # Never overwrite admin password during reseed.
+        # Password changes should be explicit and separate.
 
         if changed and hasattr(admin, "updated_at"):
             admin.updated_at = utcnow()
@@ -200,7 +191,7 @@ def ensure_admin_user(db: Session) -> None:
     admin = Professional(
         name="Admin User",
         email=DEFAULT_ADMIN_EMAIL,
-        hashed_password=get_password_hash(DEFAULT_ADMIN_PASSWORD.strip()),
+        hashed_password=get_password_hash(DEFAULT_ADMIN_PASSWORD),
         role="admin",
         band="HONOR",
         discipline="Platform Administration",
@@ -219,6 +210,7 @@ def ensure_admin_user(db: Session) -> None:
     db.add(admin)
     db.flush()
 
+
 def seed_professionals(db: Session, data: dict[str, Any]) -> None:
     if not table_exists(db, "professionals"):
         return
@@ -229,8 +221,7 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
         if not email:
             continue
 
-        # IMPORTANT:
-        # Admin is managed only by ensure_admin_user(), never by demo seed rows.
+        # Admin is handled only by ensure_admin_user()
         if email == DEFAULT_ADMIN_EMAIL:
             continue
 
@@ -261,7 +252,7 @@ def seed_professionals(db: Session, data: dict[str, Any]) -> None:
                     setattr(existing, key, value)
                     changed = True
 
-            # For demo users, only set password if currently missing.
+            # Only set password if missing
             if not getattr(existing, "hashed_password", None) and plain:
                 existing.hashed_password = get_password_hash(plain.strip())
                 changed = True
