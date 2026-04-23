@@ -18,7 +18,11 @@ COPY . .
 
 RUN mkdir -p /app/uploads \
     && chmod +x /app/start.sh \
-    && chmod +x /app/start-worker.sh
+    && chmod +x /app/start-worker.sh \
+    && adduser --disabled-password --gecos "" --home /home/appuser appuser \
+    && chown -R appuser:appuser /app
+
+USER appuser
 
 EXPOSE 8000
 
