@@ -13,3 +13,5 @@ redis==5.2.1
 minio==7.2.15
 pyotp==2.9.0
 prometheus-fastapi-instrumentator==7.1.0
+qrcode[pil]==8.0
+Pillow==11.0.0

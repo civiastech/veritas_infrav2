@@ -55,6 +55,8 @@ class Settings(BaseSettings):
     minio_enabled: bool = True
 
     metrics_enabled: bool = True
+    seal_registry_url: str = "https://verify.veritasinfra.com/seal"
+    seal_shi_threshold: float = 85.0
     mfa_issuer: str = "Veritas Infra"
 
     uvicorn_host: str = "0.0.0.0"
