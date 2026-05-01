@@ -40,7 +40,12 @@ def normalize_email(value: str | None) -> str:
 
 
 def _is_locked(user: Professional) -> bool:
-    return bool(user.locked_until and user.locked_until > utcnow())
+    if not user.locked_until:
+        return False
+    lu = user.locked_until
+    if lu.tzinfo is None:
+        lu = lu.replace(tzinfo=timezone.utc)
+    return lu > utcnow()
 
 
 def _record_auth_attempt(
@@ -224,7 +229,10 @@ def refresh_tokens(payload: RefreshRequest, db: Session = Depends(get_db)):
         )
 
     stored = db.query(RefreshToken).filter(RefreshToken.token_id == token_id).first()
-    if not stored or stored.revoked or stored.expires_at < utcnow():
+    expires_at = stored.expires_at
+    if expires_at is not None and expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+    if not stored or stored.revoked or expires_at < utcnow():
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Refresh token expired or revoked",

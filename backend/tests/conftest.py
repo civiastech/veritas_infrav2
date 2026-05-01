@@ -16,6 +16,7 @@ os.environ['UPLOADS_DIR'] = str(Path(_db_path).with_suffix('')) + '_uploads'
 os.environ['MINIO_ENABLED'] = 'false'
 os.environ['REDIS_ENABLED'] = 'false'
 os.environ['METRICS_ENABLED'] = 'false'
+os.environ['FIRST_SUPERUSER_PASSWORD'] = 'admin123'
 
 from app.db.base import Base
 from app.db.session import engine
