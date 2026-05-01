@@ -87,10 +87,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.add_middleware(
-    TrustedHostMiddleware,
-    allowed_hosts=settings.trusted_host_list,
-)
+if settings.environment != "testing":
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=settings.trusted_host_list,
+    )
 
 app.add_middleware(
     CORSMiddleware,
