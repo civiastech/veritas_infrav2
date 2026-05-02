@@ -22,16 +22,16 @@ echo "Running smoke tests against $BASE_URL..."
 echo ""
 
 # Health
-STATUS=$(curl -sk -o /dev/null -w '%{http_code}' "$BASE_URL/health")
+STATUS=$(curl -skL -o /dev/null -w '%{http_code}' "$BASE_URL/health")
 check "Health endpoint" "$STATUS" "200"
 
 # Ready
-STATUS=$(curl -sk -o /dev/null -w '%{http_code}' "$BASE_URL/ready")
+STATUS=$(curl -skL -o /dev/null -w '%{http_code}' "$BASE_URL/ready")
 check "Ready endpoint" "$STATUS" "200"
 
 # Login
 if [[ -n "$EMAIL" && -n "$PASSWORD" ]]; then
-    RESPONSE=$(curl -sk -X POST "$BASE_URL/api/v1/auth/login" \
+    RESPONSE=$(curl -skL -X POST "$BASE_URL/api/v1/auth/login" \
         -H "Content-Type: application/json" \
         -d "{\"email\":\"$EMAIL\",\"password\":\"$PASSWORD\"}")
     TOKEN=$(echo "$RESPONSE" | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null || echo "")
@@ -40,15 +40,15 @@ if [[ -n "$EMAIL" && -n "$PASSWORD" ]]; then
         echo "✅ Login"
         pass=$((pass + 1))
 
-        STATUS=$(curl -sk -o /dev/null -w '%{http_code}' \
+        STATUS=$(curl -skL -o /dev/null -w '%{http_code}' \
             -H "Authorization: Bearer $TOKEN" "$BASE_URL/api/v1/auth/me")
         check "Auth /me endpoint" "$STATUS" "200"
 
-        STATUS=$(curl -sk -o /dev/null -w '%{http_code}' \
+        STATUS=$(curl -skL -o /dev/null -w '%{http_code}' \
             -H "Authorization: Bearer $TOKEN" "$BASE_URL/api/v1/projects/")
         check "Projects endpoint" "$STATUS" "200"
 
-        STATUS=$(curl -sk -o /dev/null -w '%{http_code}' \
+        STATUS=$(curl -skL -o /dev/null -w '%{http_code}' \
             -H "Authorization: Bearer $TOKEN" "$BASE_URL/api/v1/professionals/")
         check "Professionals endpoint" "$STATUS" "200"
     else
