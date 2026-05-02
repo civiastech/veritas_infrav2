@@ -72,21 +72,15 @@ jobs:
           U: ${{ secrets.SERVER_USER }}
           D: ${{ secrets.DEPLOY_DIR }}
         run: |
-          ssh $U@$H "
-            set -e &&
-            cd $D &&
-            git pull origin main &&
-            docker compose -f docker-compose.prod.yml build backend worker &&
-            docker compose -f docker-compose.prod.yml exec -T backend
-              alembic upgrade head &&
-            docker compose -f docker-compose.prod.yml up -d
-              --no-deps backend worker &&
-            docker compose -f docker-compose.prod.yml exec nginx
-              nginx -s reload || true
-          "
+          ssh $U@$H "set -e
+          cd $D
+          git pull origin main
+          docker compose --env-file .env.production -f docker-compose.prod.yml build backend worker
+          docker compose --env-file .env.production -f docker-compose.prod.yml exec -T backend alembic upgrade head
+          docker compose --env-file .env.production -f docker-compose.prod.yml up -d --no-deps backend worker
+          docker compose --env-file .env.production -f docker-compose.prod.yml exec -T nginx nginx -s reload || true"
       - name: Smoke test
         run: |
-          sleep 15
-          STATUS=$(curl -s -o /dev/null -w '%{http_code}'
-            https://${{ secrets.SERVER_HOST }}/health)
+          sleep 20
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' https://${{ secrets.SERVER_HOST }}/health)
           [ "$STATUS" = '200' ] && echo OK || exit 1
