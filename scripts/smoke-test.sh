@@ -11,10 +11,10 @@ check() {
     local name="$1" status="$2" expected="$3"
     if [[ "$status" == "$expected" ]]; then
         echo "✅ $name"
-        ((pass++))
+        pass=$((pass + 1))
     else
         echo "❌ $name (got HTTP $status, expected $expected)"
-        ((fail++))
+        fail=$((fail + 1))
     fi
 }
 
@@ -38,7 +38,7 @@ if [[ -n "$EMAIL" && -n "$PASSWORD" ]]; then
 
     if [[ -n "$TOKEN" ]]; then
         echo "✅ Login"
-        ((pass++))
+        pass=$((pass + 1))
 
         STATUS=$(curl -sk -o /dev/null -w '%{http_code}' \
             -H "Authorization: Bearer $TOKEN" "$BASE_URL/api/v1/auth/me")
@@ -53,7 +53,7 @@ if [[ -n "$EMAIL" && -n "$PASSWORD" ]]; then
         check "Professionals endpoint" "$STATUS" "200"
     else
         echo "❌ Login failed — check SMOKE_EMAIL and SMOKE_PASSWORD"
-        ((fail++))
+        fail=$((fail + 1))
     fi
 else
     echo "⚠  Skipping auth tests — set SMOKE_EMAIL and SMOKE_PASSWORD to test login"
