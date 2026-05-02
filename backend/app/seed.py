@@ -314,14 +314,16 @@ def seed_components(db: Session, data: dict[str, Any]) -> None:
 
 
 def seed_core_model_map_tables(db: Session, data: dict[str, Any]) -> None:
+    # Maps category name → the unique field used to detect existing records.
+    # Keys corrected to match actual model field names.
     natural_keys = {
-        "milestones": "name",
-        "payments": "payment_ref",
-        "tenders": "tender_no",
-        "bids": "bid_no",
+        "milestones": "name",        # scoped by project_uid below to avoid cross-project collisions
+        "payments": None,            # no unique natural key — always insert
+        "tenders": "uid",
+        "bids": None,                # composite key not worth the complexity; always insert
         "disputes": "uid",
-        "materials": "batch_no",
-        "certifications": "certificate_no",
+        "materials": "batch_uid",
+        "certifications": "physical_plate",
         "audit_logs": None,
         "notifications": None,
     }
@@ -345,6 +347,10 @@ def seed_core_model_map_tables(db: Session, data: dict[str, Any]) -> None:
                     .filter(getattr(model, natural_key) == item[natural_key])
                     .first()
                 )
+                # Milestones: scope by project_uid so same phase name across projects doesn't collide.
+                if key == "milestones" and existing is not None:
+                    if getattr(existing, "project_uid", None) != item.get("project_uid"):
+                        existing = None
 
             if existing:
                 for field, value in item.items():
@@ -486,11 +492,35 @@ def seed_project_assignments(db: Session) -> None:
 
     users = users_map(db)
     assignments = [
-        ("BLD-NGR-LH1-2026", "a.okonkwo@visc.org", "lead_engineer", True),
-        ("BLD-NGR-LH1-2026", "m.rodrigues@visc.org", "inspector", True),
-        ("BLD-NGR-LH1-2026", "k.mensah@visc.org", "supervisor", False),
-        ("BLD-GHA-001-2026", "a.okonkwo@visc.org", "lead_engineer", True),
-        ("BLD-NGR-LH1-2026", DEFAULT_ADMIN_EMAIL, "admin", True),
+        # Victoria Island Bridge Approach (LH-1)
+        ("BLD-NGR-LH1-2026", "a.okonkwo@visc.org",   "lead_engineer", True),
+        ("BLD-NGR-LH1-2026", "m.rodrigues@visc.org",  "inspector",     True),
+        ("BLD-NGR-LH1-2026", "k.mensah@visc.org",     "supervisor",    False),
+        ("BLD-NGR-LH1-2026", DEFAULT_ADMIN_EMAIL,      "admin",         True),
+        # Accra Tech Hub Tower
+        ("BLD-GHA-001-2026", "a.okonkwo@visc.org",   "lead_engineer", True),
+        ("BLD-GHA-001-2026", "m.rodrigues@visc.org",  "inspector",     True),
+        # Rashid Medical Tower (LH-2)
+        ("BLD-UAE-LH2-2026", "s.rashidi@visc.org",   "lead_engineer", True),
+        ("BLD-UAE-LH2-2026", "f.osei@visc.org",       "inspector",     True),
+        ("BLD-UAE-LH2-2026", "k.mensah@visc.org",     "supervisor",    False),
+        # Nairobi Unity Tower — completed, SEAL-HONOR issued
+        ("BLD-KEN-NUT-2025", "a.okonkwo@visc.org",   "lead_engineer", True),
+        ("BLD-KEN-NUT-2025", "m.rodrigues@visc.org",  "inspector",     True),
+        ("BLD-KEN-NUT-2025", "f.osei@visc.org",       "inspector",     True),
+        ("BLD-KEN-NUT-2025", "k.mensah@visc.org",     "supervisor",    False),
+        ("BLD-KEN-NUT-2025", "o.adeyemi@visc.org",    "contractor",    False),
+        # Abuja Parliament Annex — 70% complete
+        ("BLD-NGR-APA-2026", "s.rashidi@visc.org",   "lead_engineer", True),
+        ("BLD-NGR-APA-2026", "f.osei@visc.org",       "inspector",     True),
+        ("BLD-NGR-APA-2026", "m.rodrigues@visc.org",  "inspector",     True),
+        ("BLD-NGR-APA-2026", "t.okonkwo@visc.org",   "supervisor",    False),
+        ("BLD-NGR-APA-2026", "o.adeyemi@visc.org",    "contractor",    False),
+        # Port Harcourt Waterfront District — 40% complete
+        ("BLD-NGR-PHW-2026", "s.vela@visc.org",      "lead_engineer", True),
+        ("BLD-NGR-PHW-2026", "e.ihejirika@visc.org", "inspector",     True),
+        ("BLD-NGR-PHW-2026", "k.mensah@visc.org",     "supervisor",    False),
+        ("BLD-NGR-PHW-2026", "c.nwachukwu@visc.org", "contractor",    False),
     ]
 
     for project_uid, email, role_on_project, can_approve in assignments:

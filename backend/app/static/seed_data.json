@@ -12,7 +12,7 @@
       "role": "engineer",
       "password": "honor123",
       "active": true,
-      "bio": "Senior Structural Engineer with 22 years in West Africa. Specialises in high-rise structural systems."
+      "bio": "Senior Structural Engineer with 22 years in West Africa. Specialises in high-rise structural systems and SEAL™ certification."
     },
     {
       "name": "Ing. Marco Rodrigues",
@@ -26,7 +26,7 @@
       "role": "inspector",
       "password": "honor123",
       "active": true,
-      "bio": "Lead Inspector and SEAL\u2122 Certifying Engineer. 18 years of evidence-based practice."
+      "bio": "Lead Inspector and SEAL™ Certifying Engineer. 18 years of evidence-based practice. CST Evidence Council Member."
     },
     {
       "name": "Dr. S. Al-Rashidi",
@@ -40,7 +40,7 @@
       "role": "engineer",
       "password": "honor123",
       "active": true,
-      "bio": "CST Member. Geotechnical specialist for deep foundation systems."
+      "bio": "CST Member. Geotechnical specialist for deep foundation systems and government infrastructure."
     },
     {
       "name": "Engr. Kwame Mensah",
@@ -54,7 +54,7 @@
       "role": "supervisor",
       "password": "trusted123",
       "active": true,
-      "bio": "Site Supervisor and ICE Programme graduate."
+      "bio": "Site Supervisor and ICE Programme graduate. Experienced in frame and substructure supervision."
     },
     {
       "name": "Engr. Fatima Osei",
@@ -68,7 +68,7 @@
       "role": "inspector",
       "password": "trusted123",
       "active": true,
-      "bio": "Materials specialist. Certified ORIGIN\u2122 Material Verifier."
+      "bio": "Materials specialist. Certified ORIGIN™ Material Verifier. Skilled in concrete and steel batch testing."
     },
     {
       "name": "Olu Adeyemi",
@@ -82,7 +82,7 @@
       "role": "contractor",
       "password": "stable123",
       "active": true,
-      "bio": "General contractor. Accredited subcontractor with 2 completed certifications."
+      "bio": "General contractor. Accredited subcontractor with 2 completed certifications. Specialist in RC structures."
     },
     {
       "name": "Admin User",
@@ -96,7 +96,7 @@
       "role": "admin",
       "password": "admin123",
       "active": true,
-      "bio": "System administrator."
+      "bio": "Primary system administrator. Platform governance and standards oversight."
     },
     {
       "name": "Ibrahim Al-Sayed",
@@ -110,7 +110,77 @@
       "role": "contractor",
       "password": "prov123",
       "active": true,
-      "bio": "New entrant. Completing ACADEMY\u2122 PROVISIONAL pathway."
+      "bio": "New entrant. Completing ACADEMY™ PROVISIONAL pathway. Specialist in residential RC construction."
+    },
+    {
+      "name": "Engr. Tunde Okonkwo",
+      "email": "t.okonkwo@visc.org",
+      "band": "TRUSTED",
+      "discipline": "Structural Engineering",
+      "country": "Nigeria",
+      "projects": 14,
+      "shi_avg": 87.3,
+      "pri_score": 76,
+      "role": "supervisor",
+      "password": "trusted123",
+      "active": true,
+      "bio": "Senior Site Supervisor. 12 years experience in high-rise commercial and civic construction across Nigeria."
+    },
+    {
+      "name": "Ing. Sofia Vela-Torres",
+      "email": "s.vela@visc.org",
+      "band": "HONOR",
+      "discipline": "Structural Engineering",
+      "country": "Colombia",
+      "projects": 33,
+      "shi_avg": 92.8,
+      "pri_score": 91,
+      "role": "engineer",
+      "password": "honor123",
+      "active": true,
+      "bio": "Structural engineer specialising in waterfront RC frames and seismic design. PREFAB™ accredited."
+    },
+    {
+      "name": "Dr. Emeka Ihejirika",
+      "email": "e.ihejirika@visc.org",
+      "band": "TRUSTED",
+      "discipline": "Civil & Environmental",
+      "country": "Nigeria",
+      "projects": 18,
+      "shi_avg": 88.1,
+      "pri_score": 80,
+      "role": "inspector",
+      "password": "trusted123",
+      "active": true,
+      "bio": "Field inspector certified in CAPTURE-LARGE methodology. Specialist in waterfront and marine structures."
+    },
+    {
+      "name": "Chibuzor Nwachukwu",
+      "email": "c.nwachukwu@visc.org",
+      "band": "STABLE",
+      "discipline": "Civil Engineering",
+      "country": "Nigeria",
+      "projects": 8,
+      "shi_avg": 82.4,
+      "pri_score": 63,
+      "role": "contractor",
+      "password": "stable123",
+      "active": true,
+      "bio": "General contractor. 8 completed certified projects in South-South Nigeria. Waterfront construction specialist."
+    },
+    {
+      "name": "Admin Delegate",
+      "email": "admin2@visc.org",
+      "band": "HONOR",
+      "discipline": "Platform Administration",
+      "country": "International",
+      "projects": 0,
+      "shi_avg": 0,
+      "pri_score": 0,
+      "role": "admin",
+      "password": "Admin2024!",
+      "active": true,
+      "bio": "Secondary system administrator. Country operations delegate and compliance oversight."
     }
   ],
   "projects": [
@@ -139,7 +209,7 @@
       "type": "Commercial",
       "value": 28000000,
       "currency": "USD",
-      "phase": "SEAL\u2122 Certification",
+      "phase": "SEAL™ Certification",
       "status": "complete",
       "progress": 99,
       "shi": 94.1,
@@ -164,6 +234,57 @@
       "target_completion": "2028-12-31",
       "lead_engineer_id": 3,
       "description": "35-storey specialist medical facility. Lighthouse Project LH-2. SEAL-SOVEREIGN target."
+    },
+    {
+      "uid": "BLD-KEN-NUT-2025",
+      "name": "Nairobi Unity Tower",
+      "client": "Nairobi Metropolitan Properties Ltd",
+      "country": "Kenya",
+      "type": "Commercial",
+      "value": 52000000,
+      "currency": "USD",
+      "phase": "SEAL™ Certification",
+      "status": "complete",
+      "progress": 100,
+      "shi": 95.2,
+      "started": "2025-01-15",
+      "target_completion": "2026-03-01",
+      "lead_engineer_id": 2,
+      "description": "22-storey mixed-use commercial tower in Nairobi. Delivered fully on schedule. SHI composite 95.2 — among the highest on the platform. SEAL™ HONOR certificate issued."
+    },
+    {
+      "uid": "BLD-NGR-APA-2026",
+      "name": "Abuja Parliament Annex",
+      "client": "Federal Capital Territory Authority",
+      "country": "Nigeria",
+      "type": "Civic / Government",
+      "value": 89000000,
+      "currency": "USD",
+      "phase": "Frame & Load Paths",
+      "status": "active",
+      "progress": 70,
+      "shi": 91.5,
+      "started": "2026-01-20",
+      "target_completion": "2027-08-31",
+      "lead_engineer_id": 4,
+      "description": "8-storey government civic building adjacent to the National Assembly complex. Post-tensioned frame structure. Three of five milestones released. Frame Level 4 column work in progress."
+    },
+    {
+      "uid": "BLD-NGR-PHW-2026",
+      "name": "Port Harcourt Waterfront District Phase 1",
+      "client": "Rivers State Urban Development Authority",
+      "country": "Nigeria",
+      "type": "Mixed-Use Development",
+      "value": 35000000,
+      "currency": "USD",
+      "phase": "Superstructure",
+      "status": "active",
+      "progress": 40,
+      "shi": 87.8,
+      "started": "2026-03-01",
+      "target_completion": "2027-12-31",
+      "lead_engineer_id": 11,
+      "description": "Waterfront mixed-use development. Marine-adjacent site requires enhanced corrosion protection and pile monitoring. Foundation and ground floor verified. Upper frame work commenced."
     }
   ],
   "components": [
@@ -208,6 +329,202 @@
       "executed_by": null,
       "approved_by": null,
       "notes": "Awaiting evidence capture."
+    },
+    {
+      "uid": "BLD-KEN-NUT/B1/P1/PILE/001",
+      "project_uid": "BLD-KEN-NUT-2025",
+      "type": "Pile Cap",
+      "spec": "PC-2400x2400x1200-12T32+R12@150",
+      "level": "B1",
+      "grid": "P1",
+      "shi": 96,
+      "status": "verified",
+      "material_batch": "SM-KEN-2025-001",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Primary foundation pile cap. 14m bored piles. Pre-pour inspection passed with zero flags."
+    },
+    {
+      "uid": "BLD-KEN-NUT/L1/C1/COL/001",
+      "project_uid": "BLD-KEN-NUT-2025",
+      "type": "Column",
+      "spec": "C-500x500-12T32+R10@100",
+      "level": "L1",
+      "grid": "C1",
+      "shi": 95,
+      "status": "verified",
+      "material_batch": "SM-KEN-2025-001",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Ground floor corner column. Full cage video evidence. No deviations."
+    },
+    {
+      "uid": "BLD-KEN-NUT/L1/B1/BEAM/001",
+      "project_uid": "BLD-KEN-NUT-2025",
+      "type": "Transfer Beam",
+      "spec": "TB-800x450-8T25B+6T20T+R10@120",
+      "level": "L1",
+      "grid": "B1",
+      "shi": 94,
+      "status": "verified",
+      "material_batch": "SM-KEN-2025-001",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Level 1 transfer beam bridging column offset. Stirrup spacing independently verified."
+    },
+    {
+      "uid": "BLD-KEN-NUT/L1/S1/SLAB/001",
+      "project_uid": "BLD-KEN-NUT-2025",
+      "type": "Slab",
+      "spec": "S-220-T12@180-BOTT+T10@180-TOP-RC",
+      "level": "L1",
+      "grid": "S1",
+      "shi": 95,
+      "status": "verified",
+      "material_batch": "CM-KEN-2025-001",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Ground floor slab. Concrete cube test strength 48.2 MPa vs 40 MPa required."
+    },
+    {
+      "uid": "BLD-KEN-NUT/RF/PP/PRPT/001",
+      "project_uid": "BLD-KEN-NUT-2025",
+      "type": "Parapet Wall",
+      "spec": "PW-250-T10@200-RC-WATERPROOF",
+      "level": "RF",
+      "grid": "PP",
+      "shi": 96,
+      "status": "verified",
+      "material_batch": "CM-KEN-2025-001",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Roof parapet with waterproof membrane. Final structural element. SHI 96 confirms excellent workmanship."
+    },
+    {
+      "uid": "BLD-NGR-APA/B1/P1/PILE/001",
+      "project_uid": "BLD-NGR-APA-2026",
+      "type": "Pile Cap",
+      "spec": "PC-2800x2800x1400-16T32+R12@140",
+      "level": "B1",
+      "grid": "P1",
+      "shi": 93,
+      "status": "verified",
+      "material_batch": "SM-2026-002",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Primary pile cap for core column grid. Depth 18m. Pre-pour evidence approved."
+    },
+    {
+      "uid": "BLD-NGR-APA/L1/C1/COL/001",
+      "project_uid": "BLD-NGR-APA-2026",
+      "type": "Column",
+      "spec": "C-600x600-16T32+R12@100-PT",
+      "level": "L1",
+      "grid": "C1",
+      "shi": 92,
+      "status": "verified",
+      "material_batch": "SM-2026-002",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Post-tensioned column. Duct placement verified pre-pour. High-load civic transfer point."
+    },
+    {
+      "uid": "BLD-NGR-APA/L2/B1/BEAM/001",
+      "project_uid": "BLD-NGR-APA-2026",
+      "type": "Transfer Beam",
+      "spec": "TB-900x500-10T32B+8T25T+R10@100",
+      "level": "L2",
+      "grid": "B1",
+      "shi": 91,
+      "status": "verified",
+      "material_batch": "SM-2026-002",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Level 2 transfer beam. Cantilever section checked by independent inspector. All ties confirmed."
+    },
+    {
+      "uid": "BLD-NGR-APA/L3/S1/SLAB/001",
+      "project_uid": "BLD-NGR-APA-2026",
+      "type": "Slab",
+      "spec": "S-250-T14@180-BOTT+T12@180-TOP-PT",
+      "level": "L3",
+      "grid": "S1",
+      "shi": 90,
+      "status": "verified",
+      "material_batch": "CM-NGR-2026-001",
+      "executed_by": 7,
+      "approved_by": 5,
+      "notes": "Level 3 post-tensioned flat slab. Tendon layout and anchor detail verified. Cover blocks measured."
+    },
+    {
+      "uid": "BLD-NGR-APA/L4/C1/COL/001",
+      "project_uid": "BLD-NGR-APA-2026",
+      "type": "Column",
+      "spec": "C-550x550-14T28+R10@110-PT",
+      "level": "L4",
+      "grid": "C1",
+      "shi": 0,
+      "status": "pending",
+      "material_batch": null,
+      "executed_by": null,
+      "approved_by": null,
+      "notes": "Level 4 column cage placement in progress. CAPTURE-LARGE evidence required before pour."
+    },
+    {
+      "uid": "BLD-NGR-PHW/B1/P1/PILE/001",
+      "project_uid": "BLD-NGR-PHW-2026",
+      "type": "Bored Pile",
+      "spec": "BP-800D-8T28+R10@150-MARINE",
+      "level": "B1",
+      "grid": "P1",
+      "shi": 89,
+      "status": "verified",
+      "material_batch": "SM-2026-003",
+      "executed_by": 13,
+      "approved_by": 10,
+      "notes": "Marine-adjacent bored pile. Epoxy-coated reinforcement for corrosion protection. Cover 65mm confirmed."
+    },
+    {
+      "uid": "BLD-NGR-PHW/L1/C1/COL/001",
+      "project_uid": "BLD-NGR-PHW-2026",
+      "type": "Column",
+      "spec": "C-400x400-8T25+R10@120-MARINE",
+      "level": "L1",
+      "grid": "C1",
+      "shi": 88,
+      "status": "verified",
+      "material_batch": "SM-2026-003",
+      "executed_by": 13,
+      "approved_by": 10,
+      "notes": "Ground floor perimeter column. Corrosion-resistant mix design C45/55. Cover 60mm."
+    },
+    {
+      "uid": "BLD-NGR-PHW/L2/B1/BEAM/001",
+      "project_uid": "BLD-NGR-PHW-2026",
+      "type": "Beam",
+      "spec": "B-500x300-6T20B+4T16T+R8@150",
+      "level": "L2",
+      "grid": "B1",
+      "shi": 0,
+      "status": "pending",
+      "material_batch": null,
+      "executed_by": null,
+      "approved_by": null,
+      "notes": "Level 2 beam. Reinforcement delivery expected. CAPTURE-LARGE required before cage close."
+    },
+    {
+      "uid": "BLD-NGR-PHW/L2/S1/SLAB/001",
+      "project_uid": "BLD-NGR-PHW-2026",
+      "type": "Slab",
+      "spec": "S-180-T12@200-BOTT+T10@200-TOP",
+      "level": "L2",
+      "grid": "S1",
+      "shi": 0,
+      "status": "pending",
+      "material_batch": null,
+      "executed_by": null,
+      "approved_by": null,
+      "notes": "Level 2 slab. Dependent on beam completion. Evidence gate active."
     }
   ],
   "evidence": [
@@ -219,7 +536,7 @@
       "approved_by": 4,
       "description": "Full reinforcement cage before pour. All ties visible. Cover blocks confirmed.",
       "timestamp": "2026-01-15T09:22:00Z",
-      "geo": "6.4281\u00b0N, 3.4219\u00b0E",
+      "geo": "6.4281°N, 3.4219°E",
       "hash": "a8f3c2d1e9b4f7a3c8d2e1f9b4a7c3d2",
       "status": "approved"
     },
@@ -231,8 +548,140 @@
       "approved_by": 5,
       "description": "Bottom steel placed. Stirrups at 150mm confirmed. Video evidence included for cantilever zone.",
       "timestamp": "2026-02-03T14:10:00Z",
-      "geo": "6.4281\u00b0N, 3.4219\u00b0E",
+      "geo": "6.4281°N, 3.4219°E",
       "hash": "c7e5f4d3b2a1f9e8d7c6b5a4f3e2d1c0",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/B1/P1/PILE/001",
+      "type": "CAPTURE-LARGE",
+      "images": 8,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "Pile cap reinforcement cage. 12 x T32 bars, cover blocks at 75mm. Cage depth 1200mm confirmed. All pile heads trimmed per spec.",
+      "timestamp": "2025-02-20T08:30:00Z",
+      "geo": "1.2921°S, 36.8219°E",
+      "hash": "f1e2d3c4b5a6f7e8d9c0b1a2f3e4d5c6",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/L1/C1/COL/001",
+      "type": "CAPTURE-LARGE",
+      "images": 6,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "L1 corner column cage. 12 x T32 vertical bars. Ligatures at 100mm in compression zone, 150mm elsewhere. All cover blocks confirmed.",
+      "timestamp": "2025-05-12T10:15:00Z",
+      "geo": "1.2921°S, 36.8219°E",
+      "hash": "b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/L1/B1/BEAM/001",
+      "type": "CAPTURE-LARGE",
+      "images": 7,
+      "submitted_by": 7,
+      "approved_by": 3,
+      "description": "Transfer beam full cage. Bottom steel 8 x T25, top steel 6 x T20. Stirrup spacing 120mm throughout. Cantilever zone checked independently.",
+      "timestamp": "2025-06-18T09:45:00Z",
+      "geo": "1.2921°S, 36.8219°E",
+      "hash": "e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/L1/S1/SLAB/001",
+      "type": "CAPTURE-LARGE",
+      "images": 5,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "Ground floor slab reinforcement. T12@180 bottom mesh, T10@180 top mesh. Cube test companion samples taken. Pour log attached.",
+      "timestamp": "2025-08-05T07:30:00Z",
+      "geo": "1.2921°S, 36.8219°E",
+      "hash": "c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/RF/PP/PRPT/001",
+      "type": "CAPTURE-LARGE",
+      "images": 4,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "Roof parapet wall. T10@200 vertical bars. Waterproof membrane applied and taped. Final structural element on project.",
+      "timestamp": "2025-12-10T11:00:00Z",
+      "geo": "1.2921°S, 36.8219°E",
+      "hash": "a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/B1/P1/PILE/001",
+      "type": "CAPTURE-LARGE",
+      "images": 9,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "Government building primary pile cap. 16 x T32 bars. Depth 1400mm. Pile heads trimmed to correct level. Temporary casing withdrawn per spec.",
+      "timestamp": "2026-02-14T07:15:00Z",
+      "geo": "9.0765°N, 7.3986°E",
+      "hash": "d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/L1/C1/COL/001",
+      "type": "CAPTURE-LARGE",
+      "images": 7,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "Post-tensioned column cage. 16 x T32 vertical bars. Duct placement verified with laser alignment tool. Anchorage pockets formed correctly.",
+      "timestamp": "2026-03-08T09:30:00Z",
+      "geo": "9.0765°N, 7.3986°E",
+      "hash": "e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/L2/B1/BEAM/001",
+      "type": "CAPTURE-LARGE",
+      "images": 8,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "Level 2 transfer beam. Bottom 10 x T32, top 8 x T25. Stirrups at 100mm in critical zone. Cantilever zone independently checked by inspector.",
+      "timestamp": "2026-04-22T10:00:00Z",
+      "geo": "9.0765°N, 7.3986°E",
+      "hash": "f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/L3/S1/SLAB/001",
+      "type": "CAPTURE-LARGE",
+      "images": 6,
+      "submitted_by": 7,
+      "approved_by": 5,
+      "description": "Post-tensioned flat slab. Tendon layout surveyed. Anchor plates and bearing plates installed per drawing. Cover 35mm confirmed.",
+      "timestamp": "2026-06-15T08:00:00Z",
+      "geo": "9.0765°N, 7.3986°E",
+      "hash": "a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-NGR-PHW/B1/P1/PILE/001",
+      "type": "CAPTURE-LARGE",
+      "images": 7,
+      "submitted_by": 13,
+      "approved_by": 10,
+      "description": "Marine-adjacent bored pile. Epoxy-coated T28 bars. Cover blocks 65mm. Post-pour integrity test log attached. No anomalies.",
+      "timestamp": "2026-04-10T07:00:00Z",
+      "geo": "4.8156°N, 7.0498°E",
+      "hash": "b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5",
+      "status": "approved"
+    },
+    {
+      "component_uid": "BLD-NGR-PHW/L1/C1/COL/001",
+      "type": "CAPTURE-LARGE",
+      "images": 5,
+      "submitted_by": 13,
+      "approved_by": 10,
+      "description": "Ground floor perimeter column. C45/55 marine-resistant concrete. 8 x T25 vertical bars with corrosion-resistant links. Cover 60mm confirmed.",
+      "timestamp": "2026-05-05T08:30:00Z",
+      "geo": "4.8156°N, 7.0498°E",
+      "hash": "c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6",
       "status": "approved"
     }
   ],
@@ -246,7 +695,7 @@
       "env_score": 95,
       "supervision_score": 95,
       "ai_flags": 0,
-      "reason_tag": "All reinforcement placed per PREFAB\u2122 spec. No deviations. Excellent workmanship.",
+      "reason_tag": "All reinforcement placed per PREFAB™ spec. No deviations. Excellent workmanship.",
       "timestamp": "2026-01-15T14:30:00Z",
       "status": "passed"
     },
@@ -262,12 +711,155 @@
       "reason_tag": "Bottom steel placement excellent. Stirrup spacing consistent throughout. Cantilever zone carefully detailed.",
       "timestamp": "2026-02-04T09:15:00Z",
       "status": "passed"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/B1/P1/PILE/001",
+      "inspector_id": 3,
+      "shi": 96,
+      "material_score": 98,
+      "assembly_score": 96,
+      "env_score": 95,
+      "supervision_score": 96,
+      "ai_flags": 0,
+      "reason_tag": "Pile cap reinforcement exceptional. 12 x T32 bars verified at correct centres. All pile heads trimmed precisely. Cover blocks measured at 75mm — above minimum. Zero AI flags.",
+      "timestamp": "2025-02-21T10:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/L1/C1/COL/001",
+      "inspector_id": 6,
+      "shi": 95,
+      "material_score": 96,
+      "assembly_score": 95,
+      "env_score": 94,
+      "supervision_score": 95,
+      "ai_flags": 0,
+      "reason_tag": "Column cage impeccably placed. Ligature spacing measured at 100mm compression zone, 150mm elsewhere — within spec. Cover confirmed at all four faces.",
+      "timestamp": "2025-05-13T11:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/L1/B1/BEAM/001",
+      "inspector_id": 3,
+      "shi": 94,
+      "material_score": 95,
+      "assembly_score": 94,
+      "env_score": 93,
+      "supervision_score": 94,
+      "ai_flags": 0,
+      "reason_tag": "Transfer beam fully compliant. Cantilever zone stirrup spacing independently measured 3 times. No deviations. High-confidence pass.",
+      "timestamp": "2025-06-19T09:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/L1/S1/SLAB/001",
+      "inspector_id": 6,
+      "shi": 95,
+      "material_score": 95,
+      "assembly_score": 95,
+      "env_score": 95,
+      "supervision_score": 96,
+      "ai_flags": 0,
+      "reason_tag": "Slab mesh perfectly placed. Bottom and top mats measured. Cube test companions taken. Site conditions clean and well-managed.",
+      "timestamp": "2025-08-06T08:30:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/RF/PP/PRPT/001",
+      "inspector_id": 3,
+      "shi": 96,
+      "material_score": 97,
+      "assembly_score": 96,
+      "env_score": 95,
+      "supervision_score": 96,
+      "ai_flags": 0,
+      "reason_tag": "Parapet wall compliant in all respects. Waterproof membrane fully applied and inspected. Final SHI score reflects outstanding project execution.",
+      "timestamp": "2025-12-11T10:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/B1/P1/PILE/001",
+      "inspector_id": 6,
+      "shi": 93,
+      "material_score": 94,
+      "assembly_score": 93,
+      "env_score": 92,
+      "supervision_score": 93,
+      "ai_flags": 0,
+      "reason_tag": "Pile cap reinforcement to a very high standard. 16 x T32 bars well placed. Temporary casing withdrawal observed and recorded. Clean pour conditions.",
+      "timestamp": "2026-02-15T09:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/L1/C1/COL/001",
+      "inspector_id": 3,
+      "shi": 92,
+      "material_score": 93,
+      "assembly_score": 92,
+      "env_score": 91,
+      "supervision_score": 92,
+      "ai_flags": 0,
+      "reason_tag": "Post-tensioned column. PT duct alignment verified per design. Vertical bars well-placed. Anchorage pockets confirmed. No deviations noted.",
+      "timestamp": "2026-03-09T10:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/L2/B1/BEAM/001",
+      "inspector_id": 6,
+      "shi": 91,
+      "material_score": 92,
+      "assembly_score": 91,
+      "env_score": 90,
+      "supervision_score": 91,
+      "ai_flags": 0,
+      "reason_tag": "Transfer beam meets PREFAB™ specification. Stirrup density in critical zone confirmed by manual count. Bottom steel placement above average.",
+      "timestamp": "2026-04-23T09:30:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-NGR-APA/L3/S1/SLAB/001",
+      "inspector_id": 3,
+      "shi": 90,
+      "material_score": 91,
+      "assembly_score": 90,
+      "env_score": 89,
+      "supervision_score": 90,
+      "ai_flags": 1,
+      "reason_tag": "Post-tensioned slab compliant. One minor AI flag on tendon alignment at grid C3 — reviewed on-site, confirmed within tolerance. Acceptable pass with note on file.",
+      "timestamp": "2026-06-16T09:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-NGR-PHW/B1/P1/PILE/001",
+      "inspector_id": 12,
+      "shi": 89,
+      "material_score": 91,
+      "assembly_score": 89,
+      "env_score": 87,
+      "supervision_score": 89,
+      "ai_flags": 0,
+      "reason_tag": "Marine bored pile. Epoxy coating integrity visually confirmed. Cover blocks accurately positioned at 65mm. Integrity test log reviewed and attached. Good standard overall.",
+      "timestamp": "2026-04-11T09:00:00Z",
+      "status": "passed"
+    },
+    {
+      "component_uid": "BLD-NGR-PHW/L1/C1/COL/001",
+      "inspector_id": 12,
+      "shi": 88,
+      "material_score": 89,
+      "assembly_score": 88,
+      "env_score": 87,
+      "supervision_score": 88,
+      "ai_flags": 0,
+      "reason_tag": "Waterfront column. Marine-resistant mix verified. Corrosion-resistant links confirmed throughout. Cover 60mm measured at 6 points. Satisfactory execution.",
+      "timestamp": "2026-05-06T09:00:00Z",
+      "status": "passed"
     }
   ],
   "milestones": [
     {
       "project_uid": "BLD-NGR-LH1-2026",
-      "name": "Foundation & Substructure",
+      "name": "LH1 – Foundation & Substructure",
       "phase": 1,
       "amount": 6750000,
       "currency": "USD",
@@ -278,14 +870,168 @@
     },
     {
       "project_uid": "BLD-NGR-LH1-2026",
-      "name": "Frame & Primary Load Paths",
+      "name": "LH1 – Frame & Primary Load Paths",
       "phase": 2,
       "amount": 18000000,
       "currency": "USD",
       "required_shi": 82,
       "status": "active",
       "released_date": null,
-      "description": "All columns, beams, and slabs for Levels 1\u20138."
+      "description": "All columns, beams, and slabs for Levels 1–8."
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "name": "NUT – Site Preparation & Piling",
+      "phase": 1,
+      "amount": 5200000,
+      "currency": "USD",
+      "required_shi": 78,
+      "status": "released",
+      "released_date": "2025-03-15",
+      "description": "Site clearance, piling works, pile cap construction, dewatering."
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "name": "NUT – Foundation & Transfer Structure",
+      "phase": 2,
+      "amount": 13000000,
+      "currency": "USD",
+      "required_shi": 82,
+      "status": "released",
+      "released_date": "2025-07-20",
+      "description": "Ground floor RC slab, transfer beams, basement services."
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "name": "NUT – Main Frame Levels 1–10",
+      "phase": 3,
+      "amount": 15600000,
+      "currency": "USD",
+      "required_shi": 84,
+      "status": "released",
+      "released_date": "2025-11-05",
+      "description": "Full structural frame for floors 1 to 10. All columns, beams, slabs verified."
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "name": "NUT – Upper Frame Levels 11–22",
+      "phase": 4,
+      "amount": 12400000,
+      "currency": "USD",
+      "required_shi": 86,
+      "status": "released",
+      "released_date": "2026-01-28",
+      "description": "Structural frame for floors 11 to 22, plant room, parapet walls."
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "name": "NUT – Completion, Commissioning & SEAL Certification",
+      "phase": 5,
+      "amount": 5800000,
+      "currency": "USD",
+      "required_shi": 90,
+      "status": "released",
+      "released_date": "2026-03-10",
+      "description": "Final inspections, snagging, SEAL™ HONOR certification process and plate installation."
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "name": "APA – Site Works & Piling",
+      "phase": 1,
+      "amount": 8900000,
+      "currency": "USD",
+      "required_shi": 80,
+      "status": "released",
+      "released_date": "2026-03-18",
+      "description": "Site preparation, bored piling 18m depth, pile cap formwork and pour."
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "name": "APA – Foundation & Basement Structure",
+      "phase": 2,
+      "amount": 17800000,
+      "currency": "USD",
+      "required_shi": 82,
+      "status": "released",
+      "released_date": "2026-06-30",
+      "description": "Basement walls, ground floor PT slab, drainage and waterproofing."
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "name": "APA – Superstructure Frame L1–L4",
+      "phase": 3,
+      "amount": 26700000,
+      "currency": "USD",
+      "required_shi": 84,
+      "status": "released",
+      "released_date": "2026-09-30",
+      "description": "Post-tensioned frame levels 1 to 4. All PT columns, transfer beams, flat slabs."
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "name": "APA – Upper Frame L5–L8",
+      "phase": 4,
+      "amount": 26700000,
+      "currency": "USD",
+      "required_shi": 86,
+      "status": "active",
+      "released_date": null,
+      "description": "Superstructure continuation levels 5 to 8. Frame in progress."
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "name": "APA – SEAL™ Certification",
+      "phase": 5,
+      "amount": 8900000,
+      "currency": "USD",
+      "required_shi": 90,
+      "status": "pending",
+      "released_date": null,
+      "description": "Final inspections, snagging, SEAL™ certification and plate installation."
+    },
+    {
+      "project_uid": "BLD-NGR-PHW-2026",
+      "name": "PHW – Foundation Works",
+      "phase": 1,
+      "amount": 3500000,
+      "currency": "USD",
+      "required_shi": 78,
+      "status": "released",
+      "released_date": "2026-05-20",
+      "description": "Marine-adjacent bored piling, pile cap construction, ground beam installation."
+    },
+    {
+      "project_uid": "BLD-NGR-PHW-2026",
+      "name": "PHW – Ground Floor Structure",
+      "phase": 2,
+      "amount": 10500000,
+      "currency": "USD",
+      "required_shi": 80,
+      "status": "active",
+      "released_date": null,
+      "description": "Ground floor columns, beams, and slab. Waterfront zone marine-grade concrete."
+    },
+    {
+      "project_uid": "BLD-NGR-PHW-2026",
+      "name": "PHW – Upper Frame",
+      "phase": 3,
+      "amount": 14000000,
+      "currency": "USD",
+      "required_shi": 82,
+      "status": "pending",
+      "released_date": null,
+      "description": "Upper structural frame, staircase cores, lift shaft structure."
+    },
+    {
+      "project_uid": "BLD-NGR-PHW-2026",
+      "name": "PHW – Completion & SEAL™ Certification",
+      "phase": 4,
+      "amount": 7000000,
+      "currency": "USD",
+      "required_shi": 88,
+      "status": "pending",
+      "released_date": null,
+      "description": "Final inspections, corrosion monitoring handover, SEAL™ certification."
     }
   ],
   "payments": [
@@ -296,9 +1042,117 @@
       "currency": "USD",
       "from_party": "Lagos State Infrastructure Agency",
       "to_party": "VeritasBridge Constructors Ltd",
-      "released_by": "PAY\u2122 Escrow Engine",
+      "released_by": "PAY™ Escrow Engine",
       "date": "2026-02-20",
-      "tx_id": "PAY-2026-NGR-0001",
+      "tx_id": "PAY-2026-NGR-LH1-001",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "milestone_id": null,
+      "amount": 5200000,
+      "currency": "USD",
+      "from_party": "Nairobi Metropolitan Properties Ltd",
+      "to_party": "Okonkwo Civil Contractors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2025-03-15",
+      "tx_id": "PAY-2025-KEN-NUT-001",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "milestone_id": null,
+      "amount": 13000000,
+      "currency": "USD",
+      "from_party": "Nairobi Metropolitan Properties Ltd",
+      "to_party": "Okonkwo Civil Contractors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2025-07-20",
+      "tx_id": "PAY-2025-KEN-NUT-002",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "milestone_id": null,
+      "amount": 15600000,
+      "currency": "USD",
+      "from_party": "Nairobi Metropolitan Properties Ltd",
+      "to_party": "Okonkwo Civil Contractors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2025-11-05",
+      "tx_id": "PAY-2025-KEN-NUT-003",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "milestone_id": null,
+      "amount": 12400000,
+      "currency": "USD",
+      "from_party": "Nairobi Metropolitan Properties Ltd",
+      "to_party": "Okonkwo Civil Contractors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2026-01-28",
+      "tx_id": "PAY-2026-KEN-NUT-004",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "milestone_id": null,
+      "amount": 5800000,
+      "currency": "USD",
+      "from_party": "Nairobi Metropolitan Properties Ltd",
+      "to_party": "Okonkwo Civil Contractors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2026-03-10",
+      "tx_id": "PAY-2026-KEN-NUT-005",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "milestone_id": null,
+      "amount": 8900000,
+      "currency": "USD",
+      "from_party": "Federal Capital Territory Authority",
+      "to_party": "Apex Federal Constructors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2026-03-18",
+      "tx_id": "PAY-2026-NGR-APA-001",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "milestone_id": null,
+      "amount": 17800000,
+      "currency": "USD",
+      "from_party": "Federal Capital Territory Authority",
+      "to_party": "Apex Federal Constructors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2026-06-30",
+      "tx_id": "PAY-2026-NGR-APA-002",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-NGR-APA-2026",
+      "milestone_id": null,
+      "amount": 26700000,
+      "currency": "USD",
+      "from_party": "Federal Capital Territory Authority",
+      "to_party": "Apex Federal Constructors Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2026-09-30",
+      "tx_id": "PAY-2026-NGR-APA-003",
+      "status": "completed"
+    },
+    {
+      "project_uid": "BLD-NGR-PHW-2026",
+      "milestone_id": null,
+      "amount": 3500000,
+      "currency": "USD",
+      "from_party": "Rivers State Urban Development Authority",
+      "to_party": "Nwachukwu Marine Construction Ltd",
+      "released_by": "PAY™ Escrow Engine",
+      "date": "2026-05-20",
+      "tx_id": "PAY-2026-NGR-PHW-001",
       "status": "completed"
     }
   ],
@@ -313,7 +1167,7 @@
       "deadline": "2026-04-30",
       "status": "open",
       "type": "Infrastructure",
-      "description": "Design-and-build contract for 2.8km elevated highway. Minimum PRI: TRUSTED. SHI history \u226585 required."
+      "description": "Design-and-build contract for 2.8km elevated highway. Minimum PRI: TRUSTED. SHI history ≥85 required."
     },
     {
       "uid": "TND-UAE-003-2026",
@@ -326,6 +1180,18 @@
       "status": "open",
       "type": "Cultural",
       "description": "Major cultural precinct. SEAL-SOVEREIGN target. HONOR-level lead engineer mandatory."
+    },
+    {
+      "uid": "TND-KEN-001-2026",
+      "name": "Nairobi Industrial Park Phase 2 Warehousing",
+      "client": "Kenya National Urban Development Authority",
+      "country": "Kenya",
+      "value": 31000000,
+      "currency": "USD",
+      "deadline": "2026-06-15",
+      "status": "open",
+      "type": "Industrial",
+      "description": "Design-and-build industrial warehousing complex. SHI history ≥80 required. Veritas-certified contractors preferred."
     }
   ],
   "bids": [
@@ -350,6 +1216,17 @@
       "matrix_score": 74.8,
       "status": "submitted",
       "submitted_by": null
+    },
+    {
+      "tender_uid": "TND-KEN-001-2026",
+      "firm": "Okonkwo Civil Contractors Ltd",
+      "price": 28500000,
+      "integrity_score": 93,
+      "capacity_score": 90,
+      "shi_history": 95.2,
+      "matrix_score": 92.6,
+      "status": "shortlisted",
+      "submitted_by": 7
     }
   ],
   "disputes": [
@@ -360,12 +1237,26 @@
       "type": "Technical Execution",
       "raised_by": 6,
       "against_party": "Skyline Civil Ltd",
-      "description": "Disputed reinforcement cover measurement \u2014 site supervisor claimed 32mm, evidence shows 28mm.",
+      "description": "Disputed reinforcement cover measurement — site supervisor claimed 32mm, evidence shows 28mm.",
       "status": "resolved",
-      "resolution": "Evidence reviewed. BUILD\u2122 images confirm 28mm cover at one face. PREFAB\u2122 requires 30mm min. Correction note added to TWIN\u2122 record. No structural impact per SHI 94. Supervisor PRI noted.",
+      "resolution": "Evidence reviewed. BUILD™ images confirm 28mm cover at one face. PREFAB™ requires 30mm min. Correction note added to TWIN™ record. No structural impact per SHI 94. Supervisor PRI noted.",
       "raised_date": "2026-02-10",
       "resolved_date": "2026-02-22",
       "arbitrator_id": 2
+    },
+    {
+      "uid": "LEX-NGR-APA-001-2026",
+      "project_uid": "BLD-NGR-APA-2026",
+      "component_uid": "BLD-NGR-APA/L3/S1/SLAB/001",
+      "type": "Material Compliance",
+      "raised_by": 5,
+      "against_party": "Apex Federal Constructors Ltd",
+      "description": "Inspector raised concern about concrete delivery documentation. Batch SM-NGR-2026-CEM-001 supplier certificate not found in ORIGIN™ at time of pour. Evidence hash mismatch on delivery docket.",
+      "status": "resolved",
+      "resolution": "Certificate located via supplier reference. ORIGIN™ entry confirmed valid but had temporary indexing delay. Cube test companion results 46.8 MPa. No structural impact. File updated and closed.",
+      "raised_date": "2026-06-15",
+      "resolved_date": "2026-06-20",
+      "arbitrator_id": 3
     }
   ],
   "materials": [
@@ -377,9 +1268,7 @@
       "country": "Nigeria",
       "cert_number": "SM-2026-001-MTC",
       "verified": true,
-      "projects_used": [
-        "BLD-NGR-LH1-2026"
-      ],
+      "projects_used": ["BLD-NGR-LH1-2026"],
       "test_strength": 68200,
       "required_strength": 60000,
       "status": "approved"
@@ -396,7 +1285,72 @@
       "test_strength": 0,
       "required_strength": 42500,
       "status": "suspended",
-      "suspension_reason": "Certificate hash mismatch. Accredited laboratory record not found. Supplier not registered in ORIGIN\u2122."
+      "suspension_reason": "Certificate hash mismatch. Accredited laboratory record not found. Supplier not registered in ORIGIN™."
+    },
+    {
+      "batch_uid": "SM-KEN-2025-001",
+      "name": "High-Yield Deformed Bars (Grade 500)",
+      "grade": "Grade 500B / BS 4449:2005",
+      "supplier": "EAF Steel Kenya Ltd",
+      "country": "Kenya",
+      "cert_number": "EAFK-2025-MTC-081",
+      "verified": true,
+      "projects_used": ["BLD-KEN-NUT-2025"],
+      "test_strength": 71400,
+      "required_strength": 60000,
+      "status": "approved"
+    },
+    {
+      "batch_uid": "CM-KEN-2025-001",
+      "name": "Ready-Mix Concrete C40/50",
+      "grade": "C40/50 / BS EN 206",
+      "supplier": "Bamburi Concrete Ltd",
+      "country": "Kenya",
+      "cert_number": "BAM-2025-CONC-019",
+      "verified": true,
+      "projects_used": ["BLD-KEN-NUT-2025"],
+      "test_strength": 48200,
+      "required_strength": 40000,
+      "status": "approved"
+    },
+    {
+      "batch_uid": "SM-2026-002",
+      "name": "High-Yield Deformed Bars (Post-Tensioned Grade)",
+      "grade": "Grade 500C / BS 4449:2005",
+      "supplier": "SteelMark Ltd",
+      "country": "Nigeria",
+      "cert_number": "SM-2026-002-MTC",
+      "verified": true,
+      "projects_used": ["BLD-NGR-APA-2026"],
+      "test_strength": 72100,
+      "required_strength": 60000,
+      "status": "approved"
+    },
+    {
+      "batch_uid": "CM-NGR-2026-001",
+      "name": "Post-Tensioned Concrete C45/55",
+      "grade": "C45/55 / BS EN 206",
+      "supplier": "Lafarge Nigeria",
+      "country": "Nigeria",
+      "cert_number": "LFN-2026-CONC-044",
+      "verified": true,
+      "projects_used": ["BLD-NGR-APA-2026"],
+      "test_strength": 51600,
+      "required_strength": 45000,
+      "status": "approved"
+    },
+    {
+      "batch_uid": "SM-2026-003",
+      "name": "Epoxy-Coated Reinforcement Bars (Marine Grade)",
+      "grade": "Grade 500B Epoxy-Coated / ASTM A934",
+      "supplier": "SteelMark Ltd",
+      "country": "Nigeria",
+      "cert_number": "SM-2026-003-ECR-MTC",
+      "verified": true,
+      "projects_used": ["BLD-NGR-PHW-2026"],
+      "test_strength": 69800,
+      "required_strength": 60000,
+      "status": "approved"
     }
   ],
   "certifications": [
@@ -411,6 +1365,18 @@
       "status": "pending_ceremony",
       "qr_code": "VRF-GHA-001-2026-QR",
       "notes": "All requirements met. Physical plate engraved. Ceremony scheduled."
+    },
+    {
+      "project_uid": "BLD-KEN-NUT-2025",
+      "type": "SEAL-HONOR",
+      "shi_composite": 95.2,
+      "issued_by": 2,
+      "co_signed_by": 3,
+      "issued_date": "2026-03-15",
+      "physical_plate": "SEAL-KEN-NUT-2025-HONOR",
+      "status": "issued",
+      "qr_code": "VRF-KEN-NUT-2025-QR",
+      "notes": "SHI composite 95.2 — highest certified score to date on the platform. Physical plate installed. Ceremony held 2026-03-20. Nairobi Metropolitan Properties Ltd in attendance."
     }
   ],
   "audit_logs": [
@@ -419,6 +1385,18 @@
       "actor": "System",
       "detail": "Veritas Infra Platform initialised. Database seeded.",
       "timestamp": "2026-03-09T00:00:00Z"
+    },
+    {
+      "action": "SEAL_ISSUED",
+      "actor": "a.okonkwo@visc.org",
+      "detail": "SEAL™ HONOR certificate issued for BLD-KEN-NUT-2025. SHI composite 95.2. Physical plate SEAL-KEN-NUT-2025-HONOR installed.",
+      "timestamp": "2026-03-15T14:00:00Z"
+    },
+    {
+      "action": "MILESTONE_RELEASED",
+      "actor": "PAY™ Escrow Engine",
+      "detail": "Milestone APA – Superstructure Frame L1–L4 released for BLD-NGR-APA-2026. SHI gate passed at 91.5. Amount: USD 26,700,000.",
+      "timestamp": "2026-09-30T10:00:00Z"
     }
   ],
   "sensors": [
@@ -430,6 +1408,24 @@
       "threshold": 2.0,
       "status": "normal",
       "last_update": "2026-03-09T09:00:00Z"
+    },
+    {
+      "component_uid": "BLD-KEN-NUT/B1/P1/PILE/001",
+      "type": "Settlement",
+      "current_reading": 2.1,
+      "unit": "mm",
+      "threshold": 25.0,
+      "status": "normal",
+      "last_update": "2026-04-01T06:00:00Z"
+    },
+    {
+      "component_uid": "BLD-NGR-PHW/B1/P1/PILE/001",
+      "type": "Corrosion Potential",
+      "current_reading": -180,
+      "unit": "mV",
+      "threshold": -350,
+      "status": "normal",
+      "last_update": "2026-05-01T06:00:00Z"
     }
   ],
   "notifications": [
@@ -438,21 +1434,42 @@
       "message": "Component BLD-NGR-LH1/L3/S1/SLAB/004 awaiting CAPTURE-LARGE evidence before Level 3 slab pour can proceed.",
       "priority": "high",
       "read": false,
-      "for_role": [
-        "supervisor",
-        "engineer"
-      ]
+      "for_role": ["supervisor", "engineer"]
     },
     {
       "type": "material_suspended",
-      "message": "ORIGIN\u2122 ALERT: Batch SUSPECT-001 has been suspended. Hash mismatch detected.",
+      "message": "ORIGIN™ ALERT: Batch SUSPECT-001 has been suspended. Hash mismatch detected.",
       "priority": "critical",
       "read": false,
-      "for_role": [
-        "admin",
-        "engineer",
-        "supervisor"
-      ]
+      "for_role": ["admin", "engineer", "supervisor"]
+    },
+    {
+      "type": "evidence_required",
+      "message": "Component BLD-NGR-APA/L4/C1/COL/001 awaiting CAPTURE-LARGE evidence. Level 4 column cage ready for pre-pour inspection.",
+      "priority": "high",
+      "read": false,
+      "for_role": ["supervisor", "engineer", "inspector"]
+    },
+    {
+      "type": "milestone_gate_open",
+      "message": "BLD-NGR-APA-2026 Phase 3 milestone gate passed. SHI 91.5 exceeds threshold 84. Milestone APA – Superstructure Frame L1–4 released.",
+      "priority": "medium",
+      "read": true,
+      "for_role": ["admin", "engineer"]
+    },
+    {
+      "type": "seal_issued",
+      "message": "SEAL™ HONOR certificate issued for BLD-KEN-NUT-2025 (Nairobi Unity Tower). SHI 95.2. Physical plate SEAL-KEN-NUT-2025-HONOR installed.",
+      "priority": "medium",
+      "read": true,
+      "for_role": ["admin", "engineer", "inspector"]
+    },
+    {
+      "type": "evidence_required",
+      "message": "Components BLD-NGR-PHW/L2/B1/BEAM/001 and BLD-NGR-PHW/L2/S1/SLAB/001 require CAPTURE-LARGE evidence before Level 2 works proceed.",
+      "priority": "high",
+      "read": false,
+      "for_role": ["supervisor", "contractor", "inspector"]
     }
   ]
 }
