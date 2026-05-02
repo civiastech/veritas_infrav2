@@ -143,7 +143,7 @@ chown veritas:veritas /opt/veritas
 log "Hardening SSH config..."
 sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 sed -i 's/^#*PermitRootLogin.*/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config
-systemctl reload sshd
+systemctl reload ssh 2>/dev/null || systemctl reload sshd 2>/dev/null || true
 
 echo ""
 echo -e "${GREEN}✅ Server provisioning COMPLETE.${NC}"
