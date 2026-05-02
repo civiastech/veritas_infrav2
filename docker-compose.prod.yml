@@ -1,0 +1,207 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: veritas_postgres
+    env_file: .env.production
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-veritas}
+      POSTGRES_USER: ${POSTGRES_USER:-veritas}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-veritas} -d ${POSTGRES_DB:-veritas}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: veritas_redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:RELEASE.2025-02-28T09-55-16Z
+    container_name: veritas_minio
+    command: server /data --console-address ":9001"
+    env_file: .env.production
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:9000/minio/health/live || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  minio-init:
+    image: minio/mc:RELEASE.2025-03-12T17-29-24Z
+    container_name: veritas_minio_init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc alias set veritas http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}); do
+        echo 'waiting for minio' && sleep 2;
+      done;
+      /usr/bin/mc mb -p veritas/${MINIO_BUCKET_EVIDENCE:-veritas-evidence} || true;
+      exit 0;
+      "
+    restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+    container_name: veritas_backend
+    env_file: .env.production
+    environment:
+      APP_NAME: Veritas Infra API
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-veritas}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-veritas}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      FIRST_SUPERUSER_EMAIL: ${FIRST_SUPERUSER_EMAIL}
+      FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      TRUSTED_HOSTS: ${TRUSTED_HOSTS}
+      UPLOADS_DIR: /app/uploads
+      REDIS_URL: redis://redis:6379/0
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET_EVIDENCE: ${MINIO_BUCKET_EVIDENCE:-veritas-evidence}
+      MINIO_SECURE: "false"
+      AUTO_CREATE_TABLES: "false"
+      SEAL_REGISTRY_URL: ${SEAL_REGISTRY_URL}
+      UVICORN_HOST: 0.0.0.0
+      UVICORN_PORT: "8000"
+      UVICORN_WORKERS: ${UVICORN_WORKERS:-2}
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    command: ./start.sh
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import urllib.request; urllib.request.urlopen(\"http://127.0.0.1:8000/health\")'"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  seed:
+    profiles: ["ops"]
+    build:
+      context: ./backend
+    container_name: veritas_seed
+    env_file: .env.production
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-veritas}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-veritas}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      FIRST_SUPERUSER_EMAIL: ${FIRST_SUPERUSER_EMAIL}
+      FIRST_SUPERUSER_PASSWORD: ${FIRST_SUPERUSER_PASSWORD}
+      REDIS_URL: redis://redis:6379/0
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET_EVIDENCE: ${MINIO_BUCKET_EVIDENCE:-veritas-evidence}
+      MINIO_SECURE: "false"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python -m app.seed
+    restart: "no"
+
+  worker:
+    build:
+      context: ./backend
+    container_name: veritas_worker
+    env_file: .env.production
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-veritas}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-veritas}
+      REDIS_URL: redis://redis:6379/0
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET_EVIDENCE: ${MINIO_BUCKET_EVIDENCE:-veritas-evidence}
+      MINIO_SECURE: "false"
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      CELERY_CONCURRENCY: ${CELERY_CONCURRENCY:-2}
+      CELERY_LOGLEVEL: ${CELERY_LOGLEVEL:-info}
+      CELERY_QUEUES: ${CELERY_QUEUES:-celery}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ./start-worker.sh
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: veritas_nginx
+    volumes:
+      - ./deploy/nginx/nginx-prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./frontend:/usr/share/nginx/html:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: veritas_prometheus
+    volumes:
+      - ./deploy/observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.5.2
+    container_name: veritas_grafana
+    env_file: .env.production
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_SERVER_ROOT_URL: https://${DOMAIN}/grafana
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deploy/observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  uploads_data:
+  redis_data:
+  minio_data:
+  grafana_data:
