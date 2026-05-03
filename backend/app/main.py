@@ -18,12 +18,15 @@ from app.api.routes import (
     clone,
     components,
     dashboard,
+    ethics,
     evidence,
     governance,
     lex,
     materials,
+    matrix_c,
     monitor,
     notifications,
+    origin,
     payments,
     platformcfg,
     policy,
@@ -163,6 +166,9 @@ ROUTERS = [
     policy.router,
     platformcfg.router,
     prefab.router,
+    ethics.router,
+    origin.router,
+    matrix_c.router,
 ]
 
 for router in ROUTERS:
