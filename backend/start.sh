@@ -13,7 +13,7 @@ RUN_MIGRATIONS="${RUN_MIGRATIONS:-true}"
 
 if [ "$RUN_MIGRATIONS" = "true" ]; then
   echo "Applying database migrations..."
-  alembic upgrade head
+  alembic upgrade heads
   echo "Database migrations complete."
 else
   echo "Skipping migrations (RUN_MIGRATIONS=false)"

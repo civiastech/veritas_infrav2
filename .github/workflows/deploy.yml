@@ -76,7 +76,6 @@ jobs:
           cd $D
           git pull origin main
           docker compose --env-file .env.production -f docker-compose.prod.yml build backend worker
-          docker compose --env-file .env.production -f docker-compose.prod.yml exec -T backend alembic upgrade head
           docker compose --env-file .env.production -f docker-compose.prod.yml up -d --no-deps backend worker
           docker compose --env-file .env.production -f docker-compose.prod.yml exec -T nginx nginx -s reload || true"
       - name: Smoke test
