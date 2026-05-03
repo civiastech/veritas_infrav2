@@ -1,6 +1,8 @@
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from typing import Optional
 from app.db.session import get_db
 from app.api.deps import require_action
 from app.models.entities import Tender, Professional
@@ -50,3 +52,39 @@ def delete_item(tender_id: int, db: Session = Depends(get_db), current_user: Pro
     publish_event(db, 'TENDER_SOFT_DELETED', {'tender_uid': item.uid})
     record_audit(db, current_user.email, 'TENDER_DELETE', f'Deleted tender {item.uid}')
     return {'message': f'Tender {item.uid} deleted'}
+
+
+class MatrixCEvaluateRequest(BaseModel):
+    bid_id: int
+    lead_professional_id: Optional[int] = None
+    capacity_data: dict = {}
+    integrity_data: dict = {}
+
+
+@router.post('/matrix-c/evaluate',
+             summary='MATRIX-C evaluation for a bid')
+def evaluate_bid(
+    payload: MatrixCEvaluateRequest,
+    db: Session = Depends(get_db),
+    current_user: Professional = Depends(require_action('tenders:write')),
+):
+    from app.services.matrix_c import evaluate_bid_matrix_c
+    try:
+        return evaluate_bid_matrix_c(
+            db, payload.bid_id, payload.lead_professional_id,
+            payload.capacity_data, payload.integrity_data, current_user,
+        )
+    except ValueError as e:
+        raise HTTPException(404, str(e))
+
+
+@router.get('/{tender_uid}/matrix-c/ranking',
+            summary='MATRIX-C ranked bid list')
+def get_matrix_ranking(
+    tender_uid: str,
+    db: Session = Depends(get_db),
+    current_user: Professional = Depends(require_action('tenders:read')),
+):
+    from app.services.matrix_c import rank_all_bids
+    return {'tender_uid': tender_uid,
+            'ranked_bids': rank_all_bids(db, tender_uid, current_user)}

@@ -666,3 +666,25 @@ class ComplianceMapping(TimestampMixin, SoftDeleteMixin, Base):
     module_code: Mapped[str] = mapped_column(String(80), index=True)
     requirement_summary: Mapped[str] = mapped_column(Text)
     status: Mapped[str] = mapped_column(String(50), default="mapped")
+
+
+# ── ETHICS™ module models ──────────────────────────────────────────────────────
+from app.models.ethics import (  # noqa: E402
+    EthicsViolation,
+    EthicsWhistleblowerReport,
+    EthicsProbationRecord,
+    ViolationTier,
+    ViolationCategory,
+    ViolationStatus,
+)
+
+# ── ORIGIN™ module models ──────────────────────────────────────────────────────
+from app.models.origin import (  # noqa: E402
+    OriginSupplier,
+    OriginMaterialBatch,
+    OriginSupplyChainRecord,
+    OriginTestRecord,
+    ProvenanceStatus,
+    SupplierTier,
+    MaterialType,
+)

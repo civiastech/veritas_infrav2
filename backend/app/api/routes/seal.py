@@ -6,7 +6,7 @@ from app.db.session import get_db
 from app.models.entities import Certification, Professional
 from app.schemas.api import ApiList, CertificationIssueRequest, CertificationOut
 from app.services.audit import record_audit
-from app.services.seal import certification_eligibility, issue_certificate
+from app.services.seal import certification_eligibility, get_full_gate_status, issue_certificate
 
 router = APIRouter(prefix="/seal", tags=["seal"])
 
@@ -16,9 +16,32 @@ def list_certifications(db: Session = Depends(get_db), current_user: Professiona
     return {"items": [CertificationOut.model_validate(i).model_dump() for i in items], "total": len(items)}
 
 @router.get("/projects/{project_uid}/eligibility")
-def get_eligibility(project_uid: str, db: Session = Depends(get_db), current_user: Professional = Depends(require_action("projects:read"))):
-    eligible, shi, reason = certification_eligibility(db, project_uid)
-    return {"project_uid": project_uid, "eligible": eligible, "shi": shi, "reason": reason}
+def get_eligibility(
+    project_uid: str,
+    certifying_engineer_id: int | None = None,
+    db: Session = Depends(get_db),
+    current_user: Professional = Depends(require_action("projects:read")),
+):
+    eligible, shi, reason, gates = certification_eligibility(
+        db, project_uid, certifying_engineer_id
+    )
+    return {
+        "project_uid": project_uid,
+        "eligible": eligible,
+        "shi": shi,
+        "reason": reason,
+        "gates_summary": {k: v.get("passed") for k, v in gates.items()},
+    }
+
+@router.get("/projects/{project_uid}/gate-status")
+def get_gate_status(
+    project_uid: str,
+    certifying_engineer_id: int | None = None,
+    db: Session = Depends(get_db),
+    current_user: Professional = Depends(require_action("projects:read")),
+):
+    """Full 10-gate SEAL™ diagnostic. Shows exactly what remains before certification."""
+    return get_full_gate_status(db, project_uid, certifying_engineer_id)
 
 @router.post("/issue", response_model=CertificationOut)
 def issue(payload: CertificationIssueRequest, db: Session = Depends(get_db), current_user: Professional = Depends(require_action("projects:write"))):

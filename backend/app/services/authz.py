@@ -19,20 +19,30 @@ ROLE_ACTIONS = {
         "twin:read",
         "atlas:read", "verifund:read", "verifund:write", "academy:read", "academy:write", "clone:read", "clone:write", "governance:read", "governance:write", "regulatory:read", "regulatory:write",
         "prefab:read", "prefab:write", "prefab:approve",
+        "ethics:read", "ethics:write",
+        "origin:read", "origin:write",
     },
     "inspector": {
         "projects:read", "components:read",
         "evidence:read", "inspections:read", "inspections:approve",
         "monitor:read", "lex:read", "lex:write", "seal:read", "twin:read", "notifications:read", "academy:read", "atlas:read", "governance:read", "regulatory:read", "clone:read",
         "prefab:read", "prefab:write",
+        "ethics:read", "ethics:write", "ethics:panel",
+        "origin:read", "origin:write", "origin:approve",
     },
     "supervisor": {
         "projects:read", "components:read", "components:write",
         "evidence:read", "evidence:write",
         "monitor:read", "notifications:read", "academy:read", "regulatory:read", "clone:read",
         "prefab:read",
+        "ethics:read",
+        "origin:read",
     },
-    "contractor": {"projects:read", "evidence:read", "tenders:read", "notifications:read", "academy:read", "verifund:read", "verifund:write", "clone:read", "prefab:read"},
+    "contractor": {
+        "projects:read", "evidence:read", "tenders:read", "notifications:read", "academy:read", "verifund:read", "verifund:write", "clone:read", "prefab:read",
+        "ethics:read",
+        "origin:read", "origin:write",
+    },
 }
 
 def ensure_permission(db: Session, user: Professional, action: str, project_uid: str | None = None) -> None:

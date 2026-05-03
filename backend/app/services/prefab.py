@@ -355,6 +355,20 @@ class DeviationService:
             for m in milestones:
                 m.status = "hold_deviation"
 
+        # ── MAJOR/CRITICAL without before photo = concealed deviation ─────────
+        if data.severity in (DeviationSeverity.MAJOR, DeviationSeverity.CRITICAL):
+            if not data.before_photo_url:
+                from app.services.ethics import EthicsService
+                EthicsService.auto_trigger_concealed_deviation(
+                    db,
+                    deviation_id=record.id,
+                    component_uid=data.component_uid,
+                    project_uid=data.project_uid,
+                    against_professional_id=reporter.id,
+                )
+                record.ethics_violation_triggered = True
+                record.ethics_violation_tier = 2
+
         # ── Update ComponentSpec deviation counts ─────────────────────────────
         if spec:
             spec.has_open_deviations = True
