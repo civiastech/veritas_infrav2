@@ -39,6 +39,13 @@ def upload_evidence(
         description=description,
         type_name=type,
     )
+    try:
+        current_user.total_evidence_required = (
+            getattr(current_user, "total_evidence_required", 0) or 0
+        ) + 1
+        db.commit()
+    except Exception:
+        pass
     record_audit(db, current_user.email, "BUILD_EVIDENCE_UPLOAD", f"Uploaded evidence {evidence.id} for {component_uid}")
     return asset
 
@@ -54,6 +61,19 @@ def approve_evidence_route(evidence_id: int, status_text: str = Form(...), db: S
         raise HTTPException(status_code=404, detail="Evidence not found")
     if status_text.lower() == "approved":
         approve_evidence(db, evidence, current_user)
+        try:
+            from app.services.pri_engine import recompute_pri
+            submitter = db.query(Professional).filter(
+                Professional.id == evidence.submitted_by
+            ).first()
+            if submitter:
+                submitter.total_evidence_complete = (
+                    getattr(submitter, "total_evidence_complete", 0) or 0
+                ) + 1
+                db.commit()
+                recompute_pri(db, submitter.id)
+        except Exception:
+            pass
     else:
         evidence.status = status_text
         evidence.approved_by = current_user.id

@@ -27,6 +27,7 @@ from app.api.routes import (
     payments,
     platformcfg,
     policy,
+    prefab,
     professionals,
     projects,
     public,
@@ -161,6 +162,7 @@ ROUTERS = [
     workflow.router,
     policy.router,
     platformcfg.router,
+    prefab.router,
 ]
 
 for router in ROUTERS:

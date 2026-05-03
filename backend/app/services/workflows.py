@@ -143,4 +143,10 @@ def create_inspection_from_scores(
     db.add(inspection)
     db.commit()
     db.refresh(inspection)
-    return apply_inspection(db, inspection, actor_email=inspector.email)
+    result = apply_inspection(db, inspection, actor_email=inspector.email)
+    try:
+        from app.services.pri_engine import recompute_pri
+        recompute_pri(db, inspector.id)
+    except Exception:
+        pass
+    return result
